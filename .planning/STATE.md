@@ -1,15 +1,15 @@
 # Project State: Madplan v2
 
 **Current Phase:** 2 (Core Data Flow)
-**Status:** Not Started
+**Status:** In Progress
 **Last Updated:** 2026-01-24
 
 ## Phase Progress
 
 | Phase | Name | Status | Started | Completed |
 |-------|------|--------|---------|-----------|
-| 1 | Foundation | ✓ Complete | 2026-01-24 | 2026-01-24 |
-| 2 | Core Data Flow | Pending | -- | -- |
+| 1 | Foundation | Complete | 2026-01-24 | 2026-01-24 |
+| 2 | Core Data Flow | In Progress | 2026-01-24 | -- |
 | 3 | PWA Enhancement | Pending | -- | -- |
 | 4 | Smart Import | Pending | -- | -- |
 | 5 | Organization | Pending | -- | -- |
@@ -17,15 +17,25 @@
 ## Current Focus
 
 **Phase 2: Core Data Flow**
-- Goal: Brugere kan tilgå v1 funktionalitet gennem ny UI
+- Goal: Brugere kan tilgaa v1 funktionalitet gennem ny UI
 - Requirements: UIX-03
-- Status: Not started
+- Status: Plan 01 complete, Plan 02-05 pending
+
+**Plan Progress:**
+| Plan | Name | Status |
+|------|------|--------|
+| 02-01 | Data Layer Foundation | Complete |
+| 02-02 | API Hooks | Pending |
+| 02-03 | Ugeplan | Pending |
+| 02-04 | Indkoebsliste | Pending |
+| 02-05 | Opskrifter | Pending |
 
 **Progress:**
 
 ```
-Phase 1: [##########] 100% ✓
-Overall:  [##........] 20%
+Phase 1: [##########] 100%
+Phase 2: [##........] 20%
+Overall:  [###.......] 28%
 ```
 
 ## Session Log
@@ -39,6 +49,7 @@ Overall:  [##........] 20%
 | 2026-01-24 | Plan 01-01 executed | Next.js + Tailwind v4 + shadcn/ui + earth tones |
 | 2026-01-24 | Plan 01-02 executed | PWA manifest, navigation, app shell, 5 placeholder pages |
 | 2026-01-24 | Phase 1 complete | All must-haves verified, UIX-01/02/05 delivered |
+| 2026-01-24 | Plan 02-01 executed | SWR provider, types, week-utils, 9 shadcn components |
 
 ## Blockers
 
@@ -58,11 +69,14 @@ Overall:  [##........] 20%
 | Nunito + Poppins fonts | 2026-01-24 | Friendly body text, modern headings |
 | AppShell pattern | 2026-01-24 | Consistent Header + content + MobileNav for all pages |
 | 4-tab navigation | 2026-01-24 | Ugeplan, Opskrifter, Tilfoej, Indkob (home via logo) |
+| SWR revalidateOnFocus: false | 2026-01-24 | Better mobile experience, avoid refetches on focus |
+| SWR shouldRetryOnError: false | 2026-01-24 | Manual retry preferred for error recovery |
+| Toaster in SWRProvider | 2026-01-24 | Single global Toaster instance for all pages |
 
 ## Session Continuity
 
 **Last session:** 2026-01-24
-**Stopped at:** Phase 1 complete
+**Stopped at:** Completed 02-01-PLAN.md
 **Resume file:** None
 
 ## Context for Resume
@@ -73,7 +87,7 @@ Hvis du vender tilbage til dette projekt:
 3. Check denne fil for current phase
 4. Koer `/gsd:progress` for naeste skridt
 
-Next step: Plan Phase 2 (Core Data Flow)
+Next step: Execute Plan 02-02 (API Hooks)
 
 ---
 *State initialized: 2025-01-24*
