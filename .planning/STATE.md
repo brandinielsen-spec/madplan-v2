@@ -1,7 +1,7 @@
 # Project State: Madplan v2
 
-**Current Phase:** 2 (Core Data Flow)
-**Status:** In Progress
+**Current Phase:** 3 (PWA Enhancement)
+**Status:** Pending
 **Last Updated:** 2026-01-24
 
 ## Phase Progress
@@ -92,6 +92,8 @@ Overall:  [########..] 75%
 | Feature | Source | Priority | Notes |
 |---------|--------|----------|-------|
 | Group shopping list by category | User feedback 02-05 | Low | Requires schema change (add category to ingredients), out of v2 scope |
+| Add meal ingredients to shopping list | User feedback 02-04 | Medium | One-click add all ingredients from a meal to indkobsliste |
+| Recipe images instead of letter placeholder | User feedback 02-06 | Low | Requires schema change (add image to opskrifter), consider for Phase 4 |
 
 ## Session Continuity
 
