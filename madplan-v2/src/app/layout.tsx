@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Nunito, Poppins } from "next/font/google";
 import "./globals.css";
 import { SWRProvider } from "@/providers/swr-provider";
+import { ServiceWorkerRegistration } from "@/components/service-worker-registration";
+import { OfflineBanner } from "@/components/layout/offline-banner";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -45,6 +47,8 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
       </head>
       <body className="font-sans antialiased">
+        <ServiceWorkerRegistration />
+        <OfflineBanner />
         <SWRProvider>{children}</SWRProvider>
       </body>
     </html>
