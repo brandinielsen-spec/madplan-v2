@@ -1,83 +1,105 @@
-import { Button } from "@/components/ui/button";
+import { AppShell } from "@/components/layout/app-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Calendar, Book, ShoppingCart, ChefHat } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background p-8">
-      <h1 className="font-heading text-3xl font-bold text-foreground mb-4">
-        Madplan
-      </h1>
-      <p className="text-muted-foreground mb-8">
-        Test af styling - denne tekst bruger Nunito
-      </p>
+    <AppShell title="Madplan">
+      <div className="space-y-6">
+        {/* Welcome section */}
+        <div className="text-center py-4">
+          <h2 className="font-heading text-2xl font-bold text-foreground mb-2">
+            Velkommen til Madplan
+          </h2>
+          <p className="text-muted-foreground">
+            Planlaeg ugens maaltider nemt og hurtigt
+          </p>
+        </div>
 
-      <div className="flex flex-wrap gap-4 mb-8">
-        <Button>Primary Button</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="outline">Outline</Button>
+        {/* Today's meal card */}
+        <Card className="bg-card border-border">
+          <CardHeader className="pb-2">
+            <CardTitle className="font-heading text-lg flex items-center gap-2">
+              <ChefHat className="size-5 text-primary" />
+              Dagens ret
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center h-24 bg-muted rounded-lg">
+              <p className="text-muted-foreground text-sm">
+                Ingen ret planlagt endnu
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground mt-2 text-center">
+              Gaa til Ugeplan for at tilfoeje en ret
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Quick links */}
+        <div className="grid grid-cols-2 gap-4">
+          <Link href="/ugeplan">
+            <Card className="bg-card border-border hover:bg-sand-100 transition-colors cursor-pointer">
+              <CardContent className="p-4 flex flex-col items-center gap-2">
+                <Calendar className="size-8 text-primary" />
+                <span className="font-medium text-foreground">Ugeplan</span>
+                <span className="text-xs text-muted-foreground">
+                  Se ugens menu
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/opskrifter">
+            <Card className="bg-card border-border hover:bg-sand-100 transition-colors cursor-pointer">
+              <CardContent className="p-4 flex flex-col items-center gap-2">
+                <Book className="size-8 text-primary" />
+                <span className="font-medium text-foreground">Opskrifter</span>
+                <span className="text-xs text-muted-foreground">
+                  Udforsk opskrifter
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/indkob">
+            <Card className="bg-card border-border hover:bg-sand-100 transition-colors cursor-pointer">
+              <CardContent className="p-4 flex flex-col items-center gap-2">
+                <ShoppingCart className="size-8 text-accent" />
+                <span className="font-medium text-foreground">Indkob</span>
+                <span className="text-xs text-muted-foreground">
+                  0 varer paa listen
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/tilfoej">
+            <Card className="bg-terracotta-50 border-terracotta-200 hover:bg-terracotta-100 transition-colors cursor-pointer">
+              <CardContent className="p-4 flex flex-col items-center gap-2">
+                <div className="size-8 rounded-full bg-primary flex items-center justify-center">
+                  <span className="text-white text-xl font-bold">+</span>
+                </div>
+                <span className="font-medium text-foreground">Tilfoej</span>
+                <span className="text-xs text-muted-foreground">
+                  Ny opskrift
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+
+        {/* Status section */}
+        <Card className="bg-olive-50 border-olive-200">
+          <CardContent className="p-4">
+            <p className="text-sm text-olive-700 text-center">
+              Phase 1: App shell faerdig. Data og funktioner kommer i Phase 2.
+            </p>
+          </CardContent>
+        </Card>
       </div>
-
-      <Card className="max-w-md mb-8">
-        <CardHeader>
-          <CardTitle className="font-heading">Test Card</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>Card content with earth tone styling</p>
-        </CardContent>
-      </Card>
-
-      <div className="space-y-4">
-        <h2 className="font-heading text-xl font-semibold">Farvepalet</h2>
-
-        <div>
-          <p className="text-sm text-muted-foreground mb-2">Sand</p>
-          <div className="flex gap-2">
-            <div className="w-12 h-12 rounded bg-sand-50" title="sand-50" />
-            <div className="w-12 h-12 rounded bg-sand-100" title="sand-100" />
-            <div className="w-12 h-12 rounded bg-sand-200" title="sand-200" />
-            <div className="w-12 h-12 rounded bg-sand-300" title="sand-300" />
-            <div className="w-12 h-12 rounded bg-sand-500" title="sand-500" />
-            <div className="w-12 h-12 rounded bg-sand-700" title="sand-700" />
-            <div className="w-12 h-12 rounded bg-sand-900" title="sand-900" />
-          </div>
-        </div>
-
-        <div>
-          <p className="text-sm text-muted-foreground mb-2">Terracotta</p>
-          <div className="flex gap-2">
-            <div className="w-12 h-12 rounded bg-terracotta-50" title="terracotta-50" />
-            <div className="w-12 h-12 rounded bg-terracotta-100" title="terracotta-100" />
-            <div className="w-12 h-12 rounded bg-terracotta-200" title="terracotta-200" />
-            <div className="w-12 h-12 rounded bg-terracotta-300" title="terracotta-300" />
-            <div className="w-12 h-12 rounded bg-terracotta-500" title="terracotta-500" />
-            <div className="w-12 h-12 rounded bg-terracotta-700" title="terracotta-700" />
-            <div className="w-12 h-12 rounded bg-terracotta-900" title="terracotta-900" />
-          </div>
-        </div>
-
-        <div>
-          <p className="text-sm text-muted-foreground mb-2">Olive</p>
-          <div className="flex gap-2">
-            <div className="w-12 h-12 rounded bg-olive-50" title="olive-50" />
-            <div className="w-12 h-12 rounded bg-olive-100" title="olive-100" />
-            <div className="w-12 h-12 rounded bg-olive-200" title="olive-200" />
-            <div className="w-12 h-12 rounded bg-olive-300" title="olive-300" />
-            <div className="w-12 h-12 rounded bg-olive-500" title="olive-500" />
-            <div className="w-12 h-12 rounded bg-olive-700" title="olive-700" />
-            <div className="w-12 h-12 rounded bg-olive-900" title="olive-900" />
-          </div>
-        </div>
-
-        <div>
-          <p className="text-sm text-muted-foreground mb-2">Semantiske farver</p>
-          <div className="flex gap-2">
-            <div className="w-12 h-12 rounded bg-primary" title="primary" />
-            <div className="w-12 h-12 rounded bg-secondary" title="secondary" />
-            <div className="w-12 h-12 rounded bg-accent" title="accent" />
-            <div className="w-12 h-12 rounded bg-muted" title="muted" />
-          </div>
-        </div>
-      </div>
-    </main>
+    </AppShell>
   );
 }
