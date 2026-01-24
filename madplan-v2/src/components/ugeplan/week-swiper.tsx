@@ -49,12 +49,8 @@ export function WeekSwiper({
     <div
       className="overflow-hidden"
       ref={emblaRef}
-      style={{
-        touchAction: 'pan-y',
-        overscrollBehaviorX: 'contain',
-      }}
     >
-      <div className="flex touch-pan-y">
+      <div className="flex">
         {children}
       </div>
     </div>
