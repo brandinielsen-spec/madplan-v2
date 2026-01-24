@@ -19,23 +19,24 @@
 **Phase 2: Core Data Flow**
 - Goal: Brugere kan tilgaa v1 funktionalitet gennem ny UI
 - Requirements: UIX-03
-- Status: Plan 01 complete, Plan 02-05 pending
+- Status: Plan 01 and 03 complete, Plan 02/04-06 pending
 
 **Plan Progress:**
 | Plan | Name | Status |
 |------|------|--------|
 | 02-01 | Data Layer Foundation | Complete |
-| 02-02 | API Hooks | Pending |
-| 02-03 | Ugeplan | Pending |
-| 02-04 | Indkoebsliste | Pending |
-| 02-05 | Opskrifter | Pending |
+| 02-02 | API Routes | Pending |
+| 02-03 | API Hooks | Complete |
+| 02-04 | Ugeplan Page | Pending |
+| 02-05 | Indkoebsliste Page | Pending |
+| 02-06 | Opskrifter Page | Pending |
 
 **Progress:**
 
 ```
 Phase 1: [##########] 100%
-Phase 2: [##........] 20%
-Overall:  [###.......] 28%
+Phase 2: [####......] 33%
+Overall:  [####......] 36%
 ```
 
 ## Session Log
@@ -50,6 +51,7 @@ Overall:  [###.......] 28%
 | 2026-01-24 | Plan 01-02 executed | PWA manifest, navigation, app shell, 5 placeholder pages |
 | 2026-01-24 | Phase 1 complete | All must-haves verified, UIX-01/02/05 delivered |
 | 2026-01-24 | Plan 02-01 executed | SWR provider, types, week-utils, 9 shadcn components |
+| 2026-01-24 | Plan 02-03 executed | 4 SWR hooks with mutations and optimistic updates |
 
 ## Blockers
 
@@ -72,11 +74,12 @@ Overall:  [###.......] 28%
 | SWR revalidateOnFocus: false | 2026-01-24 | Better mobile experience, avoid refetches on focus |
 | SWR shouldRetryOnError: false | 2026-01-24 | Manual retry preferred for error recovery |
 | Toaster in SWRProvider | 2026-01-24 | Single global Toaster instance for all pages |
+| mutate() for optimistic toggle | 2026-01-24 | SWR 2.x useSWRMutation has limited optimisticData typing |
 
 ## Session Continuity
 
 **Last session:** 2026-01-24
-**Stopped at:** Completed 02-01-PLAN.md
+**Stopped at:** Completed 02-03-PLAN.md
 **Resume file:** None
 
 ## Context for Resume
@@ -87,7 +90,7 @@ Hvis du vender tilbage til dette projekt:
 3. Check denne fil for current phase
 4. Koer `/gsd:progress` for naeste skridt
 
-Next step: Execute Plan 02-02 (API Hooks)
+Next step: Execute Plan 02-02 (API Routes) or 02-04 (Ugeplan Page)
 
 ---
 *State initialized: 2025-01-24*
