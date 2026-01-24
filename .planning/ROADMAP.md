@@ -73,12 +73,14 @@ Plans:
 **Plans:** 6 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Data foundation: SWR, types, date-fns, shadcn components
-- [ ] 02-02-PLAN.md — API routes proxying to n8n webhooks
-- [ ] 02-03-PLAN.md — SWR data hooks with optimistic updates
-- [ ] 02-04-PLAN.md — Ugeplan view with week navigation and meal management
-- [ ] 02-05-PLAN.md — Indkobsliste view with checkbox toggle
-- [ ] 02-06-PLAN.md — Opskrifter view with cards/list toggle
+- [x] 02-01-PLAN.md — Data foundation: SWR, types, date-fns, shadcn components
+- [x] 02-02-PLAN.md — API routes proxying to n8n webhooks
+- [x] 02-03-PLAN.md — SWR data hooks with optimistic updates
+- [x] 02-04-PLAN.md — Ugeplan view with week navigation and meal management
+- [x] 02-05-PLAN.md — Indkobsliste view with checkbox toggle
+- [x] 02-06-PLAN.md — Opskrifter view with cards/list toggle
+
+**Completed:** 2026-01-24
 
 **Requirements:**
 - UIX-03: Hurtig navigation uden page reloads
