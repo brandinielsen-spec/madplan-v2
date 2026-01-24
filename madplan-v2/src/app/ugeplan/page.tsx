@@ -1,78 +1,150 @@
-import { AppShell } from "@/components/layout/app-shell";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+'use client'
 
-const weekdays = [
-  "Mandag",
-  "Tirsdag",
-  "Onsdag",
-  "Torsdag",
-  "Fredag",
-  "Loerdag",
-  "Soendag",
-];
+import { useState, useMemo } from 'react'
+import { toast } from 'sonner'
+import { AppShell } from '@/components/layout/app-shell'
+import { WeekNav } from '@/components/ugeplan/week-nav'
+import { DayCard } from '@/components/ugeplan/day-card'
+import { RecipePicker } from '@/components/ugeplan/recipe-picker'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useUgeplan } from '@/hooks/use-ugeplan'
+import { useOpskrifter } from '@/hooks/use-opskrifter'
+import { useEjere } from '@/hooks/use-ejere'
+import { getCurrentWeek, navigateWeek, getWeekDates, formatDayDate } from '@/lib/week-utils'
+import { DAGE, type DagNavn } from '@/lib/types'
+import { getISOWeek, getISOWeekYear } from 'date-fns'
 
 export default function UgeplanPage() {
+  // Week state - start with current week
+  const [week, setWeek] = useState(getCurrentWeek)
+
+  // Selected day for recipe picker
+  const [selectedDag, setSelectedDag] = useState<DagNavn | null>(null)
+
+  // TODO: In a real app, ejerId would come from user selection/context
+  // For now, use first ejer or null
+  const { ejere, isLoading: ejereLoading } = useEjere()
+  const ejerId = ejere[0]?.id ?? null
+
+  // Data hooks
+  const {
+    ugeplan,
+    isLoading: ugeplanLoading,
+    isError: ugeplanError,
+    updateDay,
+    deleteDay,
+    isMutating,
+  } = useUgeplan(ejerId, week.aar, week.uge)
+
+  const { opskrifter } = useOpskrifter(ejerId)
+
+  // Calculate dates for the week
+  const weekDates = useMemo(() => getWeekDates(week.aar, week.uge), [week.aar, week.uge])
+
+  // Check if a date is today
+  const today = new Date()
+  const todayWeek = getISOWeek(today)
+  const todayYear = getISOWeekYear(today)
+  const todayDayIndex = (today.getDay() + 6) % 7  // Convert Sunday=0 to Monday=0
+
+  // Extract recent meals from current ugeplan
+  const recentRetter = useMemo(() => {
+    if (!ugeplan?.dage) return []
+    return Object.values(ugeplan.dage)
+      .map((entry) => entry?.ret)
+      .filter((ret): ret is string => !!ret && ret.trim() !== '')
+  }, [ugeplan])
+
+  // Handlers
+  const handlePrevWeek = () => {
+    setWeek(navigateWeek(week.aar, week.uge, 'prev'))
+  }
+
+  const handleNextWeek = () => {
+    setWeek(navigateWeek(week.aar, week.uge, 'next'))
+  }
+
+  const handleAddMeal = (dag: DagNavn) => {
+    setSelectedDag(dag)
+  }
+
+  const handleSelectMeal = async (ret: string, opskriftId?: string) => {
+    if (!selectedDag) return
+    try {
+      await updateDay(selectedDag, ret, opskriftId)
+      toast.success(`${ret} tilfojet`)
+    } catch (error) {
+      toast.error('Kunne ikke tilfoeje ret')
+    } finally {
+      setSelectedDag(null)
+    }
+  }
+
+  const handleDeleteMeal = async (dag: DagNavn) => {
+    try {
+      await deleteDay(dag)
+      toast.success('Ret fjernet')
+    } catch (error) {
+      toast.error('Kunne ikke fjerne ret')
+    }
+  }
+
+  const isLoading = ejereLoading || ugeplanLoading
+
   return (
     <AppShell title="Ugeplan">
-      <div className="space-y-4">
-        {/* Week navigation */}
-        <div className="flex items-center justify-between py-2">
-          <Button variant="ghost" size="sm" disabled>
-            <ChevronLeft className="size-4 mr-1" />
-            Forrige
-          </Button>
-          <span className="font-heading font-semibold text-foreground">
-            Uge 4, 2026
-          </span>
-          <Button variant="ghost" size="sm" disabled>
-            Naeste
-            <ChevronRight className="size-4 ml-1" />
-          </Button>
-        </div>
+      <WeekNav
+        aar={week.aar}
+        uge={week.uge}
+        onPrev={handlePrevWeek}
+        onNext={handleNextWeek}
+        isLoading={isLoading}
+      />
 
-        {/* Info banner */}
-        <Card className="bg-terracotta-50 border-terracotta-200">
-          <CardContent className="p-3">
-            <p className="text-sm text-terracotta-700 text-center">
-              Ugeplan funktionalitet kommer i Phase 2
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Day cards */}
+      {isLoading ? (
         <div className="space-y-3">
-          {weekdays.map((day, index) => (
-            <Card key={day} className="bg-card border-border">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-2 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-heading font-semibold text-foreground">
-                        {day}
-                      </span>
-                      {index === 0 && (
-                        <span className="text-xs bg-primary text-white px-2 py-0.5 rounded-full">
-                          I dag
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Skeleton className="h-12 w-12 rounded-lg" />
-                      <div className="space-y-1.5 flex-1">
-                        <Skeleton className="h-4 w-3/4" />
-                        <Skeleton className="h-3 w-1/2" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          {Array.from({ length: 7 }).map((_, i) => (
+            <Skeleton key={i} className="h-20 w-full" />
           ))}
         </div>
-      </div>
+      ) : ugeplanError ? (
+        <div className="text-center py-8 text-muted-foreground">
+          <p>Kunne ikke hente ugeplan</p>
+          <p className="text-sm mt-1">Tjek din forbindelse og proev igen</p>
+        </div>
+      ) : (
+        <div className="space-y-3 pb-4">
+          {DAGE.map((dag, index) => {
+            const isToday =
+              week.aar === todayYear &&
+              week.uge === todayWeek &&
+              index === todayDayIndex
+
+            return (
+              <DayCard
+                key={dag}
+                dag={dag}
+                dato={formatDayDate(weekDates[index])}
+                entry={ugeplan?.dage?.[dag] ?? null}
+                onAdd={() => handleAddMeal(dag)}
+                onDelete={() => handleDeleteMeal(dag)}
+                isToday={isToday}
+                isMutating={isMutating}
+              />
+            )
+          })}
+        </div>
+      )}
+
+      {/* Recipe picker drawer - controlled by selectedDag */}
+      <RecipePicker
+        opskrifter={opskrifter}
+        recentRetter={recentRetter}
+        onSelect={handleSelectMeal}
+        open={selectedDag !== null}
+        onOpenChange={(open) => !open && setSelectedDag(null)}
+        trigger={<span />}
+      />
     </AppShell>
-  );
+  )
 }
