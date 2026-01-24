@@ -14,21 +14,21 @@
 | 4 | Smart Import | Import opskrifter fra URL og billeder | IMP-01 til IMP-06, N8N-01 |
 | 5 | Organization | Organiser og find opskrifter | ORG-01 til ORG-05 |
 
-**Total:** 5 phases | 17 requirements | 100% coverage ✓
+**Total:** 5 phases | 17 requirements | 100% coverage
 
 ## Dependencies
 
 ```
 Phase 1 (Foundation)
-    │
-    ▼
+    |
+    v
 Phase 2 (Core Data Flow)
-    │
-    ├──▶ Phase 3 (PWA Enhancement)  ─┐
-    │                                 ├──▶ Can run in parallel
-    └──▶ Phase 4 (Smart Import)     ─┘
-              │
-              ▼
+    |
+    +---> Phase 3 (PWA Enhancement)  --+
+    |                                  +--> Can run in parallel
+    +---> Phase 4 (Smart Import)     --+
+              |
+              v
          Phase 5 (Organization)
 ```
 
@@ -37,6 +37,12 @@ Phase 2 (Core Data Flow)
 ## Phase 1: Foundation
 
 **Goal:** Moderne app shell med PWA kapabilitet
+
+**Plans:** 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Project setup with Tailwind v4 + shadcn/ui + earth tone theme
+- [ ] 01-02-PLAN.md — PWA manifest, layout components, placeholder pages
 
 **Requirements:**
 - UIX-01: Moderne UI med shadcn/ui komponenter
