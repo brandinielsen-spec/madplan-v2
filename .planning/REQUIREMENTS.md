@@ -56,7 +56,7 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 - [ ] **ORG-05**: Filter opskrifter på favoritter
 
 ### n8n Workflows
-- [ ] **N8N-01**: Alle nye workflows tagget med version (ver2)
+- [ ] **N8N-01**: Alle workflows versioneres med inkrementelt nummer (1, 2, 3...) ved ændringer
 
 ## v2.1 Requirements (Deferred)
 
@@ -95,23 +95,23 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UIX-01 | Phase 1 | Pending |
-| UIX-02 | Phase 1 | Pending |
-| UIX-03 | Phase 1 | Pending |
-| UIX-04 | Phase 3 | Pending |
-| UIX-05 | Phase 1 | Pending |
-| IMP-01 | Phase 4 | Pending |
-| IMP-02 | Phase 4 | Pending |
-| IMP-03 | Phase 4 | Pending |
-| IMP-04 | Phase 4 | Pending |
-| IMP-05 | Phase 4 | Pending |
-| IMP-06 | Phase 4 | Pending |
-| ORG-01 | Phase 5 | Pending |
-| ORG-02 | Phase 5 | Pending |
-| ORG-03 | Phase 5 | Pending |
-| ORG-04 | Phase 5 | Pending |
-| ORG-05 | Phase 5 | Pending |
-| N8N-01 | All | Pending |
+| UIX-01 | Phase 1: Foundation | Pending |
+| UIX-02 | Phase 1: Foundation | Pending |
+| UIX-03 | Phase 2: Core Data Flow | Pending |
+| UIX-04 | Phase 3: PWA Enhancement | Pending |
+| UIX-05 | Phase 1: Foundation | Pending |
+| IMP-01 | Phase 4: Smart Import | Pending |
+| IMP-02 | Phase 4: Smart Import | Pending |
+| IMP-03 | Phase 4: Smart Import | Pending |
+| IMP-04 | Phase 4: Smart Import | Pending |
+| IMP-05 | Phase 4: Smart Import | Pending |
+| IMP-06 | Phase 4: Smart Import | Pending |
+| ORG-01 | Phase 5: Organization | Pending |
+| ORG-02 | Phase 5: Organization | Pending |
+| ORG-03 | Phase 5: Organization | Pending |
+| ORG-04 | Phase 5: Organization | Pending |
+| ORG-05 | Phase 5: Organization | Pending |
+| N8N-01 | Phase 4: Smart Import | Pending |
 
 **Coverage:**
 - v2 requirements: 17 total
@@ -120,4 +120,4 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 
 ---
 *Requirements defined: 2025-01-24*
-*Last updated: 2025-01-24 after initial definition*
+*Last updated: 2025-01-24 after roadmap creation*
