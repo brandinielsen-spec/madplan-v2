@@ -1,22 +1,49 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { toast } from 'sonner'
 import { AppShell } from '@/components/layout/app-shell'
 import { WeekNav } from '@/components/ugeplan/week-nav'
 import { DayCard } from '@/components/ugeplan/day-card'
 import { RecipePicker } from '@/components/ugeplan/recipe-picker'
+import { WeekSwiper } from '@/components/ugeplan/week-swiper'
+import { WeekSlide } from '@/components/ugeplan/week-slide'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUgeplan } from '@/hooks/use-ugeplan'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
 import { useEjere } from '@/hooks/use-ejere'
-import { getCurrentWeek, navigateWeek, getWeekDates, formatDayDate } from '@/lib/week-utils'
+import {
+  getCurrentWeek,
+  getWeekDates,
+  formatDayDate,
+  getWeeksInRange,
+} from '@/lib/week-utils'
 import { DAGE, type DagNavn } from '@/lib/types'
 import { getISOWeek, getISOWeekYear } from 'date-fns'
 
+// Week range: current week +/- 4 = 9 weeks total
+const WEEK_RANGE = 4
+
 export default function UgeplanPage() {
-  // Week state - start with current week
-  const [week, setWeek] = useState(getCurrentWeek)
+  // Initial week (center of carousel)
+  const initialWeek = useMemo(() => getCurrentWeek(), [])
+
+  // Generate array of 9 weeks for the carousel
+  const weeksArray = useMemo(
+    () => getWeeksInRange(initialWeek, WEEK_RANGE),
+    [initialWeek]
+  )
+
+  // Current selected week (updated by carousel or arrow navigation)
+  const [week, setWeek] = useState(initialWeek)
+
+  // Carousel navigation controls (set by WeekSwiper via onNavigationReady)
+  const [navControls, setNavControls] = useState<{
+    scrollPrev: () => void
+    scrollNext: () => void
+    canPrev: boolean
+    canNext: boolean
+  } | null>(null)
 
   // Selected day for recipe picker
   const [selectedDag, setSelectedDag] = useState<DagNavn | null>(null)
@@ -26,7 +53,7 @@ export default function UgeplanPage() {
   const { ejere, isLoading: ejereLoading } = useEjere()
   const ejerId = ejere[0]?.id ?? null
 
-  // Data hooks
+  // Data hooks - loads data for currently visible week
   const {
     ugeplan,
     isLoading: ugeplanLoading,
@@ -38,14 +65,50 @@ export default function UgeplanPage() {
 
   const { opskrifter } = useOpskrifter(ejerId)
 
-  // Calculate dates for the week
-  const weekDates = useMemo(() => getWeekDates(week.aar, week.uge), [week.aar, week.uge])
+  // Handle slide index change from carousel
+  const handleSlideChange = useCallback(
+    (index: number) => {
+      const newWeek = weeksArray[index]
+      if (newWeek && (newWeek.aar !== week.aar || newWeek.uge !== week.uge)) {
+        setWeek(newWeek)
+      }
+    },
+    [weeksArray, week]
+  )
+
+  // Handle navigation controls ready from WeekSwiper
+  const handleNavigationReady = useCallback(
+    (controls: {
+      scrollPrev: () => void
+      scrollNext: () => void
+      canPrev: boolean
+      canNext: boolean
+    }) => {
+      setNavControls(controls)
+    },
+    []
+  )
+
+  // Arrow button handlers - delegate to carousel
+  const handlePrevWeek = useCallback(() => {
+    navControls?.scrollPrev()
+  }, [navControls])
+
+  const handleNextWeek = useCallback(() => {
+    navControls?.scrollNext()
+  }, [navControls])
+
+  // Calculate dates for the current week
+  const weekDates = useMemo(
+    () => getWeekDates(week.aar, week.uge),
+    [week.aar, week.uge]
+  )
 
   // Check if a date is today
   const today = new Date()
   const todayWeek = getISOWeek(today)
   const todayYear = getISOWeekYear(today)
-  const todayDayIndex = (today.getDay() + 6) % 7  // Convert Sunday=0 to Monday=0
+  const todayDayIndex = (today.getDay() + 6) % 7 // Convert Sunday=0 to Monday=0
 
   // Extract recent meals from current ugeplan
   const recentRetter = useMemo(() => {
@@ -56,14 +119,6 @@ export default function UgeplanPage() {
   }, [ugeplan])
 
   // Handlers
-  const handlePrevWeek = () => {
-    setWeek(navigateWeek(week.aar, week.uge, 'prev'))
-  }
-
-  const handleNextWeek = () => {
-    setWeek(navigateWeek(week.aar, week.uge, 'next'))
-  }
-
   const handleAddMeal = (dag: DagNavn) => {
     setSelectedDag(dag)
   }
@@ -98,43 +153,35 @@ export default function UgeplanPage() {
         uge={week.uge}
         onPrev={handlePrevWeek}
         onNext={handleNextWeek}
+        canPrev={navControls?.canPrev ?? true}
+        canNext={navControls?.canNext ?? true}
         isLoading={isLoading}
       />
 
-      {isLoading ? (
-        <div className="space-y-3">
-          {Array.from({ length: 7 }).map((_, i) => (
-            <Skeleton key={i} className="h-20 w-full" />
-          ))}
-        </div>
-      ) : ugeplanError ? (
-        <div className="text-center py-8 text-muted-foreground">
-          <p>Kunne ikke hente ugeplan</p>
-          <p className="text-sm mt-1">Tjek din forbindelse og proev igen</p>
-        </div>
-      ) : (
-        <div className="space-y-3 pb-4">
-          {DAGE.map((dag, index) => {
-            const isToday =
-              week.aar === todayYear &&
-              week.uge === todayWeek &&
-              index === todayDayIndex
-
-            return (
-              <DayCard
-                key={dag}
-                dag={dag}
-                dato={formatDayDate(weekDates[index])}
-                entry={ugeplan?.dage?.[dag] ?? null}
-                onAdd={() => handleAddMeal(dag)}
-                onDelete={() => handleDeleteMeal(dag)}
-                isToday={isToday}
-                isMutating={isMutating}
-              />
-            )
-          })}
-        </div>
-      )}
+      <WeekSwiper
+        onSlideChange={handleSlideChange}
+        onNavigationReady={handleNavigationReady}
+      >
+        {weeksArray.map((slideWeek) => (
+          <WeekSlide key={`${slideWeek.aar}-${slideWeek.uge}`}>
+            <WeekContent
+              week={slideWeek}
+              currentWeek={week}
+              ejerId={ejerId}
+              ugeplan={ugeplan}
+              isLoading={isLoading}
+              isError={ugeplanError}
+              isMutating={isMutating}
+              weekDates={weekDates}
+              todayWeek={todayWeek}
+              todayYear={todayYear}
+              todayDayIndex={todayDayIndex}
+              onAddMeal={handleAddMeal}
+              onDeleteMeal={handleDeleteMeal}
+            />
+          </WeekSlide>
+        ))}
+      </WeekSwiper>
 
       {/* Recipe picker drawer - controlled by selectedDag */}
       <RecipePicker
@@ -146,5 +193,102 @@ export default function UgeplanPage() {
         trigger={<span />}
       />
     </AppShell>
+  )
+}
+
+// Separate component for week content to handle loading states per slide
+interface WeekContentProps {
+  week: { aar: number; uge: number }
+  currentWeek: { aar: number; uge: number }
+  ejerId: string | null
+  ugeplan: ReturnType<typeof useUgeplan>['ugeplan']
+  isLoading: boolean
+  isError: boolean
+  isMutating: boolean
+  weekDates: Date[]
+  todayWeek: number
+  todayYear: number
+  todayDayIndex: number
+  onAddMeal: (dag: DagNavn) => void
+  onDeleteMeal: (dag: DagNavn) => void
+}
+
+function WeekContent({
+  week,
+  currentWeek,
+  ugeplan,
+  isLoading,
+  isError,
+  isMutating,
+  weekDates,
+  todayWeek,
+  todayYear,
+  todayDayIndex,
+  onAddMeal,
+  onDeleteMeal,
+}: WeekContentProps) {
+  // Only show data for the currently selected week
+  // Other slides show skeleton or placeholder
+  const isActiveWeek =
+    week.aar === currentWeek.aar && week.uge === currentWeek.uge
+
+  // Calculate dates for this specific slide's week
+  const slideWeekDates = useMemo(
+    () => getWeekDates(week.aar, week.uge),
+    [week.aar, week.uge]
+  )
+
+  if (!isActiveWeek) {
+    // Placeholder for non-active slides - show skeleton structure
+    return (
+      <div className="space-y-3 pb-4">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <Skeleton key={i} className="h-20 w-full" />
+        ))}
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-3">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <Skeleton key={i} className="h-20 w-full" />
+        ))}
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        <p>Kunne ikke hente ugeplan</p>
+        <p className="text-sm mt-1">Tjek din forbindelse og proev igen</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-3 pb-4">
+      {DAGE.map((dag, index) => {
+        const isToday =
+          week.aar === todayYear &&
+          week.uge === todayWeek &&
+          index === todayDayIndex
+
+        return (
+          <DayCard
+            key={dag}
+            dag={dag}
+            dato={formatDayDate(slideWeekDates[index])}
+            entry={ugeplan?.dage?.[dag] ?? null}
+            onAdd={() => onAddMeal(dag)}
+            onDelete={() => onDeleteMeal(dag)}
+            isToday={isToday}
+            isMutating={isMutating}
+          />
+        )
+      })}
+    </div>
   )
 }

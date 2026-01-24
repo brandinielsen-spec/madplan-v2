@@ -9,17 +9,27 @@ interface WeekNavProps {
   uge: number
   onPrev: () => void
   onNext: () => void
+  canPrev?: boolean
+  canNext?: boolean
   isLoading?: boolean
 }
 
-export function WeekNav({ aar, uge, onPrev, onNext, isLoading }: WeekNavProps) {
+export function WeekNav({
+  aar,
+  uge,
+  onPrev,
+  onNext,
+  canPrev = true,
+  canNext = true,
+  isLoading,
+}: WeekNavProps) {
   return (
     <div className="flex items-center justify-between py-4">
       <Button
         variant="ghost"
         size="icon"
         onClick={onPrev}
-        disabled={isLoading}
+        disabled={isLoading || !canPrev}
         aria-label="Forrige uge"
       >
         <ChevronLeft className="h-5 w-5" />
@@ -33,7 +43,7 @@ export function WeekNav({ aar, uge, onPrev, onNext, isLoading }: WeekNavProps) {
         variant="ghost"
         size="icon"
         onClick={onNext}
-        disabled={isLoading}
+        disabled={isLoading || !canNext}
         aria-label="Naeste uge"
       >
         <ChevronRight className="h-5 w-5" />
