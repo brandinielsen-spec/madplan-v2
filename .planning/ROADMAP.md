@@ -10,7 +10,7 @@
 |-------|------|------|--------------|
 | 1 | Foundation | Modern app shell med PWA | UIX-01, UIX-02, UIX-05 |
 | 2 | Core Data Flow | V1 funktionalitet i ny UI | UIX-03 |
-| 3 | PWA Enhancement | Native app-følelse med gestures | UIX-04 |
+| 3 | PWA Enhancement | Native app-folelse med gestures | UIX-04 |
 | 4 | Smart Import | Import opskrifter fra URL og billeder | IMP-01 til IMP-06, N8N-01 |
 | 5 | Organization | Organiser og find opskrifter | ORG-01 til ORG-05 |
 
@@ -48,13 +48,13 @@ Plans:
 
 **Requirements:**
 - UIX-01: Moderne UI med shadcn/ui komponenter
-- UIX-02: PWA — installerbar på mobil som app
+- UIX-02: PWA — installerbar pa mobil som app
 - UIX-05: Mobil-first responsivt design
 
 **Success Criteria:**
-1. Bruger kan åbne app og se moderne UI med shadcn/ui styling
-2. Bruger kan installere app på mobil via "Add to Home Screen"
-3. App viser korrekt på både mobil og desktop
+1. Bruger kan abne app og se moderne UI med shadcn/ui styling
+2. Bruger kan installere app pa mobil via "Add to Home Screen"
+3. App viser korrekt pa bade mobil og desktop
 4. PWA manifest er valid og ikoner vises korrekt
 
 **Deliverables:**
@@ -68,7 +68,17 @@ Plans:
 
 ## Phase 2: Core Data Flow
 
-**Goal:** Brugere kan tilgå v1 funktionalitet gennem ny UI
+**Goal:** Brugere kan tilga v1 funktionalitet gennem ny UI
+
+**Plans:** 6 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Data foundation: SWR, types, date-fns, shadcn components
+- [ ] 02-02-PLAN.md — API routes proxying to n8n webhooks
+- [ ] 02-03-PLAN.md — SWR data hooks with optimistic updates
+- [ ] 02-04-PLAN.md — Ugeplan view with week navigation and meal management
+- [ ] 02-05-PLAN.md — Indkobsliste view with checkbox toggle
+- [ ] 02-06-PLAN.md — Opskrifter view with cards/list toggle
 
 **Requirements:**
 - UIX-03: Hurtig navigation uden page reloads
@@ -76,14 +86,14 @@ Plans:
 **Success Criteria:**
 1. Bruger kan se ugeplan med retter for aktuel uge
 2. Bruger kan navigere mellem uger
-3. Bruger kan tilføje/redigere/slette ret på dag
-4. Bruger kan se og afkrydse indkøbsliste
+3. Bruger kan tilfoeje/redigere/slette ret pa dag
+4. Bruger kan se og afkrydse indkobsliste
 5. Navigation mellem sider sker uden fuld page reload
 
 **Deliverables:**
 - API routes som proxy til v1 n8n workflows
 - Ugeplan view med data fra backend
-- Indkøbsliste view med afkrydsning
+- Indkobsliste view med afkrydsning
 - Opskrifter liste view
 - Client-side navigation (Next.js App Router)
 
@@ -91,13 +101,13 @@ Plans:
 
 ## Phase 3: PWA Enhancement
 
-**Goal:** App føles native med gestures og caching
+**Goal:** App foeles native med gestures og caching
 
 **Requirements:**
 - UIX-04: Swipe gestures til navigation mellem uger
 
 **Success Criteria:**
-1. Bruger kan swipe venstre/højre for at skifte uge
+1. Bruger kan swipe venstre/hojre for at skifte uge
 2. Swipe virker smooth uden at trigge browser back
 3. Visuel feedback under swipe (animation)
 
@@ -113,26 +123,26 @@ Plans:
 **Goal:** Brugere kan importere opskrifter fra URL'er og billeder
 
 **Requirements:**
-- IMP-01: Import opskrift fra URL med auto-udtrækning
+- IMP-01: Import opskrift fra URL med auto-udtraekning
 - IMP-02: Import opskrift fra billede med OCR
 - IMP-03: Detect URL i billede og hent derfra i stedet
-- IMP-04: Gem opskriftsbillede hvis tilgængeligt fra URL
-- IMP-05: Preview importeret opskrift før gem
-- IMP-06: Rediger importeret data før gem
+- IMP-04: Gem opskriftsbillede hvis tilgaengeligt fra URL
+- IMP-05: Preview importeret opskrift for gem
+- IMP-06: Rediger importeret data for gem
 - N8N-01: Alle workflows versioneres med inkrementelt nummer
 
 **Success Criteria:**
-1. Bruger kan indsætte URL og få opskrift udtrukket automatisk
-2. Bruger kan tage/uploade billede og få tekst udtrukket via OCR
+1. Bruger kan indsaette URL og fa opskrift udtrukket automatisk
+2. Bruger kan tage/uploade billede og fa tekst udtrukket via OCR
 3. Hvis billede indeholder URL, hentes opskrift derfra automatisk
-4. Opskriftsbillede gemmes hvis tilgængeligt
-5. Bruger ser preview og kan redigere før gem
+4. Opskriftsbillede gemmes hvis tilgaengeligt
+5. Bruger ser preview og kan redigere for gem
 
 **Deliverables:**
 - Import UI (URL input + kamera/upload)
 - n8n workflow: URL import med JSON-LD parsing (ver 1)
 - n8n workflow: Billede OCR med URL detection (ver 1)
-- Preview/edit modal før gem
+- Preview/edit modal for gem
 - Airtable felter: BilledeUrl, Kilde
 
 ---
@@ -142,27 +152,27 @@ Plans:
 **Goal:** Brugere kan organisere og finde opskrifter nemt
 
 **Requirements:**
-- ORG-01: Favorit-markering på opskrifter
-- ORG-02: Tags på opskrifter (bruger-definerede)
-- ORG-03: Søg i opskrifter (titel)
-- ORG-04: Filter opskrifter på tags
-- ORG-05: Filter opskrifter på favoritter
+- ORG-01: Favorit-markering pa opskrifter
+- ORG-02: Tags pa opskrifter (bruger-definerede)
+- ORG-03: Soeg i opskrifter (titel)
+- ORG-04: Filter opskrifter pa tags
+- ORG-05: Filter opskrifter pa favoritter
 
 **Success Criteria:**
 1. Bruger kan markere opskrift som favorit (hjerte-ikon)
-2. Bruger kan tilføje/fjerne tags på opskrift
-3. Bruger kan søge i opskrifter og se resultater live
-4. Bruger kan filtrere liste på valgte tags
+2. Bruger kan tilfoeje/fjerne tags pa opskrift
+3. Bruger kan soege i opskrifter og se resultater live
+4. Bruger kan filtrere liste pa valgte tags
 5. Bruger kan vise kun favoritter
 
 **Deliverables:**
-- Favorit toggle på opskrift cards og detalje-view
-- Tag management UI (tilføj/fjern tags)
-- Søgefelt med live-filtrering
+- Favorit toggle pa opskrift cards og detalje-view
+- Tag management UI (tilfoej/fjern tags)
+- Soegefelt med live-filtrering
 - Tag filter chips
 - Favorit filter toggle
 - Airtable felter: Favorit, Tags
-- n8n workflows opdateret til at håndtere nye felter
+- n8n workflows opdateret til at handtere nye felter
 
 ---
 
