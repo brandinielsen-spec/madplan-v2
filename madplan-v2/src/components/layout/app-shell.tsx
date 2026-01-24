@@ -5,12 +5,13 @@ interface AppShellProps {
   children: React.ReactNode;
   title: string;
   actions?: React.ReactNode;
+  headerLeft?: React.ReactNode;
 }
 
-export function AppShell({ children, title, actions }: AppShellProps) {
+export function AppShell({ children, title, actions, headerLeft }: AppShellProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Header title={title} actions={actions} />
+      <Header title={title} actions={actions} headerLeft={headerLeft} />
       <main className="flex-1 pb-20 px-4 pt-4">{children}</main>
       <MobileNav />
     </div>
