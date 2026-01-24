@@ -105,6 +105,13 @@ Plans:
 
 **Goal:** App foeles native med gestures og caching
 
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Swipe gesture infrastructure (Embla Carousel, hooks, components)
+- [ ] 03-02-PLAN.md — Integrate swipe into Ugeplan page with week carousel
+- [ ] 03-03-PLAN.md — Service worker caching and offline support
+
 **Requirements:**
 - UIX-04: Swipe gestures til navigation mellem uger
 
@@ -114,9 +121,10 @@ Plans:
 3. Visuel feedback under swipe (animation)
 
 **Deliverables:**
-- Swipe gesture handling (Embla/Framer Motion)
+- Swipe gesture handling (Embla Carousel)
 - Uge-navigation med swipe
 - Service worker med caching strategies
+- Offline banner og SWR cache persistence
 
 ---
 
