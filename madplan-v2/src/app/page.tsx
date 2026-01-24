@@ -1,65 +1,83 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-background p-8">
+      <h1 className="font-heading text-3xl font-bold text-foreground mb-4">
+        Madplan
+      </h1>
+      <p className="text-muted-foreground mb-8">
+        Test af styling - denne tekst bruger Nunito
+      </p>
+
+      <div className="flex flex-wrap gap-4 mb-8">
+        <Button>Primary Button</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
+      </div>
+
+      <Card className="max-w-md mb-8">
+        <CardHeader>
+          <CardTitle className="font-heading">Test Card</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Card content with earth tone styling</p>
+        </CardContent>
+      </Card>
+
+      <div className="space-y-4">
+        <h2 className="font-heading text-xl font-semibold">Farvepalet</h2>
+
+        <div>
+          <p className="text-sm text-muted-foreground mb-2">Sand</p>
+          <div className="flex gap-2">
+            <div className="w-12 h-12 rounded bg-sand-50" title="sand-50" />
+            <div className="w-12 h-12 rounded bg-sand-100" title="sand-100" />
+            <div className="w-12 h-12 rounded bg-sand-200" title="sand-200" />
+            <div className="w-12 h-12 rounded bg-sand-300" title="sand-300" />
+            <div className="w-12 h-12 rounded bg-sand-500" title="sand-500" />
+            <div className="w-12 h-12 rounded bg-sand-700" title="sand-700" />
+            <div className="w-12 h-12 rounded bg-sand-900" title="sand-900" />
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div>
+          <p className="text-sm text-muted-foreground mb-2">Terracotta</p>
+          <div className="flex gap-2">
+            <div className="w-12 h-12 rounded bg-terracotta-50" title="terracotta-50" />
+            <div className="w-12 h-12 rounded bg-terracotta-100" title="terracotta-100" />
+            <div className="w-12 h-12 rounded bg-terracotta-200" title="terracotta-200" />
+            <div className="w-12 h-12 rounded bg-terracotta-300" title="terracotta-300" />
+            <div className="w-12 h-12 rounded bg-terracotta-500" title="terracotta-500" />
+            <div className="w-12 h-12 rounded bg-terracotta-700" title="terracotta-700" />
+            <div className="w-12 h-12 rounded bg-terracotta-900" title="terracotta-900" />
+          </div>
         </div>
-      </main>
-    </div>
+
+        <div>
+          <p className="text-sm text-muted-foreground mb-2">Olive</p>
+          <div className="flex gap-2">
+            <div className="w-12 h-12 rounded bg-olive-50" title="olive-50" />
+            <div className="w-12 h-12 rounded bg-olive-100" title="olive-100" />
+            <div className="w-12 h-12 rounded bg-olive-200" title="olive-200" />
+            <div className="w-12 h-12 rounded bg-olive-300" title="olive-300" />
+            <div className="w-12 h-12 rounded bg-olive-500" title="olive-500" />
+            <div className="w-12 h-12 rounded bg-olive-700" title="olive-700" />
+            <div className="w-12 h-12 rounded bg-olive-900" title="olive-900" />
+          </div>
+        </div>
+
+        <div>
+          <p className="text-sm text-muted-foreground mb-2">Semantiske farver</p>
+          <div className="flex gap-2">
+            <div className="w-12 h-12 rounded bg-primary" title="primary" />
+            <div className="w-12 h-12 rounded bg-secondary" title="secondary" />
+            <div className="w-12 h-12 rounded bg-accent" title="accent" />
+            <div className="w-12 h-12 rounded bg-muted" title="muted" />
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
