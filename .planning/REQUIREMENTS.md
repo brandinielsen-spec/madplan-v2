@@ -37,7 +37,7 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 - [x] **UIX-01**: Moderne UI med shadcn/ui komponenter
 - [x] **UIX-02**: PWA — installerbar på mobil som app
 - [x] **UIX-03**: Hurtig navigation uden page reloads
-- [ ] **UIX-04**: Swipe gestures til navigation mellem uger
+- [x] **UIX-04**: Swipe gestures til navigation mellem uger
 - [x] **UIX-05**: Mobil-first responsivt design
 
 ### Smart Import
@@ -86,7 +86,7 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 | Multi-bruger sync | Ikke nødvendigt for familie/venner use case |
 | Kalorier/ernæring | Ikke relevant for målgruppen |
 | Supermarked-integration | For komplekst, ikke core value |
-| Offline support | Ikke prioriteret i v2, kan tilføjes senere |
+| ~~Offline support~~ | ~~Ikke prioriteret i v2~~ — Implemented in Phase 3 |
 | Voice commands | Niche feature, høj kompleksitet |
 | Gamification | Ikke relevant, brugere vil have effektivitet |
 | Social/offentlig deling | Privat familie-app |
@@ -98,7 +98,7 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 | UIX-01 | Phase 1: Foundation | Complete |
 | UIX-02 | Phase 1: Foundation | Complete |
 | UIX-03 | Phase 2: Core Data Flow | Complete |
-| UIX-04 | Phase 3: PWA Enhancement | Pending |
+| UIX-04 | Phase 3: PWA Enhancement | Complete |
 | UIX-05 | Phase 1: Foundation | Complete |
 | IMP-01 | Phase 4: Smart Import | Pending |
 | IMP-02 | Phase 4: Smart Import | Pending |
@@ -120,4 +120,4 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 
 ---
 *Requirements defined: 2025-01-24*
-*Last updated: 2026-01-24 after Phase 2 completion*
+*Last updated: 2026-01-24 after Phase 3 completion*

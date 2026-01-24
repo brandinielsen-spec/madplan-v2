@@ -108,9 +108,11 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Swipe gesture infrastructure (Embla Carousel, hooks, components)
-- [ ] 03-02-PLAN.md — Integrate swipe into Ugeplan page with week carousel
-- [ ] 03-03-PLAN.md — Service worker caching and offline support
+- [x] 03-01-PLAN.md — Swipe gesture infrastructure (Embla Carousel, hooks, components)
+- [x] 03-02-PLAN.md — Integrate swipe into Ugeplan page with week carousel
+- [x] 03-03-PLAN.md — Service worker caching and offline support
+
+**Completed:** 2026-01-24
 
 **Requirements:**
 - UIX-04: Swipe gestures til navigation mellem uger
