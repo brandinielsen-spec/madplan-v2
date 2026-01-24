@@ -34,11 +34,11 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 ## v2 Requirements
 
 ### UI/UX
-- [ ] **UIX-01**: Moderne UI med shadcn/ui komponenter
-- [ ] **UIX-02**: PWA — installerbar på mobil som app
+- [x] **UIX-01**: Moderne UI med shadcn/ui komponenter
+- [x] **UIX-02**: PWA — installerbar på mobil som app
 - [ ] **UIX-03**: Hurtig navigation uden page reloads
 - [ ] **UIX-04**: Swipe gestures til navigation mellem uger
-- [ ] **UIX-05**: Mobil-first responsivt design
+- [x] **UIX-05**: Mobil-first responsivt design
 
 ### Smart Import
 - [ ] **IMP-01**: Import opskrift fra URL med auto-udtrækning
@@ -95,11 +95,11 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UIX-01 | Phase 1: Foundation | Pending |
-| UIX-02 | Phase 1: Foundation | Pending |
+| UIX-01 | Phase 1: Foundation | Complete |
+| UIX-02 | Phase 1: Foundation | Complete |
 | UIX-03 | Phase 2: Core Data Flow | Pending |
 | UIX-04 | Phase 3: PWA Enhancement | Pending |
-| UIX-05 | Phase 1: Foundation | Pending |
+| UIX-05 | Phase 1: Foundation | Complete |
 | IMP-01 | Phase 4: Smart Import | Pending |
 | IMP-02 | Phase 4: Smart Import | Pending |
 | IMP-03 | Phase 4: Smart Import | Pending |
@@ -120,4 +120,4 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 
 ---
 *Requirements defined: 2025-01-24*
-*Last updated: 2025-01-24 after roadmap creation*
+*Last updated: 2026-01-24 after Phase 1 completion*

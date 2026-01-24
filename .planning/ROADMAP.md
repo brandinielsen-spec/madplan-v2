@@ -41,8 +41,10 @@ Phase 2 (Core Data Flow)
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project setup with Tailwind v4 + shadcn/ui + earth tone theme
-- [ ] 01-02-PLAN.md — PWA manifest, layout components, placeholder pages
+- [x] 01-01-PLAN.md — Project setup with Tailwind v4 + shadcn/ui + earth tone theme
+- [x] 01-02-PLAN.md — PWA manifest, layout components, placeholder pages
+
+**Completed:** 2026-01-24
 
 **Requirements:**
 - UIX-01: Moderne UI med shadcn/ui komponenter
