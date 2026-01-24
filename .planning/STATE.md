@@ -19,13 +19,13 @@
 **Phase 2: Core Data Flow**
 - Goal: Brugere kan tilgaa v1 funktionalitet gennem ny UI
 - Requirements: UIX-03
-- Status: Plan 01 and 03 complete, Plan 02/04-06 pending
+- Status: Plans 01, 02, 03 complete. Plans 04-06 pending.
 
 **Plan Progress:**
 | Plan | Name | Status |
 |------|------|--------|
 | 02-01 | Data Layer Foundation | Complete |
-| 02-02 | API Routes | Pending |
+| 02-02 | API Routes | Complete |
 | 02-03 | API Hooks | Complete |
 | 02-04 | Ugeplan Page | Pending |
 | 02-05 | Indkoebsliste Page | Pending |
@@ -35,8 +35,8 @@
 
 ```
 Phase 1: [##########] 100%
-Phase 2: [####......] 33%
-Overall:  [####......] 36%
+Phase 2: [#####.....] 50%
+Overall:  [#####.....] 45%
 ```
 
 ## Session Log
@@ -52,6 +52,7 @@ Overall:  [####......] 36%
 | 2026-01-24 | Phase 1 complete | All must-haves verified, UIX-01/02/05 delivered |
 | 2026-01-24 | Plan 02-01 executed | SWR provider, types, week-utils, 9 shadcn components |
 | 2026-01-24 | Plan 02-03 executed | 4 SWR hooks with mutations and optimistic updates |
+| 2026-01-24 | Plan 02-02 executed | 5 API route proxies to n8n, user configured .env.local |
 
 ## Blockers
 
@@ -75,11 +76,13 @@ Overall:  [####......] 36%
 | SWR shouldRetryOnError: false | 2026-01-24 | Manual retry preferred for error recovery |
 | Toaster in SWRProvider | 2026-01-24 | Single global Toaster instance for all pages |
 | mutate() for optimistic toggle | 2026-01-24 | SWR 2.x useSWRMutation has limited optimisticData typing |
+| Server-only N8N_WEBHOOK_URL | 2026-01-24 | No NEXT_PUBLIC_ prefix keeps n8n URL out of client bundle |
+| result.data ?? result | 2026-01-24 | n8n response normalization pattern |
 
 ## Session Continuity
 
 **Last session:** 2026-01-24
-**Stopped at:** Completed 02-03-PLAN.md
+**Stopped at:** Completed 02-02-PLAN.md
 **Resume file:** None
 
 ## Context for Resume
@@ -90,7 +93,7 @@ Hvis du vender tilbage til dette projekt:
 3. Check denne fil for current phase
 4. Koer `/gsd:progress` for naeste skridt
 
-Next step: Execute Plan 02-02 (API Routes) or 02-04 (Ugeplan Page)
+Next step: Execute Plan 02-04 (Ugeplan Page), 02-05 (Indkoebsliste Page), or 02-06 (Opskrifter Page)
 
 ---
 *State initialized: 2025-01-24*
