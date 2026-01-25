@@ -15,7 +15,7 @@ export function Header({ title, actions, headerLeft }: HeaderProps) {
       <div className="flex items-center justify-between h-14 px-4">
         <div className="flex items-center gap-3">
           <Link
-            href="/ugeplan"
+            href="/"
             className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
             aria-label="Gå til forsiden"
           >
