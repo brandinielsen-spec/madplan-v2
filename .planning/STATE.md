@@ -1,7 +1,7 @@
 # Project State: Madplan v2
 
 **Current Phase:** 5 (Organization)
-**Status:** In progress (Plan 2/5 complete)
+**Status:** In progress (Plan 3/5 complete)
 **Last Updated:** 2026-01-25
 
 ## Phase Progress
@@ -19,7 +19,7 @@
 **Phase 5: Organization** (IN PROGRESS)
 - Goal: Brugere kan organisere og finde opskrifter nemt
 - Requirements: ORG-01, ORG-02, ORG-03, ORG-04, ORG-05
-- Status: Plan 2/5 complete (Favorite Toggle)
+- Status: Plan 3/5 complete (Tag Management)
 
 **Progress:**
 
@@ -28,8 +28,8 @@ Phase 1: [##########] 100%
 Phase 2: [##########] 100%
 Phase 3: [##########] 100%
 Phase 4: [##########] 100%
-Phase 5: [####......] 40%
-Overall:  [########..] 88%
+Phase 5: [######....] 60%
+Overall:  [#########.] 92%
 ```
 
 ## Session Log
@@ -63,6 +63,7 @@ Overall:  [########..] 88%
 | 2026-01-25 | Phase 4 complete | All 5 plans completed, IMP-01 to IMP-06 delivered |
 | 2026-01-25 | Plan 05-01 executed | Types, 2 API routes, CSS animation, Popover component |
 | 2026-01-25 | Plan 05-02 executed | FavoriteButton, toggleFavorite hook, card/list/detail integration |
+| 2026-01-25 | Plan 05-03 executed | TagChip, TagInput, allTags/updateTags hook, detail page tags |
 
 ## Blockers
 
@@ -106,6 +107,9 @@ Overall:  [########..] 88%
 | Partial update API pattern | 2026-01-25 | /opdater endpoint accepts {opskriftId, fields: {...}} for field updates |
 | FavoriteButton callback pattern | 2026-01-25 | onToggleFavorite prop for integration flexibility |
 | Heart pulse on favorite only | 2026-01-25 | Animation triggers only when adding favorite, not removing |
+| shouldFilter={false} on Command | 2026-01-25 | Manual filtering to exclude current tags from suggestions |
+| Button trigger for TagInput | 2026-01-25 | Clearer UX than direct input for tag autocomplete |
+| Olive color for tags | 2026-01-25 | Visual distinction from other badges, earth tone palette |
 
 ## Future Feature Requests
 
@@ -118,7 +122,7 @@ Overall:  [########..] 88%
 ## Session Continuity
 
 **Last session:** 2026-01-25
-**Stopped at:** Completed 05-02-PLAN.md
+**Stopped at:** Completed 05-03-PLAN.md
 **Resume file:** None
 
 ## Context for Resume
@@ -129,7 +133,7 @@ Hvis du vender tilbage til dette projekt:
 3. Check denne fil for current phase
 4. Koer `/gsd:progress` for naeste skridt
 
-Next step: Execute 05-03-PLAN.md (Tag Management)
+Next step: Execute 05-04-PLAN.md (Filtering UI)
 
 ---
 *State initialized: 2025-01-24*
