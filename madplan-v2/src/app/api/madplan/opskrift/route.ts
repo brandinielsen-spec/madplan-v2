@@ -105,7 +105,7 @@ export async function DELETE(request: NextRequest) {
     const response = await fetch(
       `${N8N_BASE}/madplan/opskrift/slet`,
       {
-        method: 'DELETE',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ opskriftId }),
         cache: 'no-store',
