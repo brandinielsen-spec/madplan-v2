@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const response = await fetch(
-      `${N8N_BASE}/madplan/opskrift`,
+      `${N8N_BASE}/madplan/opskrift/opret`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
