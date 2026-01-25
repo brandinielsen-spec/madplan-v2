@@ -19,14 +19,14 @@
 **Phase 4: Smart Import** (IN PROGRESS)
 - Goal: Import recipes from URLs, images, and manual entry
 - Requirements: IMP-01, IMP-02, IMP-03, IMP-04, IMP-05
-- Status: Plans 1-2 complete (foundation + recipe form)
+- Status: Plans 1-3 complete (foundation + recipe form + URL import)
 
 **Plan Progress:**
 | Plan | Name | Status |
 |------|------|--------|
 | 04-01 | Foundation Setup | Complete |
 | 04-02 | Recipe Form | Complete |
-| 04-03 | URL Import Flow | Pending |
+| 04-03 | URL Import Flow | Complete |
 | 04-04 | Image Import | Pending |
 | 04-05 | Add Page Integration | Pending |
 
@@ -36,8 +36,8 @@
 Phase 1: [##########] 100%
 Phase 2: [##########] 100%
 Phase 3: [##########] 100%
-Phase 4: [####......] 40%
-Overall:  [#######...] 70%
+Phase 4: [######....] 60%
+Overall:  [########..] 76%
 ```
 
 ## Session Log
@@ -64,6 +64,7 @@ Overall:  [#######...] 70%
 | 2026-01-24 | Phase 3 complete | All 3 plans completed, UIX-04 delivered |
 | 2026-01-25 | Plan 04-01 executed | Form libraries, extended types, 3 API routes |
 | 2026-01-25 | Plan 04-02 executed | RecipeForm component with validation |
+| 2026-01-25 | Plan 04-03 executed | UrlImportForm with validation, timeout, error states |
 
 ## Blockers
 
@@ -98,6 +99,9 @@ Overall:  [#######...] 70%
 | ImportResult uses optional fields | 2026-01-25 | Accommodate partial extraction results |
 | z.number() + valueAsNumber | 2026-01-25 | Zod 4 + @hookform/resolvers compatibility |
 | useFieldArray object wrapper | 2026-01-25 | ingredienser as {value}[] internally, string[] externally |
+| Button-triggered URL import | 2026-01-25 | Not auto on paste per user preference in CONTEXT.md |
+| 30-second import timeout | 2026-01-25 | Prevents hanging on slow/stuck n8n workflows |
+| Discriminated union state | 2026-01-25 | Clear type narrowing for idle/loading/error states |
 
 ## Future Feature Requests
 
@@ -110,7 +114,7 @@ Overall:  [#######...] 70%
 ## Session Continuity
 
 **Last session:** 2026-01-25
-**Stopped at:** Completed 04-02-PLAN.md (Recipe Form)
+**Stopped at:** Completed 04-03-PLAN.md (URL Import Flow)
 **Resume file:** None
 
 ## Context for Resume
@@ -121,7 +125,7 @@ Hvis du vender tilbage til dette projekt:
 3. Check denne fil for current phase
 4. Koer `/gsd:progress` for naeste skridt
 
-Next step: Execute 04-03-PLAN.md (URL Import Flow)
+Next step: Execute 04-04-PLAN.md (Image Import)
 
 ---
 *State initialized: 2025-01-24*
