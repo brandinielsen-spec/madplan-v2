@@ -1,145 +1,65 @@
 # Project State: Madplan v2
 
-**Current Phase:** Milestone Complete
-**Status:** All 5 phases complete
+**Current Milestone:** v2.0 SHIPPED
+**Status:** Ready for next milestone
 **Last Updated:** 2026-01-25
 
-## Phase Progress
+## Project Reference
 
-| Phase | Name | Status | Started | Completed |
-|-------|------|--------|---------|-----------|
-| 1 | Foundation | Complete | 2026-01-24 | 2026-01-24 |
-| 2 | Core Data Flow | Complete | 2026-01-24 | 2026-01-24 |
-| 3 | PWA Enhancement | Complete | 2026-01-24 | 2026-01-24 |
-| 4 | Smart Import | Complete | 2026-01-25 | 2026-01-25 |
-| 5 | Organization | Complete | 2026-01-25 | 2026-01-25 |
+See: .planning/PROJECT.md (updated 2026-01-25)
 
-## Current Focus
+**Core value:** Ubesvaeret madplanlaegning med smarte opskrifter
+**Current focus:** Planning next milestone (v2.1)
 
-**Milestone v2** (COMPLETE)
-- All 5 phases executed and verified
+## Current Position
+
+Phase: Complete (5 of 5)
+Plan: All plans completed
+Status: Milestone v2.0 shipped
+Last activity: 2026-01-25 — v2.0 milestone complete
+
+Progress: [##########] 100% v2.0 shipped
+
+## Milestone Summary
+
+**v2.0 Complete Rebuild** — Shipped 2026-01-25
+- 5 phases, 20 plans
 - 17 v2 requirements delivered
+- 69 TypeScript files, ~60k LOC
 
-**Progress:**
+See: .planning/MILESTONES.md for full details
+See: .planning/milestones/v2-ROADMAP.md for archived roadmap
+See: .planning/milestones/v2-REQUIREMENTS.md for archived requirements
 
-```
-Phase 1: [##########] 100%
-Phase 2: [##########] 100%
-Phase 3: [##########] 100%
-Phase 4: [##########] 100%
-Phase 5: [##########] 100%
-Overall:  [##########] 100%
-```
+## Tech Debt (Carried to v2.1)
 
-## Session Log
+- ejerId uses first ejer workaround (implement user context when multi-user needed)
+- Service worker prefetch listener exists but not called (enhancement opportunity)
 
-| Date | Action | Notes |
-|------|--------|-------|
-| 2025-01-24 | Project initialized | PROJECT.md, config.json created |
-| 2025-01-24 | Research completed | Stack, Features, Architecture, Pitfalls |
-| 2025-01-24 | Requirements defined | 17 v2 requirements |
-| 2025-01-24 | Roadmap created | 5 phases |
-| 2026-01-24 | Plan 01-01 executed | Next.js + Tailwind v4 + shadcn/ui + earth tones |
-| 2026-01-24 | Plan 01-02 executed | PWA manifest, navigation, app shell, 5 placeholder pages |
-| 2026-01-24 | Phase 1 complete | All must-haves verified, UIX-01/02/05 delivered |
-| 2026-01-24 | Plan 02-01 executed | SWR provider, types, week-utils, 9 shadcn components |
-| 2026-01-24 | Plan 02-03 executed | 4 SWR hooks with mutations and optimistic updates |
-| 2026-01-24 | Plan 02-02 executed | 5 API route proxies to n8n, user configured .env.local |
-| 2026-01-24 | Plan 02-04 executed | Ugeplan page with week navigation, day cards, recipe picker |
-| 2026-01-24 | Plan 02-05 executed | Indkoebsliste page with categories, toggle, manual input |
-| 2026-01-24 | Plan 02-06 executed | Opskrifter page with card/list toggle, search, detail page |
-| 2026-01-24 | Phase 2 complete | All 6 plans completed, UIX-03 delivered |
-| 2026-01-24 | Plan 03-01 executed | Embla Carousel, useSwipeWeek hook, WeekSwiper/WeekSlide |
-| 2026-01-24 | Plan 03-02 executed | Swipe carousel in Ugeplan, week utilities, bug fix for touch-action |
-| 2026-01-24 | Plan 03-03 executed | Service worker, offline banner, localStorage SWR persistence |
-| 2026-01-24 | Phase 3 complete | All 3 plans completed, UIX-04 delivered |
-| 2026-01-25 | Plan 04-01 executed | Form libraries, extended types, 3 API routes |
-| 2026-01-25 | Plan 04-02 executed | RecipeForm component with validation |
-| 2026-01-25 | Plan 04-03 executed | UrlImportForm with validation, timeout, error states |
-| 2026-01-25 | Plan 04-04 executed | ImageImport with camera/gallery, preview, URL detection |
-| 2026-01-25 | Plan 04-05 executed | Tilfoej page integration with all import flows |
-| 2026-01-25 | n8n workflow fixed | Added BilledeUrl and Kilde fields to Opret Opskrift v10 |
-| 2026-01-25 | Phase 4 complete | All 5 plans completed, IMP-01 to IMP-06 delivered |
-| 2026-01-25 | Plan 05-01 executed | Types, 2 API routes, CSS animation, Popover component |
-| 2026-01-25 | Plan 05-02 executed | FavoriteButton, toggleFavorite hook, card/list/detail integration |
-| 2026-01-25 | Plan 05-03 executed | TagChip, TagInput, allTags/updateTags hook, detail page tags |
-| 2026-01-25 | Plan 05-04 executed | FilterBar, EmptyState, complete search+tags+favorites filtering |
-| 2026-01-25 | Phase 5 complete | All 4 plans completed, ORG-01 to ORG-05 delivered |
-| 2026-01-25 | Milestone complete | All 5 phases verified, 17 v2 requirements delivered |
-
-## Blockers
-
-(None)
-
-## Decisions Made
-
-| Decision | Date | Rationale |
-|----------|------|-----------|
-| Ny kodebase | 2025-01-24 | Renere arkitektur fra start |
-| shadcn/ui | 2025-01-24 | Moderne, tilpasseligt, god mobil-support |
-| Behold Airtable | 2025-01-24 | Fungerer, nemt at inspicere, ingen migration |
-| Workflow versioning 1,2,3 | 2025-01-24 | Inkrementelt per workflow, ikke global ver2 |
-| Tailwind v4 CSS-first | 2026-01-24 | @theme in globals.css instead of tailwind.config.js |
-| OKLCH color space | 2026-01-24 | Perceptual uniformity across earth tone palette |
-| Light mode only | 2026-01-24 | Earth tones designed for light backgrounds |
-| Nunito + Poppins fonts | 2026-01-24 | Friendly body text, modern headings |
-| AppShell pattern | 2026-01-24 | Consistent Header + content + MobileNav for all pages |
-| 4-tab navigation | 2026-01-24 | Ugeplan, Opskrifter, Tilfoej, Indkob (home via logo) |
-| SWR revalidateOnFocus: false | 2026-01-24 | Better mobile experience, avoid refetches on focus |
-| SWR shouldRetryOnError: false | 2026-01-24 | Manual retry preferred for error recovery |
-| Toaster in SWRProvider | 2026-01-24 | Single global Toaster instance for all pages |
-| mutate() for optimistic toggle | 2026-01-24 | SWR 2.x useSWRMutation has limited optimisticData typing |
-| Server-only N8N_WEBHOOK_URL | 2026-01-24 | No NEXT_PUBLIC_ prefix keeps n8n URL out of client bundle |
-| result.data ?? result | 2026-01-24 | n8n response normalization pattern |
-| Group by source not category | 2026-01-24 | Schema lacks category field; user requested future enhancement |
-| No toast on checkbox toggle | 2026-01-24 | Too noisy for frequent interactions |
-| Embla loop: false | 2026-01-24 | Hard stop at week boundaries, no wrap-around |
-| Embla startIndex: 4 | 2026-01-24 | Current week centered in 9-week range (-4 to +4) |
-| touch-action: pan-y | 2026-01-24 | Prevents browser back gesture conflicts on iOS Safari |
-| OpskriftInput excludes id/oprettetDato | 2026-01-25 | Server-generated fields, not client input |
-| ImportResult uses optional fields | 2026-01-25 | Accommodate partial extraction results |
-| z.number() + valueAsNumber | 2026-01-25 | Zod 4 + @hookform/resolvers compatibility |
-| useFieldArray object wrapper | 2026-01-25 | ingredienser as {value}[] internally, string[] externally |
-| Button-triggered URL import | 2026-01-25 | Not auto on paste per user preference in CONTEXT.md |
-| 30-second import timeout | 2026-01-25 | Prevents hanging on slow/stuck n8n workflows |
-| Discriminated union state | 2026-01-25 | Clear type narrowing for idle/loading/error states |
-| kilde field for URL detection | 2026-01-25 | Use existing kilde field from ImportResult to detect URLs in images |
-| Android camera workaround | 2026-01-25 | accept="image/*,application/pdf" fixes Android 14/15 Chrome bug |
-| Airtable optional fields | 2026-01-25 | favorit/tags are optional; use ?? false and ?? [] when consuming |
-| Partial update API pattern | 2026-01-25 | /opdater endpoint accepts {opskriftId, fields: {...}} for field updates |
-| FavoriteButton callback pattern | 2026-01-25 | onToggleFavorite prop for integration flexibility |
-| Heart pulse on favorite only | 2026-01-25 | Animation triggers only when adding favorite, not removing |
-| shouldFilter={false} on Command | 2026-01-25 | Manual filtering to exclude current tags from suggestions |
-| Button trigger for TagInput | 2026-01-25 | Clearer UX than direct input for tag autocomplete |
-| Olive color for tags | 2026-01-25 | Visual distinction from other badges, earth tone palette |
-| AND logic for tag filters | 2026-01-25 | Recipe must have ALL selected tags, not ANY |
-| Favorites chip first | 2026-01-25 | Visual prominence at start of FilterBar |
-| X button in search | 2026-01-25 | Quick clear search text, separate from global clear |
-
-## Future Feature Requests
+## Future Feature Requests (From v2 Development)
 
 | Feature | Source | Priority | Notes |
 |---------|--------|----------|-------|
-| Group shopping list by category | User feedback 02-05 | Low | Requires schema change (add category to ingredients), out of v2 scope |
-| Add meal ingredients to shopping list | User feedback 02-04 | Medium | One-click add all ingredients from a meal to indkobsliste |
-| Recipe images instead of letter placeholder | User feedback 02-06 | Low | Requires schema change (add image to opskrifter), consider for Phase 4 |
+| Group shopping list by category | User feedback 02-05 | Low | Requires schema change |
+| Add meal ingredients to shopping list | User feedback 02-04 | Medium | One-click add ingredients |
+| Drag & drop on ugeplan | Out of Scope | Medium | v2.1 candidate |
+| AI madforslag | Out of Scope | Low | Requires research |
 
 ## Session Continuity
 
 **Last session:** 2026-01-25
-**Stopped at:** Milestone v2 complete
+**Stopped at:** v2.0 milestone complete and archived
 **Resume file:** None
 
 ## Context for Resume
 
 Hvis du vender tilbage til dette projekt:
 1. Laes PROJECT.md for overblik
-2. Laes ROADMAP.md for fase-struktur
-3. Check denne fil for current phase
-4. Koer `/gsd:progress` for naeste skridt
+2. Laes MILESTONES.md for shipped versions
+3. Koer `/gsd:new-milestone` for at starte naeste milestone
 
-Next step: Run `/gsd:audit-milestone` to verify E2E flows before archiving
+Next step: `/gsd:new-milestone` to start v2.1 planning
 
 ---
 *State initialized: 2025-01-24*
-*Last updated: 2026-01-25*
+*Last updated: 2026-01-25 after v2.0 milestone*
