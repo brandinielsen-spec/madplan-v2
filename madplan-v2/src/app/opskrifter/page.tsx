@@ -4,11 +4,13 @@ import { useState, useMemo } from 'react'
 import { AppShell } from '@/components/layout/app-shell'
 import { RecipeCard } from '@/components/opskrifter/recipe-card'
 import { RecipeListItem } from '@/components/opskrifter/recipe-list-item'
+import { FilterBar } from '@/components/opskrifter/filter-bar'
+import { EmptyState } from '@/components/opskrifter/empty-state'
 import { Input } from '@/components/ui/input'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent } from '@/components/ui/card'
-import { Search, LayoutGrid, List } from 'lucide-react'
+import { Search, LayoutGrid, List, X } from 'lucide-react'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
 import { useEjere } from '@/hooks/use-ejere'
 
@@ -17,6 +19,8 @@ type ViewMode = 'cards' | 'list'
 export default function OpskrifterPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('cards')
   const [search, setSearch] = useState('')
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
 
   // TODO: ejerId from user context - for now use first ejer
   const { ejere, isLoading: ejereLoading } = useEjere()
@@ -26,23 +30,57 @@ export default function OpskrifterPage() {
     opskrifter,
     isLoading: opskrifterLoading,
     isError,
+    allTags,
+    toggleFavorite,
   } = useOpskrifter(ejerId)
 
-  // Filter recipes by search
+  // Filter recipes by search, tags, and favorites
   const filteredOpskrifter = useMemo(() => {
-    if (!search.trim()) return opskrifter
-    const searchLower = search.toLowerCase()
-    return opskrifter.filter((o) =>
-      o.titel.toLowerCase().includes(searchLower)
+    let result = opskrifter
+
+    // Search filter (title only)
+    if (search.trim()) {
+      const searchLower = search.toLowerCase()
+      result = result.filter((o) =>
+        o.titel.toLowerCase().includes(searchLower)
+      )
+    }
+
+    // Tag filter (AND logic - must have ALL selected tags)
+    if (selectedTags.length > 0) {
+      result = result.filter((o) =>
+        selectedTags.every((tag) => (o.tags ?? []).includes(tag))
+      )
+    }
+
+    // Favorites filter
+    if (showFavoritesOnly) {
+      result = result.filter((o) => o.favorit === true)
+    }
+
+    return result
+  }, [opskrifter, search, selectedTags, showFavoritesOnly])
+
+  const handleTagToggle = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag)
+        ? prev.filter((t) => t !== tag)
+        : [...prev, tag]
     )
-  }, [opskrifter, search])
+  }
+
+  const handleClearFilters = () => {
+    setSearch('')
+    setSelectedTags([])
+    setShowFavoritesOnly(false)
+  }
 
   const isLoading = ejereLoading || opskrifterLoading
 
   return (
     <AppShell title="Opskrifter">
       {/* Search and view toggle */}
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2 mb-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -50,8 +88,17 @@ export default function OpskrifterPage() {
             placeholder="Soeg i opskrifter..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9"
+            className="pl-9 pr-9"
           />
+          {search && (
+            <button
+              onClick={() => setSearch('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              aria-label="Ryd soegning"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
         </div>
         <ToggleGroup
           type="single"
@@ -66,6 +113,17 @@ export default function OpskrifterPage() {
             <List className="h-4 w-4" />
           </ToggleGroupItem>
         </ToggleGroup>
+      </div>
+
+      {/* Filter bar with favorites and tags */}
+      <div className="mb-4">
+        <FilterBar
+          allTags={allTags}
+          selectedTags={selectedTags}
+          onTagToggle={handleTagToggle}
+          showFavoritesOnly={showFavoritesOnly}
+          onFavoritesToggle={() => setShowFavoritesOnly((prev) => !prev)}
+        />
       </div>
 
       {isLoading ? (
@@ -90,28 +148,30 @@ export default function OpskrifterPage() {
           </CardContent>
         </Card>
       ) : filteredOpskrifter.length === 0 ? (
-        <Card>
-          <CardContent className="py-8 text-center text-muted-foreground">
-            {search ? (
-              <p>Ingen opskrifter matcher "{search}"</p>
-            ) : (
-              <>
-                <p>Ingen opskrifter endnu</p>
-                <p className="text-sm mt-1">Tilfoej opskrifter fra Tilfoej-fanen</p>
-              </>
-            )}
-          </CardContent>
-        </Card>
+        <EmptyState
+          search={search}
+          hasTagFilters={selectedTags.length > 0}
+          hasFavoriteFilter={showFavoritesOnly}
+          onClearFilters={handleClearFilters}
+        />
       ) : viewMode === 'cards' ? (
         <div className="grid grid-cols-2 gap-3 pb-4">
           {filteredOpskrifter.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              onToggleFavorite={() => toggleFavorite(recipe.id)}
+            />
           ))}
         </div>
       ) : (
         <Card className="divide-y divide-sand-200">
           {filteredOpskrifter.map((recipe) => (
-            <RecipeListItem key={recipe.id} recipe={recipe} />
+            <RecipeListItem
+              key={recipe.id}
+              recipe={recipe}
+              onToggleFavorite={() => toggleFavorite(recipe.id)}
+            />
           ))}
         </Card>
       )}
