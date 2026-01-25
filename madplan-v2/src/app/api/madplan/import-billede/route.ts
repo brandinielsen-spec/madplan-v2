@@ -48,7 +48,8 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await response.json()
-    return NextResponse.json(result.data ?? result)
+    // Pass through n8n response as-is (includes success, data, error)
+    return NextResponse.json(result)
   } catch (error) {
     console.error('POST /api/madplan/import-billede error:', error)
     return NextResponse.json(
