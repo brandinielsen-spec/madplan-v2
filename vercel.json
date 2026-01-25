@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd madplan-v2 && npm run build",
+  "outputDirectory": "madplan-v2/.next",
+  "installCommand": "cd madplan-v2 && npm install",
+  "framework": "nextjs"
+}
