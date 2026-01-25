@@ -2,13 +2,15 @@
 
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
+import { FavoriteButton } from '@/components/opskrifter/favorite-button'
 import type { Opskrift } from '@/lib/types'
 
 interface RecipeListItemProps {
   recipe: Opskrift
+  onToggleFavorite?: () => void
 }
 
-export function RecipeListItem({ recipe }: RecipeListItemProps) {
+export function RecipeListItem({ recipe, onToggleFavorite }: RecipeListItemProps) {
   return (
     <Link
       href={`/opskrifter/${recipe.id}`}
@@ -40,6 +42,14 @@ export function RecipeListItem({ recipe }: RecipeListItemProps) {
           {recipe.portioner} portioner
         </p>
       </div>
+
+      {onToggleFavorite && (
+        <FavoriteButton
+          isFavorite={recipe.favorit ?? false}
+          onToggle={onToggleFavorite}
+          size="sm"
+        />
+      )}
 
       <ChevronRight className="h-5 w-5 text-muted-foreground flex-shrink-0" />
     </Link>

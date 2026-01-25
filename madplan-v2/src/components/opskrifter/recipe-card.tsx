@@ -2,33 +2,45 @@
 
 import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
+import { FavoriteButton } from '@/components/opskrifter/favorite-button'
 import type { Opskrift } from '@/lib/types'
 
 interface RecipeCardProps {
   recipe: Opskrift
+  onToggleFavorite?: () => void
 }
 
-export function RecipeCard({ recipe }: RecipeCardProps) {
+export function RecipeCard({ recipe, onToggleFavorite }: RecipeCardProps) {
   return (
     <Link href={`/opskrifter/${recipe.id}`}>
       <Card className="overflow-hidden hover:ring-2 hover:ring-terracotta-300 transition-shadow cursor-pointer">
         {/* Show image if available, otherwise placeholder */}
-        {recipe.billedeUrl ? (
-          <div className="aspect-[4/3] overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={recipe.billedeUrl}
-              alt={recipe.titel}
-              className="w-full h-full object-cover"
+        <div className="relative">
+          {recipe.billedeUrl ? (
+            <div className="aspect-[4/3] overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={recipe.billedeUrl}
+                alt={recipe.titel}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="aspect-[4/3] bg-gradient-to-br from-olive-200 to-sand-200 flex items-center justify-center">
+              <span className="text-4xl text-olive-600/30 font-heading">
+                {recipe.titel.charAt(0).toUpperCase()}
+              </span>
+            </div>
+          )}
+          {onToggleFavorite && (
+            <FavoriteButton
+              isFavorite={recipe.favorit ?? false}
+              onToggle={onToggleFavorite}
+              className="absolute top-2 right-2 z-10"
+              size="sm"
             />
-          </div>
-        ) : (
-          <div className="aspect-[4/3] bg-gradient-to-br from-olive-200 to-sand-200 flex items-center justify-center">
-            <span className="text-4xl text-olive-600/30 font-heading">
-              {recipe.titel.charAt(0).toUpperCase()}
-            </span>
-          </div>
-        )}
+          )}
+        </div>
         <CardContent className="p-3">
           <h3 className="font-medium text-foreground truncate">
             {recipe.titel}

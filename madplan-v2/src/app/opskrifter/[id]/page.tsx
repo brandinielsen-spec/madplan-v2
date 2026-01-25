@@ -6,12 +6,15 @@ import { AppShell } from '@/components/layout/app-shell'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { FavoriteButton } from '@/components/opskrifter/favorite-button'
+import { TagChip } from '@/components/opskrifter/tag-chip'
+import { TagInput } from '@/components/opskrifter/tag-input'
 import { ArrowLeft, Trash2 } from 'lucide-react'
 import Link from 'next/link'
-import useSWR, { mutate } from 'swr'
+import { mutate } from 'swr'
 import { toast } from 'sonner'
-import type { Opskrift } from '@/lib/types'
 import { useEjere } from '@/hooks/use-ejere'
+import { useOpskrifter } from '@/hooks/use-opskrifter'
 
 export default function OpskriftDetailPage() {
   const params = useParams()
@@ -24,14 +27,25 @@ export default function OpskriftDetailPage() {
   const { ejere, isLoading: ejereLoading } = useEjere()
   const ejerId = ejere[0]?.id ?? null
 
-  // Fetch single recipe - for now, fetch all and filter
-  // Could optimize with dedicated endpoint later
-  const { data: opskrifter, isLoading: opskrifterLoading } = useSWR<Opskrift[]>(
-    ejerId ? `/api/madplan/opskrifter?ejerId=${ejerId}` : null
-  )
+  // Use the opskrifter hook which provides toggleFavorite, allTags, updateTags
+  const { opskrifter, isLoading: opskrifterLoading, toggleFavorite, allTags, updateTags } = useOpskrifter(ejerId)
 
-  const opskrift = opskrifter?.find((o) => o.id === opskriftId)
+  const opskrift = opskrifter.find((o) => o.id === opskriftId)
   const isLoading = ejereLoading || opskrifterLoading
+
+  const handleAddTag = (tag: string) => {
+    if (!opskrift) return
+    const currentTags = opskrift.tags ?? []
+    if (!currentTags.includes(tag)) {
+      updateTags(opskrift.id, [...currentTags, tag])
+    }
+  }
+
+  const handleRemoveTag = (tag: string) => {
+    if (!opskrift) return
+    const currentTags = opskrift.tags ?? []
+    updateTags(opskrift.id, currentTags.filter((t) => t !== tag))
+  }
 
   const handleDelete = async () => {
     if (!opskriftId) return
@@ -90,9 +104,15 @@ export default function OpskriftDetailPage() {
       ) : (
         <div className="space-y-4 pb-4">
           {/* Title and portions */}
-          <div>
-            <h1 className="text-2xl font-heading font-bold">{opskrift.titel}</h1>
-            <p className="text-muted-foreground">{opskrift.portioner} portioner</p>
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <h1 className="text-2xl font-heading font-bold">{opskrift.titel}</h1>
+              <p className="text-muted-foreground">{opskrift.portioner} portioner</p>
+            </div>
+            <FavoriteButton
+              isFavorite={opskrift.favorit ?? false}
+              onToggle={() => toggleFavorite(opskriftId)}
+            />
           </div>
 
           {/* Recipe image if available */}
@@ -149,6 +169,25 @@ export default function OpskriftDetailPage() {
               </a>
             </div>
           )}
+
+          {/* Tags section */}
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-muted-foreground">Tags</h3>
+            <div className="flex flex-wrap gap-2 items-center">
+              {(opskrift.tags ?? []).map((tag) => (
+                <TagChip
+                  key={tag}
+                  tag={tag}
+                  onRemove={() => handleRemoveTag(tag)}
+                />
+              ))}
+              <TagInput
+                existingTags={allTags}
+                currentTags={opskrift.tags ?? []}
+                onAddTag={handleAddTag}
+              />
+            </div>
+          </div>
 
           {/* Delete button */}
           <div className="pt-4 border-t">
