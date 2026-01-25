@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
 import type { Indkoebspost } from '@/lib/types'
@@ -23,6 +24,8 @@ async function addItem(
 }
 
 export function useIndkobsliste(ejerId: string | null, aar: number, uge: number) {
+  const [isClearing, setIsClearing] = useState(false)
+
   const key = ejerId
     ? `/api/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`
     : null
@@ -112,6 +115,32 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
 
     addItems,
 
+    clearAll: async () => {
+      if (!ejerId) throw new Error('No owner selected')
+      setIsClearing(true)
+      try {
+        // Optimistic update - clear the list immediately
+        await mutate(
+          async () => {
+            const res = await fetch(
+              `/api/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`,
+              { method: 'DELETE' }
+            )
+            if (!res.ok) throw new Error('Failed to clear list')
+            return []
+          },
+          {
+            optimisticData: [],
+            rollbackOnError: true,
+            revalidate: false,
+          }
+        )
+      } finally {
+        setIsClearing(false)
+      }
+    },
+
     isAdding,
+    isClearing,
   }
 }
