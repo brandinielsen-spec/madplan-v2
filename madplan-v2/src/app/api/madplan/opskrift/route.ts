@@ -73,3 +73,59 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  if (!N8N_BASE) {
+    return NextResponse.json(
+      { error: 'N8N_WEBHOOK_URL not configured' },
+      { status: 500 }
+    )
+  }
+
+  let body: { opskriftId?: string }
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json(
+      { error: 'Invalid JSON body' },
+      { status: 400 }
+    )
+  }
+
+  const { opskriftId } = body
+
+  if (!opskriftId) {
+    return NextResponse.json(
+      { error: 'Missing required parameter: opskriftId' },
+      { status: 400 }
+    )
+  }
+
+  try {
+    const response = await fetch(
+      `${N8N_BASE}/madplan/opskrift/slet`,
+      {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ opskriftId }),
+        cache: 'no-store',
+      }
+    )
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: 'Upstream error' },
+        { status: response.status }
+      )
+    }
+
+    const result = await response.json()
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error('DELETE /api/madplan/opskrift error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
