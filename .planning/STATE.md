@@ -1,7 +1,7 @@
 # Project State: Madplan v2
 
 **Current Phase:** 5 (Organization)
-**Status:** In progress (Plan 3/5 complete)
+**Status:** In progress (Plan 4/5 complete)
 **Last Updated:** 2026-01-25
 
 ## Phase Progress
@@ -19,7 +19,7 @@
 **Phase 5: Organization** (IN PROGRESS)
 - Goal: Brugere kan organisere og finde opskrifter nemt
 - Requirements: ORG-01, ORG-02, ORG-03, ORG-04, ORG-05
-- Status: Plan 3/5 complete (Tag Management)
+- Status: Plan 4/5 complete (Filtering UI)
 
 **Progress:**
 
@@ -28,8 +28,8 @@ Phase 1: [##########] 100%
 Phase 2: [##########] 100%
 Phase 3: [##########] 100%
 Phase 4: [##########] 100%
-Phase 5: [######....] 60%
-Overall:  [#########.] 92%
+Phase 5: [########..] 80%
+Overall:  [#########.] 96%
 ```
 
 ## Session Log
@@ -64,6 +64,7 @@ Overall:  [#########.] 92%
 | 2026-01-25 | Plan 05-01 executed | Types, 2 API routes, CSS animation, Popover component |
 | 2026-01-25 | Plan 05-02 executed | FavoriteButton, toggleFavorite hook, card/list/detail integration |
 | 2026-01-25 | Plan 05-03 executed | TagChip, TagInput, allTags/updateTags hook, detail page tags |
+| 2026-01-25 | Plan 05-04 executed | FilterBar, EmptyState, complete search+tags+favorites filtering |
 
 ## Blockers
 
@@ -110,6 +111,9 @@ Overall:  [#########.] 92%
 | shouldFilter={false} on Command | 2026-01-25 | Manual filtering to exclude current tags from suggestions |
 | Button trigger for TagInput | 2026-01-25 | Clearer UX than direct input for tag autocomplete |
 | Olive color for tags | 2026-01-25 | Visual distinction from other badges, earth tone palette |
+| AND logic for tag filters | 2026-01-25 | Recipe must have ALL selected tags, not ANY |
+| Favorites chip first | 2026-01-25 | Visual prominence at start of FilterBar |
+| X button in search | 2026-01-25 | Quick clear search text, separate from global clear |
 
 ## Future Feature Requests
 
@@ -122,7 +126,7 @@ Overall:  [#########.] 92%
 ## Session Continuity
 
 **Last session:** 2026-01-25
-**Stopped at:** Completed 05-03-PLAN.md
+**Stopped at:** Completed 05-04-PLAN.md
 **Resume file:** None
 
 ## Context for Resume
@@ -133,7 +137,7 @@ Hvis du vender tilbage til dette projekt:
 3. Check denne fil for current phase
 4. Koer `/gsd:progress` for naeste skridt
 
-Next step: Execute 05-04-PLAN.md (Filtering UI)
+Next step: Execute 05-05-PLAN.md (Sort Functionality)
 
 ---
 *State initialized: 2025-01-24*
