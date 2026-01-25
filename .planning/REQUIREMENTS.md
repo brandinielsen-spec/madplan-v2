@@ -41,22 +41,22 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 - [x] **UIX-05**: Mobil-first responsivt design
 
 ### Smart Import
-- [ ] **IMP-01**: Import opskrift fra URL med auto-udtrækning
-- [ ] **IMP-02**: Import opskrift fra billede med OCR
-- [ ] **IMP-03**: Detect URL i billede og hent derfra i stedet
-- [ ] **IMP-04**: Gem opskriftsbillede hvis tilgængeligt fra URL
-- [ ] **IMP-05**: Preview importeret opskrift før gem
-- [ ] **IMP-06**: Rediger importeret data før gem
+- [x] **IMP-01**: Import opskrift fra URL med auto-udtrækning
+- [x] **IMP-02**: Import opskrift fra billede med OCR
+- [x] **IMP-03**: Detect URL i billede og hent derfra i stedet
+- [x] **IMP-04**: Gem opskriftsbillede hvis tilgængeligt fra URL
+- [x] **IMP-05**: Preview importeret opskrift før gem
+- [x] **IMP-06**: Rediger importeret data før gem
 
 ### Organisering
-- [ ] **ORG-01**: Favorit-markering på opskrifter
-- [ ] **ORG-02**: Tags på opskrifter (bruger-definerede)
-- [ ] **ORG-03**: Søg i opskrifter (titel)
-- [ ] **ORG-04**: Filter opskrifter på tags
-- [ ] **ORG-05**: Filter opskrifter på favoritter
+- [x] **ORG-01**: Favorit-markering på opskrifter
+- [x] **ORG-02**: Tags på opskrifter (bruger-definerede)
+- [x] **ORG-03**: Søg i opskrifter (titel)
+- [x] **ORG-04**: Filter opskrifter på tags
+- [x] **ORG-05**: Filter opskrifter på favoritter
 
 ### n8n Workflows
-- [ ] **N8N-01**: Alle workflows versioneres med inkrementelt nummer (1, 2, 3...) ved ændringer
+- [x] **N8N-01**: Alle workflows versioneres med inkrementelt nummer (1, 2, 3...) ved ændringer
 
 ## v2.1 Requirements (Deferred)
 
@@ -100,18 +100,18 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 | UIX-03 | Phase 2: Core Data Flow | Complete |
 | UIX-04 | Phase 3: PWA Enhancement | Complete |
 | UIX-05 | Phase 1: Foundation | Complete |
-| IMP-01 | Phase 4: Smart Import | Pending |
-| IMP-02 | Phase 4: Smart Import | Pending |
-| IMP-03 | Phase 4: Smart Import | Pending |
-| IMP-04 | Phase 4: Smart Import | Pending |
-| IMP-05 | Phase 4: Smart Import | Pending |
-| IMP-06 | Phase 4: Smart Import | Pending |
-| ORG-01 | Phase 5: Organization | Pending |
-| ORG-02 | Phase 5: Organization | Pending |
-| ORG-03 | Phase 5: Organization | Pending |
-| ORG-04 | Phase 5: Organization | Pending |
-| ORG-05 | Phase 5: Organization | Pending |
-| N8N-01 | Phase 4: Smart Import | Pending |
+| IMP-01 | Phase 4: Smart Import | Complete |
+| IMP-02 | Phase 4: Smart Import | Complete |
+| IMP-03 | Phase 4: Smart Import | Complete |
+| IMP-04 | Phase 4: Smart Import | Complete |
+| IMP-05 | Phase 4: Smart Import | Complete |
+| IMP-06 | Phase 4: Smart Import | Complete |
+| ORG-01 | Phase 5: Organization | Complete |
+| ORG-02 | Phase 5: Organization | Complete |
+| ORG-03 | Phase 5: Organization | Complete |
+| ORG-04 | Phase 5: Organization | Complete |
+| ORG-05 | Phase 5: Organization | Complete |
+| N8N-01 | Phase 4: Smart Import | Complete |
 
 **Coverage:**
 - v2 requirements: 17 total
@@ -120,4 +120,4 @@ Arvet fra v1 — allerede fungerende funktionalitet.
 
 ---
 *Requirements defined: 2025-01-24*
-*Last updated: 2026-01-24 after Phase 3 completion*
+*Last updated: 2026-01-25 after Phase 5 completion*

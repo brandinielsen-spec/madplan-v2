@@ -177,10 +177,12 @@ Plans:
 **Plans:** 4 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Foundation: types extension, API routes, CSS animation, Popover
-- [ ] 05-02-PLAN.md — Favorite feature: FavoriteButton, hook extension, integration
-- [ ] 05-03-PLAN.md — Tag management: TagChip, TagInput, detail page editing
-- [ ] 05-04-PLAN.md — Filter bar: FilterBar, EmptyState, Opskrifter page filtering
+- [x] 05-01-PLAN.md — Foundation: types extension, API routes, CSS animation, Popover
+- [x] 05-02-PLAN.md — Favorite feature: FavoriteButton, hook extension, integration
+- [x] 05-03-PLAN.md — Tag management: TagChip, TagInput, detail page editing
+- [x] 05-04-PLAN.md — Filter bar: FilterBar, EmptyState, Opskrifter page filtering
+
+**Completed:** 2026-01-25
 
 **Requirements:**
 - ORG-01: Favorit-markering pa opskrifter
