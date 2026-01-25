@@ -20,6 +20,33 @@ export interface Opskrift {
   ingredienser: string[] // Array of ingredient strings
   fremgangsmaade: string
   oprettetDato: string // ISO date string
+  billedeUrl?: string // URL to recipe image
+  kilde?: string // Source URL where recipe was imported from
+}
+
+// Input for creating a new recipe
+export interface OpskriftInput {
+  ejerId: string
+  titel: string
+  portioner: number
+  ingredienser: string[]
+  fremgangsmaade: string
+  billedeUrl?: string
+  kilde?: string
+}
+
+// Import response from n8n workflow
+export interface ImportResult {
+  success: boolean
+  data?: {
+    titel: string
+    portioner?: number
+    ingredienser: string[]
+    fremgangsmaade?: string
+    billedeUrl?: string
+    kilde?: string
+  }
+  error?: string
 }
 
 // Day entry in week plan
