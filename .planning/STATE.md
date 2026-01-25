@@ -1,7 +1,7 @@
 # Project State: Madplan v2
 
 **Current Phase:** 5 (Organization)
-**Status:** Pending
+**Status:** In progress (Plan 1/5 complete)
 **Last Updated:** 2026-01-25
 
 ## Phase Progress
@@ -12,14 +12,14 @@
 | 2 | Core Data Flow | Complete | 2026-01-24 | 2026-01-24 |
 | 3 | PWA Enhancement | Complete | 2026-01-24 | 2026-01-24 |
 | 4 | Smart Import | Complete | 2026-01-25 | 2026-01-25 |
-| 5 | Organization | Pending | -- | -- |
+| 5 | Organization | In progress | 2026-01-25 | -- |
 
 ## Current Focus
 
-**Phase 5: Organization** (PENDING)
+**Phase 5: Organization** (IN PROGRESS)
 - Goal: Brugere kan organisere og finde opskrifter nemt
 - Requirements: ORG-01, ORG-02, ORG-03, ORG-04, ORG-05
-- Status: Not started
+- Status: Plan 1/5 complete (Foundation)
 
 **Progress:**
 
@@ -28,7 +28,8 @@ Phase 1: [##########] 100%
 Phase 2: [##########] 100%
 Phase 3: [##########] 100%
 Phase 4: [##########] 100%
-Overall:  [########..] 80%
+Phase 5: [##........] 20%
+Overall:  [########..] 84%
 ```
 
 ## Session Log
@@ -60,6 +61,7 @@ Overall:  [########..] 80%
 | 2026-01-25 | Plan 04-05 executed | Tilfoej page integration with all import flows |
 | 2026-01-25 | n8n workflow fixed | Added BilledeUrl and Kilde fields to Opret Opskrift v10 |
 | 2026-01-25 | Phase 4 complete | All 5 plans completed, IMP-01 to IMP-06 delivered |
+| 2026-01-25 | Plan 05-01 executed | Types, 2 API routes, CSS animation, Popover component |
 
 ## Blockers
 
@@ -99,6 +101,8 @@ Overall:  [########..] 80%
 | Discriminated union state | 2026-01-25 | Clear type narrowing for idle/loading/error states |
 | kilde field for URL detection | 2026-01-25 | Use existing kilde field from ImportResult to detect URLs in images |
 | Android camera workaround | 2026-01-25 | accept="image/*,application/pdf" fixes Android 14/15 Chrome bug |
+| Airtable optional fields | 2026-01-25 | favorit/tags are optional; use ?? false and ?? [] when consuming |
+| Partial update API pattern | 2026-01-25 | /opdater endpoint accepts {opskriftId, fields: {...}} for field updates |
 
 ## Future Feature Requests
 
@@ -111,7 +115,7 @@ Overall:  [########..] 80%
 ## Session Continuity
 
 **Last session:** 2026-01-25
-**Stopped at:** Phase 4 complete
+**Stopped at:** Completed 05-01-PLAN.md
 **Resume file:** None
 
 ## Context for Resume
@@ -122,7 +126,7 @@ Hvis du vender tilbage til dette projekt:
 3. Check denne fil for current phase
 4. Koer `/gsd:progress` for naeste skridt
 
-Next step: Plan Phase 5 (Organization) with `/gsd:plan-phase 5`
+Next step: Execute 05-02-PLAN.md (Favorite Toggle)
 
 ---
 *State initialized: 2025-01-24*
