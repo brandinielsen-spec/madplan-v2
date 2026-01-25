@@ -134,6 +134,17 @@ Plans:
 
 **Goal:** Brugere kan importere opskrifter fra URL'er og billeder
 
+**Plans:** 5 plans
+
+Plans:
+- [x] 04-01-PLAN.md — Foundation: types, form libs, API routes
+- [x] 04-02-PLAN.md — Recipe form component with validation
+- [x] 04-03-PLAN.md — URL import form with loading/error states
+- [x] 04-04-PLAN.md — Image import with camera/gallery and URL detection
+- [x] 04-05-PLAN.md — Tilfoej page integration (wires all components)
+
+**Completed:** 2026-01-25
+
 **Requirements:**
 - IMP-01: Import opskrift fra URL med auto-udtraekning
 - IMP-02: Import opskrift fra billede med OCR

@@ -1,7 +1,7 @@
 # Project State: Madplan v2
 
-**Current Phase:** 4 (Smart Import)
-**Status:** In Progress
+**Current Phase:** 5 (Organization)
+**Status:** Pending
 **Last Updated:** 2026-01-25
 
 ## Phase Progress
@@ -11,24 +11,15 @@
 | 1 | Foundation | Complete | 2026-01-24 | 2026-01-24 |
 | 2 | Core Data Flow | Complete | 2026-01-24 | 2026-01-24 |
 | 3 | PWA Enhancement | Complete | 2026-01-24 | 2026-01-24 |
-| 4 | Smart Import | In Progress | 2026-01-25 | -- |
+| 4 | Smart Import | Complete | 2026-01-25 | 2026-01-25 |
 | 5 | Organization | Pending | -- | -- |
 
 ## Current Focus
 
-**Phase 4: Smart Import** (IN PROGRESS)
-- Goal: Import recipes from URLs, images, and manual entry
-- Requirements: IMP-01, IMP-02, IMP-03, IMP-04, IMP-05
-- Status: Plans 1-4 complete (foundation + recipe form + URL import + image import)
-
-**Plan Progress:**
-| Plan | Name | Status |
-|------|------|--------|
-| 04-01 | Foundation Setup | Complete |
-| 04-02 | Recipe Form | Complete |
-| 04-03 | URL Import Flow | Complete |
-| 04-04 | Image Import | Complete |
-| 04-05 | Add Page Integration | Pending |
+**Phase 5: Organization** (PENDING)
+- Goal: Brugere kan organisere og finde opskrifter nemt
+- Requirements: ORG-01, ORG-02, ORG-03, ORG-04, ORG-05
+- Status: Not started
 
 **Progress:**
 
@@ -36,7 +27,7 @@
 Phase 1: [##########] 100%
 Phase 2: [##########] 100%
 Phase 3: [##########] 100%
-Phase 4: [########..] 80%
+Phase 4: [##########] 100%
 Overall:  [########..] 80%
 ```
 
@@ -66,6 +57,9 @@ Overall:  [########..] 80%
 | 2026-01-25 | Plan 04-02 executed | RecipeForm component with validation |
 | 2026-01-25 | Plan 04-03 executed | UrlImportForm with validation, timeout, error states |
 | 2026-01-25 | Plan 04-04 executed | ImageImport with camera/gallery, preview, URL detection |
+| 2026-01-25 | Plan 04-05 executed | Tilfoej page integration with all import flows |
+| 2026-01-25 | n8n workflow fixed | Added BilledeUrl and Kilde fields to Opret Opskrift v10 |
+| 2026-01-25 | Phase 4 complete | All 5 plans completed, IMP-01 to IMP-06 delivered |
 
 ## Blockers
 
@@ -117,7 +111,7 @@ Overall:  [########..] 80%
 ## Session Continuity
 
 **Last session:** 2026-01-25
-**Stopped at:** Completed 04-04-PLAN.md (Image Import)
+**Stopped at:** Phase 4 complete
 **Resume file:** None
 
 ## Context for Resume
@@ -128,7 +122,7 @@ Hvis du vender tilbage til dette projekt:
 3. Check denne fil for current phase
 4. Koer `/gsd:progress` for naeste skridt
 
-Next step: Execute 04-05-PLAN.md (Add Page Integration)
+Next step: Plan Phase 5 (Organization) with `/gsd:plan-phase 5`
 
 ---
 *State initialized: 2025-01-24*
