@@ -80,6 +80,21 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
     }
   }
 
+  // Add multiple items at once (for recipe ingredients)
+  const addItems = async (navne: string[]) => {
+    if (!ejerId) throw new Error('No owner selected')
+    // Add items sequentially to avoid race conditions
+    for (const navn of navne) {
+      await fetch('/api/madplan/indkob', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ejerId, aar, uge, navn }),
+      })
+    }
+    // Revalidate after all items added
+    await mutate()
+  }
+
   return {
     items: sortedItems,
     isLoading,
@@ -94,6 +109,8 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
       if (!ejerId) throw new Error('No owner selected')
       return triggerAdd({ ejerId, aar, uge, navn })
     },
+
+    addItems,
 
     isAdding,
   }

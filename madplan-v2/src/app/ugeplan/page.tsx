@@ -12,6 +12,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useUgeplan } from '@/hooks/use-ugeplan'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
 import { useEjere } from '@/hooks/use-ejere'
+import { useIndkobsliste } from '@/hooks/use-indkobsliste'
+import type { Opskrift } from '@/lib/types'
 import {
   getCurrentWeek,
   getWeekDates,
@@ -64,6 +66,35 @@ export default function UgeplanPage() {
   } = useUgeplan(ejerId, week.aar, week.uge)
 
   const { opskrifter } = useOpskrifter(ejerId)
+
+  // Shopping list hook for adding ingredients
+  const { addItems } = useIndkobsliste(ejerId, week.aar, week.uge)
+
+  // Handle adding ingredients from a recipe to shopping list
+  const handleAddToShoppingList = useCallback(
+    async (opskriftId: string | undefined) => {
+      if (!opskriftId) {
+        toast.error('Ingen opskrift tilknyttet denne ret')
+        return
+      }
+      const recipe = opskrifter.find((o) => o.id === opskriftId)
+      if (!recipe) {
+        toast.error('Kunne ikke finde opskriften')
+        return
+      }
+      if (!recipe.ingredienser || recipe.ingredienser.length === 0) {
+        toast.error('Opskriften har ingen ingredienser')
+        return
+      }
+      try {
+        await addItems(recipe.ingredienser)
+        toast.success(`${recipe.ingredienser.length} ingredienser tilføjet til indkøb`)
+      } catch (error) {
+        toast.error('Kunne ikke tilføje ingredienser')
+      }
+    },
+    [opskrifter, addItems]
+  )
 
   // Handle slide index change from carousel
   const handleSlideChange = useCallback(
@@ -169,6 +200,7 @@ export default function UgeplanPage() {
               currentWeek={week}
               ejerId={ejerId}
               ugeplan={ugeplan}
+              opskrifter={opskrifter}
               isLoading={isLoading}
               isError={ugeplanError}
               isMutating={isMutating}
@@ -178,6 +210,7 @@ export default function UgeplanPage() {
               todayDayIndex={todayDayIndex}
               onAddMeal={handleAddMeal}
               onDeleteMeal={handleDeleteMeal}
+              onAddToShoppingList={handleAddToShoppingList}
             />
           </WeekSlide>
         ))}
@@ -202,6 +235,7 @@ interface WeekContentProps {
   currentWeek: { aar: number; uge: number }
   ejerId: string | null
   ugeplan: ReturnType<typeof useUgeplan>['ugeplan']
+  opskrifter: Opskrift[]
   isLoading: boolean
   isError: boolean
   isMutating: boolean
@@ -211,12 +245,14 @@ interface WeekContentProps {
   todayDayIndex: number
   onAddMeal: (dag: DagNavn) => void
   onDeleteMeal: (dag: DagNavn) => void
+  onAddToShoppingList: (opskriftId: string | undefined) => void
 }
 
 function WeekContent({
   week,
   currentWeek,
   ugeplan,
+  opskrifter,
   isLoading,
   isError,
   isMutating,
@@ -226,6 +262,7 @@ function WeekContent({
   todayDayIndex,
   onAddMeal,
   onDeleteMeal,
+  onAddToShoppingList,
 }: WeekContentProps) {
   // Only show data for the currently selected week
   // Other slides show skeleton or placeholder
@@ -276,16 +313,27 @@ function WeekContent({
           week.uge === todayWeek &&
           index === todayDayIndex
 
+        const entry = ugeplan?.dage?.[dag] ?? null
+        const recipe = entry?.opskriftId
+          ? opskrifter.find((o) => o.id === entry.opskriftId)
+          : undefined
+
         return (
           <DayCard
             key={dag}
             dag={dag}
             dato={formatDayDate(slideWeekDates[index])}
-            entry={ugeplan?.dage?.[dag] ?? null}
+            entry={entry}
             onAdd={() => onAddMeal(dag)}
             onDelete={() => onDeleteMeal(dag)}
+            onAddToShoppingList={
+              entry?.opskriftId
+                ? () => onAddToShoppingList(entry.opskriftId)
+                : undefined
+            }
             isToday={isToday}
             isMutating={isMutating}
+            billedeUrl={recipe?.billedeUrl}
           />
         )
       })}
