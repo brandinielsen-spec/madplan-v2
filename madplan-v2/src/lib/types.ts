@@ -22,6 +22,8 @@ export interface Opskrift {
   oprettetDato: string // ISO date string
   billedeUrl?: string // URL to recipe image
   kilde?: string // Source URL where recipe was imported from
+  favorit?: boolean // Checkbox in Airtable (undefined when unchecked)
+  tags?: string[] // Multi-select in Airtable (undefined when empty)
 }
 
 // Input for creating a new recipe
@@ -33,6 +35,8 @@ export interface OpskriftInput {
   fremgangsmaade: string
   billedeUrl?: string
   kilde?: string
+  favorit?: boolean
+  tags?: string[]
 }
 
 // Import response from n8n workflow
