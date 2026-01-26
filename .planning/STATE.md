@@ -1,7 +1,7 @@
 # Project State: Madplan v2
 
 **Current Milestone:** v2.1 Bug Fixes & Polish
-**Status:** Executing Phase 6
+**Status:** Phase 6 Complete
 **Last Updated:** 2026-01-26
 
 ## Project Reference
@@ -9,22 +9,22 @@
 See: .planning/PROJECT.md (updated 2026-01-26)
 
 **Core value:** Ubesvaeret madplanlaegning med smarte opskrifter
-**Current focus:** Phase 6 - Foundation & Polish
+**Current focus:** Phase 6 - Foundation & Polish (Complete)
 
 ## Current Position
 
 Phase: 6 of 8 (v2.1 phases 6-8)
-Plan: 2 of 2 in phase 6
-Status: Plan 06-02 complete
-Last activity: 2026-01-26 - Completed 06-02-PLAN.md (shopping list source)
+Plan: 2 of 2 in phase 6 (all complete)
+Status: Phase 6 complete
+Last activity: 2026-01-26 - Completed 06-01-PLAN.md (Danish characters + Home navigation)
 
-Progress: [##########] 50% phase 6 (1/2 plans)
+Progress: [##########] 100% phase 6 (2/2 plans)
 
 ## v2.1 Overview
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
-| 6 | Foundation & Polish | 3 | In Progress |
+| 6 | Foundation & Polish | 3 | Complete |
 | 7 | Opskrifter Enhancement | 4 | Pending |
 | 8 | Madplan Enhancement | 4 | Pending |
 
@@ -34,7 +34,7 @@ Progress: [##########] 50% phase 6 (1/2 plans)
 
 | Plan | Name | Status |
 |------|------|--------|
-| 06-01 | Danish characters + Home navigation | Pending |
+| 06-01 | Danish characters + Home navigation | Complete |
 | 06-02 | Shopping list source display | Complete |
 
 ## Decisions (v2.1)
@@ -43,6 +43,8 @@ Progress: [##########] 50% phase 6 (1/2 plans)
 |----------|-------|-----------|
 | kildeNavn as optional property | 06-02 | Allows existing data to work, graceful degradation |
 | "Fra opskrift" fallback text | 06-02 | Display generic text when backend doesn't have recipe name |
+| ASCII in variable names preserved | 06-01 | Only user-facing strings get Danish chars, code stays ASCII |
+| Exact match for home route | 06-01 | Use pathname === "/" to prevent home showing active everywhere |
 
 ## Previous Milestone
 
@@ -61,7 +63,7 @@ See: .planning/MILESTONES.md for full details
 ## Session Continuity
 
 **Last session:** 2026-01-26
-**Stopped at:** Completed 06-02-PLAN.md
+**Stopped at:** Completed Phase 6 (both 06-01 and 06-02)
 **Resume file:** None
 
 ## Context for Resume
@@ -69,11 +71,11 @@ See: .planning/MILESTONES.md for full details
 Hvis du vender tilbage til dette projekt:
 1. Laes PROJECT.md for overblik
 2. Laes ROADMAP.md for fase-struktur
-3. 06-02 er faerdig (shopping list source)
-4. 06-01 mangler stadig (Danish characters + Home icon)
+3. Phase 6 er komplet (Foundation & Polish)
+4. Phase 7 (Opskrifter Enhancement) er naeste
 
-Next step: Execute 06-01 for Danish characters and Home navigation icon
+Next step: Plan Phase 7 (Opskrifter Enhancement) - `/gsd:plan-phase 7`
 
 ---
 *State initialized: 2025-01-24*
-*Last updated: 2026-01-26 after 06-02 completion*
+*Last updated: 2026-01-26 after 06-01 completion*
