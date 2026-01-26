@@ -13,16 +13,14 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Search, LayoutGrid, List, X } from 'lucide-react'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
 import { useEjere } from '@/hooks/use-ejere'
+import { useTagFilterPreference } from '@/hooks/use-tag-filter-preference'
 
 type ViewMode = 'cards' | 'list'
-
-// Tag filter state: 'include' = show only with tag, 'exclude' = hide with tag
-type TagState = 'include' | 'exclude'
 
 export default function OpskrifterPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('cards')
   const [search, setSearch] = useState('')
-  const [tagStates, setTagStates] = useState<Record<string, TagState>>({})
+  const [tagStates, handleTagToggle, clearTagStates] = useTagFilterPreference()
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
 
   // TODO: ejerId from user context - for now use first ejer
@@ -79,27 +77,9 @@ export default function OpskrifterPage() {
     return result
   }, [opskrifter, search, tagStates, showFavoritesOnly])
 
-  // Cycle: none → include → exclude → none
-  const handleTagToggle = (tag: string) => {
-    setTagStates((prev) => {
-      const current = prev[tag]
-      if (!current) {
-        // none → include
-        return { ...prev, [tag]: 'include' }
-      } else if (current === 'include') {
-        // include → exclude
-        return { ...prev, [tag]: 'exclude' }
-      } else {
-        // exclude → none (remove from state)
-        const { [tag]: _, ...rest } = prev
-        return rest
-      }
-    })
-  }
-
   const handleClearFilters = () => {
     setSearch('')
-    setTagStates({})
+    clearTagStates()
     setShowFavoritesOnly(false)
   }
 

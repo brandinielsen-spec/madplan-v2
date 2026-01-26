@@ -73,6 +73,7 @@ export default function TilfoejPage() {
         fremgangsmaade: formData.fremgangsmaade || '',
         billedeUrl: formData.billedeUrl,
         kilde: formData.kilde,
+        tags: ['Hverdag'],
       }
 
       const response = await fetch('/api/madplan/opskrift', {
