@@ -8,6 +8,7 @@ import { AddItemInput } from '@/components/indkob/add-item-input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,10 +20,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Trash2 } from 'lucide-react'
+import { Trash2, Tags, FolderTree } from 'lucide-react'
 import { useIndkobsliste } from '@/hooks/use-indkobsliste'
 import { useEjere } from '@/hooks/use-ejere'
 import { getCurrentWeek, formatWeekLabel } from '@/lib/week-utils'
+import { KATEGORI_LABELS, type IndkoebKategori } from '@/lib/types'
+import { inferKategori } from '@/lib/kategori-utils'
+
+type GroupBy = 'source' | 'category'
 
 export default function IndkobPage() {
   // Use current week for shopping list
@@ -44,15 +49,67 @@ export default function IndkobPage() {
   } = useIndkobsliste(ejerId, aar, uge)
 
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [groupBy, setGroupBy] = useState<GroupBy>('source')
 
-  // Split items into checked and unchecked
-  const { fromRecipes, manual, checked } = useMemo(() => {
+  // Group items based on selected mode
+  const grouped = useMemo(() => {
     const unchecked = items.filter((i) => !i.afkrydset)
     const checked = items.filter((i) => i.afkrydset)
-    const fromRecipes = unchecked.filter((i) => i.kilde === 'ret')
-    const manual = unchecked.filter((i) => i.kilde === 'manuel')
-    return { fromRecipes, manual, checked }
-  }, [items])
+
+    if (groupBy === 'source') {
+      // Group by source: recipes vs manual
+      const fromRecipes = unchecked.filter((i) => i.kilde === 'ret')
+      const manual = unchecked.filter((i) => i.kilde === 'manuel')
+      return {
+        mode: 'source' as const,
+        groups: [
+          { title: 'Fra opskrifter', items: fromRecipes },
+          { title: 'Tilføjet manuelt', items: manual },
+        ],
+        checked,
+      }
+    } else {
+      // Group by category
+      const byCategory: Record<IndkoebKategori, typeof unchecked> = {
+        'frugt-og-groent': [],
+        'mejeri': [],
+        'koed-og-fisk': [],
+        'kolonial': [],
+        'broed': [],
+        'husholdning': [],
+        'andet': [],
+      }
+
+      for (const item of unchecked) {
+        const kategori = inferKategori(item.navn)
+        byCategory[kategori].push(item)
+      }
+
+      // Convert to array of groups, filtering out empty categories
+      const orderedCategories: IndkoebKategori[] = [
+        'frugt-og-groent',
+        'mejeri',
+        'koed-og-fisk',
+        'kolonial',
+        'broed',
+        'husholdning',
+        'andet',
+      ]
+
+      const groups = orderedCategories
+        .filter((cat) => byCategory[cat].length > 0)
+        .map((cat) => ({
+          title: KATEGORI_LABELS[cat],
+          items: byCategory[cat],
+        }))
+
+      return {
+        mode: 'category' as const,
+        groups,
+        checked,
+      }
+    }
+  }, [items, groupBy])
 
   const handleToggle = async (id: string, afkrydset: boolean) => {
     try {
@@ -83,13 +140,34 @@ export default function IndkobPage() {
     }
   }
 
+  const handleGroupByChange = (value: string) => {
+    if (value === 'source' || value === 'category') {
+      setGroupBy(value)
+    }
+  }
+
   const isLoading = ejereLoading || itemsLoading
 
   return (
     <AppShell title="Indkøbsliste">
-      {/* Week indicator */}
-      <div className="py-2 text-sm text-muted-foreground text-center">
-        {formatWeekLabel(aar, uge)}
+      {/* Week indicator and group toggle */}
+      <div className="flex items-center justify-between py-2 mb-2">
+        <span className="text-sm text-muted-foreground">
+          {formatWeekLabel(aar, uge)}
+        </span>
+        <ToggleGroup
+          type="single"
+          value={groupBy}
+          onValueChange={handleGroupByChange}
+          className="border rounded-md"
+        >
+          <ToggleGroupItem value="source" aria-label="Gruppér efter kilde">
+            <Tags className="h-4 w-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="category" aria-label="Gruppér efter kategori">
+            <FolderTree className="h-4 w-4" />
+          </ToggleGroupItem>
+        </ToggleGroup>
       </div>
 
       {/* Add item input - always visible at top */}
@@ -118,24 +196,21 @@ export default function IndkobPage() {
         </Card>
       ) : (
         <div className="space-y-4 pb-4">
-          {/* Unchecked items - from recipes first, then manual */}
-          <CategoryGroup
-            title="Fra opskrifter"
-            items={fromRecipes}
-            onToggle={handleToggle}
-          />
-
-          <CategoryGroup
-            title="Tilføjet manuelt"
-            items={manual}
-            onToggle={handleToggle}
-          />
+          {/* Render groups based on selected mode */}
+          {grouped.groups.map((group) => (
+            <CategoryGroup
+              key={group.title}
+              title={group.title}
+              items={group.items}
+              onToggle={handleToggle}
+            />
+          ))}
 
           {/* Checked items at bottom */}
-          {checked.length > 0 && (
+          {grouped.checked.length > 0 && (
             <CategoryGroup
               title="Købt"
-              items={checked}
+              items={grouped.checked}
               onToggle={handleToggle}
             />
           )}

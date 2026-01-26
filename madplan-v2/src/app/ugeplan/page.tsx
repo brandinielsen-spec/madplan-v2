@@ -351,9 +351,9 @@ function WeekContent({
   if (!isActiveWeek) {
     // Placeholder for non-active slides - show skeleton structure
     return viewMode === 'grid' ? (
-      <div className="space-y-3 pb-4">
+      <div className="grid grid-cols-2 gap-3 pb-4">
         {Array.from({ length: 7 }).map((_, i) => (
-          <Skeleton key={i} className="h-20 w-full" />
+          <Skeleton key={i} className="aspect-[4/3] w-full rounded-lg" />
         ))}
       </div>
     ) : (
@@ -367,9 +367,9 @@ function WeekContent({
 
   if (isLoading) {
     return viewMode === 'grid' ? (
-      <div className="space-y-3">
+      <div className="grid grid-cols-2 gap-3 pb-4">
         {Array.from({ length: 7 }).map((_, i) => (
-          <Skeleton key={i} className="h-20 w-full" />
+          <Skeleton key={i} className="aspect-[4/3] w-full rounded-lg" />
         ))}
       </div>
     ) : (
@@ -428,7 +428,7 @@ function WeekContent({
     })
 
   return viewMode === 'grid' ? (
-    <div className="space-y-3 pb-4">{renderDayItems()}</div>
+    <div className="grid grid-cols-2 gap-3 pb-4">{renderDayItems()}</div>
   ) : (
     <Card className="mb-4">{renderDayItems()}</Card>
   )

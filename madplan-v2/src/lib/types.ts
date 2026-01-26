@@ -77,6 +77,26 @@ export interface Ugeplan {
   }
 }
 
+// Shopping list categories
+export type IndkoebKategori =
+  | 'frugt-og-groent'
+  | 'mejeri'
+  | 'koed-og-fisk'
+  | 'kolonial'
+  | 'broed'
+  | 'husholdning'
+  | 'andet'
+
+export const KATEGORI_LABELS: Record<IndkoebKategori, string> = {
+  'frugt-og-groent': 'Frugt og grønt',
+  'mejeri': 'Mejeri',
+  'koed-og-fisk': 'Kød og fisk',
+  'kolonial': 'Kolonial',
+  'broed': 'Brød',
+  'husholdning': 'Husholdning',
+  'andet': 'Andet',
+}
+
 // Shopping list item
 export interface Indkoebspost {
   id: string

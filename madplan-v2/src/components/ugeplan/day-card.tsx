@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Badge } from '@/components/ui/badge'
 import { Plus, X, ShoppingCart } from 'lucide-react'
 import type { DagEntry, DagNavn } from '@/lib/types'
 import { cn } from '@/lib/utils'
@@ -76,142 +77,150 @@ export function DayCard({
     []
   )
 
-  // Thumbnail component
-  const Thumbnail = () => {
-    if (!hasRet) return null
-    if (billedeUrl) {
-      return (
-        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={billedeUrl}
-            alt={entry?.ret || ''}
-            className="w-full h-full object-cover"
-          />
-        </div>
-      )
-    }
-    return (
-      <div className="w-12 h-12 rounded-lg bg-olive-200 flex items-center justify-center flex-shrink-0">
-        <span className="text-lg font-medium text-olive-700">
+  // Image section with day badge overlay
+  const ImageSection = () => {
+    const imageContent = hasRet && billedeUrl ? (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={billedeUrl}
+        alt={entry?.ret || ''}
+        className="w-full h-full object-cover"
+      />
+    ) : hasRet ? (
+      // Gradient placeholder with first letter when meal exists but no image
+      <div className="w-full h-full bg-gradient-to-br from-olive-200 to-sand-200 flex items-center justify-center">
+        <span className="text-4xl text-olive-600/30 font-heading">
           {entry?.ret?.charAt(0).toUpperCase()}
         </span>
+      </div>
+    ) : (
+      // Empty state - subtle gradient with plus icon
+      <div className="w-full h-full bg-gradient-to-br from-sand-100 to-sand-200 flex items-center justify-center">
+        <Plus className="h-8 w-8 text-sand-400" />
+      </div>
+    )
+
+    return (
+      <div className="relative aspect-[4/3] overflow-hidden">
+        {imageContent}
+        {/* Day badge overlay */}
+        <Badge
+          variant="secondary"
+          className={cn(
+            'absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-foreground shadow-sm',
+            isToday && 'bg-terracotta-500 text-white'
+          )}
+        >
+          {DAG_LABELS[dag]} {dato}
+        </Badge>
+        {/* Action buttons overlay */}
+        <div className="absolute top-2 right-2 flex gap-1">
+          {hasRet && onAddToShoppingList && (
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onAddToShoppingList()
+              }}
+              disabled={isMutating}
+              aria-label={`Tilfoej ingredienser fra ${entry?.ret} til indkoebsliste`}
+              className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-white shadow-sm"
+            >
+              <ShoppingCart className="h-4 w-4" />
+            </Button>
+          )}
+          {hasRet && (
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onDelete()
+              }}
+              disabled={isMutating}
+              aria-label={`Fjern ${entry?.ret} fra ${DAG_LABELS[dag]}`}
+              className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-destructive hover:text-destructive-foreground shadow-sm"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
       </div>
     )
   }
 
-  // Day info (day name, date, recipe title, note)
-  const DayInfo = () => (
-    <div className="flex-1 min-w-0">
-      <div className="flex items-baseline gap-2 mb-1">
-        <span className="font-medium text-foreground">
-          {DAG_LABELS[dag]}
-        </span>
-        <span className="text-sm text-muted-foreground">
-          {dato}
-        </span>
-      </div>
-      {hasRet ? (
-        <>
-          <p className="text-base text-foreground truncate">
-            {entry?.ret}
-          </p>
-          {entry?.note && (
-            <p className="text-sm text-muted-foreground mt-0.5 truncate">
-              {entry.note}
-            </p>
-          )}
-        </>
-      ) : (
-        <p className="text-sm text-muted-foreground italic">
-          Ingen ret planlagt
-        </p>
-      )}
-    </div>
-  )
+  // Wrapper that makes the card clickable
+  const CardWrapper = ({ children }: { children: React.ReactNode }) => {
+    if (hasRet && opskriftId) {
+      return (
+        <Link href={`/opskrifter/${opskriftId}`} className="block">
+          {children}
+        </Link>
+      )
+    }
+    if (!hasRet) {
+      return (
+        <button
+          onClick={onAdd}
+          disabled={isMutating}
+          className="block w-full text-left"
+        >
+          {children}
+        </button>
+      )
+    }
+    return <>{children}</>
+  }
 
   return (
     <Card className={cn(
-      'transition-opacity',
+      'overflow-hidden transition-all',
       isToday && 'ring-2 ring-terracotta-500 ring-offset-2',
-      isMutating && 'opacity-50'
+      isMutating && 'opacity-50',
+      (hasRet && opskriftId) || !hasRet ? 'hover:ring-2 hover:ring-terracotta-300 cursor-pointer' : ''
     )}>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-2">
-          {/* Recipe thumbnail and info - clickable when recipe is linked */}
-          {hasRet && opskriftId ? (
-            <Link
-              href={`/opskrifter/${opskriftId}`}
-              className="flex items-start gap-2 flex-1 min-w-0 hover:opacity-80 transition-opacity"
-            >
-              <Thumbnail />
-              <DayInfo />
-            </Link>
-          ) : (
+      <CardWrapper>
+        <ImageSection />
+        <CardContent className="p-3">
+          {hasRet ? (
             <>
-              <Thumbnail />
-              <DayInfo />
+              <h3 className="font-medium text-foreground truncate">
+                {entry?.ret}
+              </h3>
+              {entry?.note && (
+                <p className="text-sm text-muted-foreground truncate mt-0.5">
+                  {entry.note}
+                </p>
+              )}
             </>
+          ) : (
+            <p className="text-sm text-muted-foreground italic">
+              Tilføj ret
+            </p>
           )}
+        </CardContent>
+      </CardWrapper>
 
-          {/* Action buttons */}
-          <div className="flex items-center gap-1">
-            {hasRet && onAddToShoppingList ? (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onAddToShoppingList}
-                disabled={isMutating}
-                aria-label={`Tilfoej ingredienser fra ${entry?.ret} til indkoebsliste`}
-                className="h-8 w-8 text-muted-foreground hover:text-primary"
-              >
-                <ShoppingCart className="h-4 w-4" />
-              </Button>
-            ) : null}
-
-            {hasRet ? (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onDelete}
-                disabled={isMutating}
-                aria-label={`Fjern ${entry?.ret} fra ${DAG_LABELS[dag]}`}
-                className="h-8 w-8 text-muted-foreground hover:text-destructive"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            ) : null}
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onAdd}
-              disabled={isMutating}
-              aria-label={`Tilfoej ret til ${DAG_LABELS[dag]}`}
-              className="h-8 w-8"
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
+      {/* Note input - only shown when there's a meal */}
+      {hasRet && onNoteChange && (
+        <div className="px-3 pb-3">
+          <Input
+            type="text"
+            value={noteValue}
+            onChange={(e) => setNoteValue(e.target.value)}
+            onBlur={handleNoteBlur}
+            onKeyDown={handleNoteKeyDown}
+            placeholder="Tilfoej note..."
+            maxLength={50}
+            disabled={isMutating}
+            className="h-7 text-sm"
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
-
-        {/* Note input - only shown when there's a meal */}
-        {hasRet && onNoteChange && (
-          <div className="mt-2 pl-14">
-            <Input
-              type="text"
-              value={noteValue}
-              onChange={(e) => setNoteValue(e.target.value)}
-              onBlur={handleNoteBlur}
-              onKeyDown={handleNoteKeyDown}
-              placeholder="Tilfoej note..."
-              maxLength={50}
-              disabled={isMutating}
-              className="h-7 text-sm"
-            />
-          </div>
-        )}
-      </CardContent>
+      )}
     </Card>
   )
 }
