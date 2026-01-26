@@ -107,7 +107,7 @@ export default function OpskriftDetailPage() {
 
   return (
     <AppShell
-      title={opskrift?.titel ?? 'Opskrift'}
+      title=""
       headerLeft={
         <Link href="/opskrifter">
           <Button variant="ghost" size="icon">
