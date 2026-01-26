@@ -89,12 +89,12 @@ export default function UgeplanPage() {
 
       // Show immediate loading feedback
       const toastId = toast.loading(
-        `Tilføjer ${recipe.ingredienser.length} ingredienser...`,
+        `Tilfojer ${recipe.ingredienser.length} ingredienser...`,
         { duration: Infinity }
       )
 
       try {
-        const { added, failed } = await addItems(recipe.ingredienser)
+        const { added, failed } = await addItems(recipe.ingredienser, recipe.titel)
         if (failed === 0) {
           toast.success(`${added} ingredienser tilføjet til indkøb`, { id: toastId })
         } else if (added > 0) {

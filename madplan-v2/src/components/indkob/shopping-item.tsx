@@ -1,7 +1,6 @@
 'use client'
 
 import { Checkbox } from '@/components/ui/checkbox'
-import { Badge } from '@/components/ui/badge'
 import type { Indkoebspost } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -13,6 +12,13 @@ interface ShoppingItemProps {
 export function ShoppingItem({ item, onToggle }: ShoppingItemProps) {
   const handleClick = () => {
     onToggle(item.id, !item.afkrydset)
+  }
+
+  const getSourceText = () => {
+    if (item.kilde === 'manuel') return 'Tilfojet manuelt'
+    // For items from recipes, show recipe name if available
+    if (item.kildeNavn) return item.kildeNavn
+    return 'Fra opskrift'  // Fallback if kildeNavn not provided
   }
 
   return (
@@ -39,20 +45,14 @@ export function ShoppingItem({ item, onToggle }: ShoppingItemProps) {
         className="pointer-events-auto"
       />
 
-      <span
-        className={cn(
-          'flex-1 text-base',
-          item.afkrydset && 'line-through text-muted-foreground'
-        )}
-      >
-        {item.navn}
-      </span>
-
-      {item.kilde === 'manuel' && (
-        <Badge variant="outline" className="text-xs">
-          manuel
-        </Badge>
-      )}
+      <div className="flex-1 min-w-0">
+        <span className={cn('text-base block', item.afkrydset && 'line-through text-muted-foreground')}>
+          {item.navn}
+        </span>
+        <span className="text-xs text-muted-foreground">
+          {getSourceText()}
+        </span>
+      </div>
     </div>
   )
 }
