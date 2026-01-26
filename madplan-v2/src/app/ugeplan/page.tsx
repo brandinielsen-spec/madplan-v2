@@ -339,6 +339,7 @@ function WeekContent({
             dag={dag}
             dato={formatDayDate(slideWeekDates[index])}
             entry={entry}
+            opskriftId={entry?.opskriftId}
             onAdd={() => onAddMeal(dag)}
             onDelete={() => onDeleteMeal(dag)}
             onAddToShoppingList={
