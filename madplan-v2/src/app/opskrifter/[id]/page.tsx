@@ -9,12 +9,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { FavoriteButton } from '@/components/opskrifter/favorite-button'
 import { TagChip } from '@/components/opskrifter/tag-chip'
 import { TagInput } from '@/components/opskrifter/tag-input'
-import { ArrowLeft, Trash2 } from 'lucide-react'
+import { ArrowLeft, ShoppingCart, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
 import { useEjere } from '@/hooks/use-ejere'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
+import { useIndkobsliste } from '@/hooks/use-indkobsliste'
+import { getCurrentWeek } from '@/lib/week-utils'
 
 export default function OpskriftDetailPage() {
   const params = useParams()
@@ -26,6 +28,10 @@ export default function OpskriftDetailPage() {
   // TODO: ejerId from user context
   const { ejere, isLoading: ejereLoading } = useEjere()
   const ejerId = ejere[0]?.id ?? null
+
+  // Get current week for shopping list
+  const { aar, uge } = getCurrentWeek()
+  const { addItems, isAddingMultiple } = useIndkobsliste(ejerId, aar, uge)
 
   // Use the opskrifter hook which provides toggleFavorite, allTags, updateTags
   const { opskrifter, isLoading: opskrifterLoading, toggleFavorite, allTags, updateTags } = useOpskrifter(ejerId)
@@ -45,6 +51,31 @@ export default function OpskriftDetailPage() {
     if (!opskrift) return
     const currentTags = opskrift.tags ?? []
     updateTags(opskrift.id, currentTags.filter((t) => t !== tag))
+  }
+
+  const handleAddToShoppingList = async () => {
+    if (!opskrift?.ingredienser?.length) {
+      toast.error('Opskriften har ingen ingredienser')
+      return
+    }
+
+    const toastId = toast.loading(
+      `Tilfojer ${opskrift.ingredienser.length} ingredienser...`,
+      { duration: Infinity }
+    )
+
+    try {
+      const { added, failed } = await addItems(opskrift.ingredienser, opskrift.titel)
+      if (failed === 0) {
+        toast.success(`${added} ingredienser tilfojet til indkob`, { id: toastId })
+      } else if (added > 0) {
+        toast.warning(`${added} af ${added + failed} tilfojet`, { id: toastId })
+      } else {
+        toast.error('Kunne ikke tilfoeje ingredienser', { id: toastId })
+      }
+    } catch {
+      toast.error('Kunne ikke tilfoeje ingredienser', { id: toastId })
+    }
   }
 
   const handleDelete = async () => {
@@ -142,6 +173,17 @@ export default function OpskriftDetailPage() {
               </ul>
             </CardContent>
           </Card>
+
+          {/* Add to shopping list button */}
+          <Button
+            onClick={handleAddToShoppingList}
+            disabled={isAddingMultiple || !opskrift?.ingredienser?.length}
+            className="w-full"
+            variant="outline"
+          >
+            <ShoppingCart className="h-4 w-4 mr-2" />
+            Tilfoej til indkobsliste
+          </Button>
 
           {/* Instructions */}
           <Card>
