@@ -8,9 +8,9 @@
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
-| 6 | Foundation & Polish | 3 | ✓ Complete |
-| 7 | Opskrifter Enhancement | 4 | ✓ Complete |
-| 8 | Madplan Enhancement | 4 | Pending |
+| 6 | Foundation & Polish | 3 | Complete |
+| 7 | Opskrifter Enhancement | 4 | Complete |
+| 8 | Madplan Enhancement | 4 | Planned |
 
 **Total:** 11 requirements across 3 phases
 
@@ -89,6 +89,13 @@ Plans:
 
 **Dependencies:** Phase 6 (foundation), Phase 7 (opskrift changes)
 
+**Plans:** 3 plans
+
+Plans:
+- [ ] 08-01-PLAN.md - Week picker in RecipePicker drawer (BUG-04)
+- [ ] 08-02-PLAN.md - Note field for meal entries (FEAT-01, FEAT-02)
+- [ ] 08-03-PLAN.md - List/grid view toggle with persistence (UI-01)
+
 ---
 
 ## Requirement Coverage
@@ -112,3 +119,4 @@ Plans:
 ---
 *Roadmap created: 2026-01-26*
 *Phase 7 complete: 2026-01-26*
+*Phase 8 planned: 2026-01-26*
