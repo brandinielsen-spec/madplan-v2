@@ -12,19 +12,19 @@ Requirements for this milestone. Fixes incomplete v2.0 features and adds UX impr
 - [x] **BUG-01**: Favoritter gemmes til Airtable naar bruger toggler (UI virker, persistence mangler)
 - [x] **BUG-02**: Tags kan tilfojes, redigeres og vises pa opskrifter (funktionen mangler helt)
 - [x] **BUG-03**: Bruger kan filtrere opskrifter efter tags
-- [ ] **BUG-04**: Bruger kan tilfoeje ret til madplan for alle uger (ikke kun aktuel uge)
+- [x] **BUG-04**: Bruger kan tilfoeje ret til madplan for alle uger (ikke kun aktuel uge)
 - [x] **BUG-05**: Indkobsliste viser korrekt kilde (opskrift-navn eller "Tilfojet manuelt")
 - [x] **BUG-06**: Danske tegn vises korrekt i UI (Indkob → Indkoeb, TILFOEJET → TILFOJET med oe/oe)
 
 ### UI Improvements
 
-- [ ] **UI-01**: Madplan har liste/grid view toggle (som pa opskrifter-siden)
+- [x] **UI-01**: Madplan har liste/grid view toggle (som pa opskrifter-siden)
 - [x] **UI-02**: Bundmenu viser 5 ikoner i raekkefoelge: Hjem, Ugeplan, Opskrifter, Tilfoej, Indkoeb
 
 ### New Features
 
-- [ ] **FEAT-01**: Bruger kan tilfoeje kort note til ret pa madplan (fx "Rest", "Fra frost")
-- [ ] **FEAT-02**: Note vises under opskrift-titel pa ugeplan
+- [x] **FEAT-01**: Bruger kan tilfoeje kort note til ret pa madplan (fx "Rest", "Fra frost")
+- [x] **FEAT-02**: Note vises under opskrift-titel pa ugeplan
 - [x] **FEAT-03**: Bruger kan tilfoeje opskrifts ingredienser til indkobsliste med et klik
 
 ## v2.2 Requirements
@@ -58,13 +58,13 @@ Deferred to future release.
 | BUG-01 | Phase 7 | Complete |
 | BUG-02 | Phase 7 | Complete |
 | BUG-03 | Phase 7 | Complete |
-| BUG-04 | Phase 8 | Pending |
+| BUG-04 | Phase 8 | Complete |
 | BUG-05 | Phase 6 | Complete |
 | BUG-06 | Phase 6 | Complete |
-| UI-01 | Phase 8 | Pending |
+| UI-01 | Phase 8 | Complete |
 | UI-02 | Phase 6 | Complete |
-| FEAT-01 | Phase 8 | Pending |
-| FEAT-02 | Phase 8 | Pending |
+| FEAT-01 | Phase 8 | Complete |
+| FEAT-02 | Phase 8 | Complete |
 | FEAT-03 | Phase 7 | Complete |
 
 **Coverage:**
@@ -74,4 +74,4 @@ Deferred to future release.
 
 ---
 *Requirements defined: 2026-01-26*
-*Last updated: 2026-01-26 after Phase 7 completion*
+*Last updated: 2026-01-26 after Phase 8 completion*
