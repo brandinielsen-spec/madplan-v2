@@ -86,7 +86,10 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
 
   // Add multiple items at once (for recipe ingredients)
   // Returns { added: number, failed: number } for accurate feedback
-  const addItems = async (navne: string[]): Promise<{ added: number; failed: number }> => {
+  const addItems = async (
+    navne: string[],
+    kildeNavn?: string
+  ): Promise<{ added: number; failed: number }> => {
     if (!ejerId) throw new Error('No owner selected')
 
     setIsAddingMultiple(true)
@@ -100,7 +103,7 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
           const res = await fetch('/api/madplan/indkob', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ejerId, aar, uge, navn }),
+            body: JSON.stringify({ ejerId, aar, uge, navn, kildeNavn }),
           })
           if (res.ok) {
             added++

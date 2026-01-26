@@ -84,6 +84,7 @@ export interface Indkoebspost {
   uge: number
   navn: string
   kilde: 'ret' | 'manuel'
+  kildeNavn?: string  // Recipe name when kilde='ret', undefined for manual
   afkrydset: boolean
 }
 
