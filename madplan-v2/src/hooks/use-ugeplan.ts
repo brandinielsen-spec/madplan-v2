@@ -7,6 +7,13 @@ interface UpdateDagArgs {
   feltNavn: string     // "Mandag", "Tirsdag", etc. (capitalized for Airtable)
   ret: string
   opskriftId?: string
+  note?: string
+}
+
+interface UpdateNoteArgs {
+  id: string           // Ugeplan record id
+  feltNavn: string     // "Mandag", "Tirsdag", etc. (capitalized for Airtable)
+  note: string         // Note text (empty string clears the note)
 }
 
 interface DeleteDagArgs {
@@ -40,6 +47,19 @@ async function deleteDag(
   return res.json()
 }
 
+async function updateNote(
+  url: string,
+  { arg }: { arg: UpdateNoteArgs }
+) {
+  const res = await fetch('/api/madplan/dag', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'note', ...arg }),
+  })
+  if (!res.ok) throw new Error('Failed to update note')
+  return res.json()
+}
+
 export function useUgeplan(ejerId: string | null, aar: number, uge: number) {
   const key = ejerId
     ? `/api/madplan/uge?ejerId=${ejerId}&aar=${aar}&uge=${uge}`
@@ -60,6 +80,14 @@ export function useUgeplan(ejerId: string | null, aar: number, uge: number) {
   const { trigger: triggerDelete, isMutating: isDeleting } = useSWRMutation(
     key,
     deleteDag,
+    {
+      revalidate: true,
+    }
+  )
+
+  const { trigger: triggerNote, isMutating: isUpdatingNote } = useSWRMutation(
+    key,
+    updateNote,
     {
       revalidate: true,
     }
@@ -94,6 +122,15 @@ export function useUgeplan(ejerId: string | null, aar: number, uge: number) {
       })
     },
 
-    isMutating: isUpdating || isDeleting,
+    updateNote: async (dag: DagNavn, note: string) => {
+      if (!data?.id) throw new Error('No ugeplan loaded')
+      return triggerNote({
+        id: data.id,
+        feltNavn: capitalize(dag),
+        note,
+      })
+    },
+
+    isMutating: isUpdating || isDeleting || isUpdatingNote,
   }
 }

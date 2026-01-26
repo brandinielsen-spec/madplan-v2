@@ -57,6 +57,7 @@ export interface ImportResult {
 export interface DagEntry {
   ret: string | null
   opskriftId?: string
+  note?: string
 }
 
 // Ugeplan (week plan)
