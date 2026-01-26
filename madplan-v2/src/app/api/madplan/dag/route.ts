@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
     const { action, ...data } = body
 
     // Route to appropriate n8n endpoint based on action
+    // 'note' action uses the same endpoint as 'opdater' - the workflow handles note field
     const endpoint = action === 'slet' ? '/madplan/dag/slet' : '/madplan/dag/opdater'
 
     const response = await fetch(`${N8N_BASE}${endpoint}`, {
