@@ -57,6 +57,7 @@ Progress: [███████░░░] 70% v2.1 (Phase 6-7 complete, Phase 8
 | HTTP Request node for Airtable | 07-01 | Airtable node autoMapInputData includes all fields, HTTP Request gives control |
 | POST with opskriftId for updates | 07-01 | Changed from PUT with body.id to match frontend expectations |
 | Button between ingredients and instructions | 07-03 | Natural flow for user to add ingredients after viewing them |
+| Parallel API calls for batch add | 07-03 | Sequential with 50ms delay was too slow for user acceptance |
 
 ## Previous Milestone
 
