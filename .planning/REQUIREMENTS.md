@@ -59,10 +59,10 @@ Deferred to future release.
 | BUG-02 | Phase 7 | Pending |
 | BUG-03 | Phase 7 | Pending |
 | BUG-04 | Phase 8 | Pending |
-| BUG-05 | Phase 6 | Pending |
-| BUG-06 | Phase 6 | Pending |
+| BUG-05 | Phase 6 | Complete |
+| BUG-06 | Phase 6 | Complete |
 | UI-01 | Phase 8 | Pending |
-| UI-02 | Phase 6 | Pending |
+| UI-02 | Phase 6 | Complete |
 | FEAT-01 | Phase 8 | Pending |
 | FEAT-02 | Phase 8 | Pending |
 | FEAT-03 | Phase 7 | Pending |
@@ -74,4 +74,4 @@ Deferred to future release.
 
 ---
 *Requirements defined: 2026-01-26*
-*Last updated: 2026-01-26 after initial definition*
+*Last updated: 2026-01-26 after Phase 6 completion*

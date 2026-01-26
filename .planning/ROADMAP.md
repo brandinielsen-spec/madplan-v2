@@ -8,7 +8,7 @@
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
-| 6 | Foundation & Polish | 3 | Planned |
+| 6 | Foundation & Polish | 3 | ✓ Complete |
 | 7 | Opskrifter Enhancement | 4 | Pending |
 | 8 | Madplan Enhancement | 4 | Pending |
 
@@ -35,8 +35,10 @@
 **Plans:** 2 plans
 
 Plans:
-- [ ] 06-01-PLAN.md - Danish characters + Home navigation icon
-- [ ] 06-02-PLAN.md - Shopping list source display
+- [x] 06-01-PLAN.md - Danish characters + Home navigation icon
+- [x] 06-02-PLAN.md - Shopping list source display
+
+**Completed:** 2026-01-26
 
 ---
 
