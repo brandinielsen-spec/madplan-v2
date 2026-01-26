@@ -15,17 +15,17 @@ See: .planning/PROJECT.md (updated 2026-01-26)
 
 Phase: 7 of 8 (v2.1 phases 6-8)
 Plan: 2 of 3 complete in Phase 7
-Status: Phase 7 in progress (07-02 verified, 07-01 and 07-03 pending)
-Last activity: 2026-01-26 — Completed 07-02 (Tag Filter Verification)
+Status: Phase 7 in progress (07-01 and 07-02 complete, 07-03 pending)
+Last activity: 2026-01-26 - Completed 07-01 (N8N Workflow Verification)
 
-Progress: [████░░░░░░] 44% v2.1 (Phase 6 complete, Phase 7: 1/3 plans)
+Progress: [█████░░░░░] 55% v2.1 (Phase 6 complete, Phase 7: 2/3 plans)
 
 ## v2.1 Overview
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
-| 6 | Foundation & Polish | 3 | ✓ Complete |
-| 7 | Opskrifter Enhancement | 4 | In Progress (1/3 plans) |
+| 6 | Foundation & Polish | 3 | Complete |
+| 7 | Opskrifter Enhancement | 4 | In Progress (2/3 plans) |
 | 8 | Madplan Enhancement | 4 | Pending |
 
 **Total:** 11 requirements across 3 phases
@@ -41,7 +41,7 @@ Progress: [████░░░░░░] 44% v2.1 (Phase 6 complete, Phase 7: 
 
 | Plan | Name | Status |
 |------|------|--------|
-| 07-01 | N8N Workflow Verification | Pending |
+| 07-01 | N8N Workflow Verification | Complete (BUG-01, BUG-02 fixed) |
 | 07-02 | Tag Filter Verification | Complete (BUG-03 verified) |
 | 07-03 | Add to Shopping List Button | Pending |
 
@@ -54,7 +54,8 @@ Progress: [████░░░░░░] 44% v2.1 (Phase 6 complete, Phase 7: 
 | ASCII in variable names preserved | 06-01 | Only user-facing strings get Danish chars, code stays ASCII |
 | Exact match for home route | 06-01 | Use pathname === "/" to prevent home showing active everywhere |
 | BUG-03 already implemented | 07-02 | Tag filtering verified working - no code changes needed |
-| N8N workflow exists | 07-02 | /madplan/opskrift/opdater works for favorites and tags |
+| HTTP Request node for Airtable | 07-01 | Airtable node autoMapInputData includes all fields, HTTP Request gives control |
+| POST with opskriftId for updates | 07-01 | Changed from PUT with body.id to match frontend expectations |
 
 ## Previous Milestone
 
@@ -73,7 +74,7 @@ See: .planning/MILESTONES.md for full details
 ## Session Continuity
 
 **Last session:** 2026-01-26
-**Stopped at:** Completed 07-02 (Tag Filter Verification)
+**Stopped at:** Completed 07-01 (N8N Workflow Verification)
 **Resume file:** None
 
 ## Context for Resume
@@ -82,11 +83,11 @@ Hvis du vender tilbage til dette projekt:
 1. Laes PROJECT.md for overblik
 2. Laes ROADMAP.md for fase-struktur
 3. Phase 6 er komplet (Foundation & Polish)
-4. Phase 7 er i gang - 07-02 (tag filtering) verificeret
-5. Naeste: 07-01 eller 07-03
+4. Phase 7: 07-01 (backend persistence) og 07-02 (tag filtering) komplet
+5. Naeste: 07-03 (Add to Shopping List Button)
 
-Next step: Execute 07-01 or 07-03 - `/gsd:execute-phase 7`
+Next step: Execute 07-03 - `/gsd:execute-phase 7`
 
 ---
 *State initialized: 2025-01-24*
-*Last updated: 2026-01-26 after 07-02 verification*
+*Last updated: 2026-01-26 after 07-01 completion*
