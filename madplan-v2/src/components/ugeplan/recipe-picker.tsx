@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Drawer,
   DrawerClose,
@@ -13,19 +13,15 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Search } from 'lucide-react'
-import { WeekPicker } from './week-picker'
-import { getCurrentWeek } from '@/lib/week-utils'
 import type { Opskrift } from '@/lib/types'
 
 interface RecipePickerProps {
   opskrifter: Opskrift[]
   recentRetter: string[]        // Recently used meal names
-  onSelect: (ret: string, opskriftId: string | undefined, selectedWeek: { aar: number; uge: number }) => void
+  onSelect: (ret: string, opskriftId: string | undefined) => void
   trigger: React.ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
-  /** The week currently being viewed - picker initializes to this week when opened */
-  initialWeek?: { aar: number; uge: number }
 }
 
 export function RecipePicker({
@@ -35,17 +31,8 @@ export function RecipePicker({
   trigger,
   open,
   onOpenChange,
-  initialWeek,
 }: RecipePickerProps) {
   const [search, setSearch] = useState('')
-  const [selectedWeek, setSelectedWeek] = useState(getCurrentWeek)
-
-  // Reset selected week to the viewed week (or current week) when drawer opens
-  useEffect(() => {
-    if (open) {
-      setSelectedWeek(initialWeek ?? getCurrentWeek())
-    }
-  }, [open, initialWeek])
 
   const filteredOpskrifter = opskrifter.filter((o) =>
     o.titel.toLowerCase().includes(search.toLowerCase())
@@ -57,7 +44,7 @@ export function RecipePicker({
   )
 
   const handleSelect = (ret: string, opskriftId?: string) => {
-    onSelect(ret, opskriftId, selectedWeek)
+    onSelect(ret, opskriftId)
     setSearch('')  // Reset search on select
   }
 
@@ -70,13 +57,6 @@ export function RecipePicker({
         <DrawerHeader>
           <DrawerTitle>Vælg ret</DrawerTitle>
         </DrawerHeader>
-
-        <div className="px-4 pb-4">
-          <WeekPicker
-            selectedWeek={selectedWeek}
-            onWeekChange={setSelectedWeek}
-          />
-        </div>
 
         <div className="px-4 pb-2">
           <div className="relative">

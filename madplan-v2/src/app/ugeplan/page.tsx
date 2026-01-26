@@ -181,24 +181,17 @@ export default function UgeplanPage() {
 
   const handleSelectMeal = async (
     ret: string,
-    opskriftId: string | undefined,
-    selectedWeek: { aar: number; uge: number }
+    opskriftId: string | undefined
   ) => {
     if (!selectedDag) return
     try {
-      // Check if adding to current displayed week or a different week
-      const isSameWeek =
-        selectedWeek.aar === week.aar && selectedWeek.uge === week.uge
-
-      // Use updateDay only if same week AND ugeplan exists
-      // Otherwise use addDayToWeek which will create the week if needed
-      if (isSameWeek && ugeplan?.id) {
+      // Use updateDay if ugeplan exists, otherwise use addDayToWeek (creates week)
+      if (ugeplan?.id) {
         await updateDay(selectedDag, ret, opskriftId)
-        toast.success(`${ret} tilføjet`)
       } else {
-        await addDayToWeek(selectedWeek, selectedDag, ret, opskriftId)
-        toast.success(`${ret} tilføjet til uge ${selectedWeek.uge}`)
+        await addDayToWeek(week, selectedDag, ret, opskriftId)
       }
+      toast.success(`${ret} tilføjet`)
     } catch (error) {
       toast.error('Kunne ikke tilføje ret')
     } finally {
@@ -301,7 +294,6 @@ export default function UgeplanPage() {
         open={selectedDag !== null}
         onOpenChange={(open) => !open && setSelectedDag(null)}
         trigger={<span />}
-        initialWeek={week}
       />
     </AppShell>
   )
