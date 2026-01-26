@@ -299,6 +299,7 @@ export default function UgeplanPage() {
         open={selectedDag !== null}
         onOpenChange={(open) => !open && setSelectedDag(null)}
         trigger={<span />}
+        initialWeek={week}
       />
     </AppShell>
   )

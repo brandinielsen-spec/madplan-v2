@@ -24,6 +24,8 @@ interface RecipePickerProps {
   trigger: React.ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  /** The week currently being viewed - picker initializes to this week when opened */
+  initialWeek?: { aar: number; uge: number }
 }
 
 export function RecipePicker({
@@ -33,16 +35,17 @@ export function RecipePicker({
   trigger,
   open,
   onOpenChange,
+  initialWeek,
 }: RecipePickerProps) {
   const [search, setSearch] = useState('')
   const [selectedWeek, setSelectedWeek] = useState(getCurrentWeek)
 
-  // Reset selected week to current week when drawer opens
+  // Reset selected week to the viewed week (or current week) when drawer opens
   useEffect(() => {
     if (open) {
-      setSelectedWeek(getCurrentWeek())
+      setSelectedWeek(initialWeek ?? getCurrentWeek())
     }
-  }, [open])
+  }, [open, initialWeek])
 
   const filteredOpskrifter = opskrifter.filter((o) =>
     o.titel.toLowerCase().includes(search.toLowerCase())
