@@ -9,7 +9,8 @@ import { UrlImportForm } from '@/components/import/url-import-form'
 import { ImageImport } from '@/components/import/image-import'
 import { RecipeForm, type RecipeFormData } from '@/components/import/recipe-form'
 import { useEjere } from '@/hooks/use-ejere'
-import { Link as LinkIcon, Camera, FileText, ArrowLeft } from 'lucide-react'
+import { Link as LinkIcon, Camera, FileText, ArrowLeft, Search, ExternalLink } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import type { ImportResult, OpskriftInput } from '@/lib/types'
 
@@ -20,9 +21,16 @@ type PageState =
 
 export default function TilfoejPage() {
   const [state, setState] = useState<PageState>({ mode: 'select' })
+  const [recipeSearch, setRecipeSearch] = useState('')
   const router = useRouter()
   const { ejere } = useEjere()
   const ejerId = ejere?.[0]?.id
+
+  const handleGoogleSearch = () => {
+    if (!recipeSearch.trim()) return
+    const query = encodeURIComponent(`opskrift ${recipeSearch.trim()}`)
+    window.open(`https://www.google.com/search?q=${query}`, '_blank')
+  }
 
   const handleImportSuccess = (data: ImportResult['data'], source: 'url' | 'image') => {
     setState({
@@ -131,6 +139,39 @@ export default function TilfoejPage() {
                 onImportSuccess={(data) => handleImportSuccess(data, 'url')}
                 onManualEntry={handleManualEntry}
               />
+
+              {/* Google search helper */}
+              <div className="pt-2 border-t">
+                <p className="text-xs text-muted-foreground mb-2">
+                  Mangler du en opskrift? Find en på Google:
+                </p>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    handleGoogleSearch()
+                  }}
+                  className="flex gap-2"
+                >
+                  <Input
+                    type="text"
+                    placeholder="Søg efter opskrift..."
+                    value={recipeSearch}
+                    onChange={(e) => setRecipeSearch(e.target.value)}
+                    className="flex-1 h-9 text-sm"
+                  />
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    size="sm"
+                    disabled={!recipeSearch.trim()}
+                    className="gap-1.5"
+                  >
+                    <Search className="size-3.5" />
+                    Søg
+                    <ExternalLink className="size-3" />
+                  </Button>
+                </form>
+              </div>
             </CardContent>
           </Card>
 
