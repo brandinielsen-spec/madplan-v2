@@ -1,26 +1,36 @@
 # Project State: Madplan v2
 
-**Current Milestone:** v2.0 SHIPPED
-**Status:** Ready for next milestone
-**Last Updated:** 2026-01-25
+**Current Milestone:** v2.1 Bug Fixes & Polish
+**Status:** Ready to plan Phase 6
+**Last Updated:** 2026-01-26
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-25)
+See: .planning/PROJECT.md (updated 2026-01-26)
 
 **Core value:** Ubesvaeret madplanlaegning med smarte opskrifter
-**Current focus:** Planning next milestone (v2.1)
+**Current focus:** Phase 6 - Foundation & Polish
 
 ## Current Position
 
-Phase: Complete (5 of 5)
-Plan: All plans completed
-Status: Milestone v2.0 shipped
-Last activity: 2026-01-25 — v2.0 milestone complete
+Phase: 6 of 8 (v2.1 phases 6-8)
+Plan: Not started
+Status: Ready for planning
+Last activity: 2026-01-26 — v2.1 milestone initialized
 
-Progress: [##########] 100% v2.0 shipped
+Progress: [░░░░░░░░░░] 0% v2.1
 
-## Milestone Summary
+## v2.1 Overview
+
+| Phase | Name | Requirements | Status |
+|-------|------|--------------|--------|
+| 6 | Foundation & Polish | 3 | ○ Pending |
+| 7 | Opskrifter Enhancement | 4 | ○ Pending |
+| 8 | Madplan Enhancement | 4 | ○ Pending |
+
+**Total:** 11 requirements across 3 phases
+
+## Previous Milestone
 
 **v2.0 Complete Rebuild** — Shipped 2026-01-25
 - 5 phases, 20 plans
@@ -28,38 +38,27 @@ Progress: [##########] 100% v2.0 shipped
 - 69 TypeScript files, ~60k LOC
 
 See: .planning/MILESTONES.md for full details
-See: .planning/milestones/v2-ROADMAP.md for archived roadmap
-See: .planning/milestones/v2-REQUIREMENTS.md for archived requirements
 
-## Tech Debt (Carried to v2.1)
+## Tech Debt (Carried from v2.0)
 
 - ejerId uses first ejer workaround (implement user context when multi-user needed)
 - Service worker prefetch listener exists but not called (enhancement opportunity)
 
-## Future Feature Requests (From v2 Development)
-
-| Feature | Source | Priority | Notes |
-|---------|--------|----------|-------|
-| Group shopping list by category | User feedback 02-05 | Low | Requires schema change |
-| Add meal ingredients to shopping list | User feedback 02-04 | Medium | One-click add ingredients |
-| Drag & drop on ugeplan | Out of Scope | Medium | v2.1 candidate |
-| AI madforslag | Out of Scope | Low | Requires research |
-
 ## Session Continuity
 
-**Last session:** 2026-01-25
-**Stopped at:** v2.0 milestone complete and archived
+**Last session:** 2026-01-26
+**Stopped at:** v2.1 milestone initialized, ready to plan Phase 6
 **Resume file:** None
 
 ## Context for Resume
 
 Hvis du vender tilbage til dette projekt:
 1. Laes PROJECT.md for overblik
-2. Laes MILESTONES.md for shipped versions
-3. Koer `/gsd:new-milestone` for at starte naeste milestone
+2. Laes ROADMAP.md for fase-struktur
+3. Koer `/gsd:plan-phase 6` for at planlaegge foerste fase
 
-Next step: `/gsd:new-milestone` to start v2.1 planning
+Next step: `/gsd:plan-phase 6` to plan Foundation & Polish
 
 ---
 *State initialized: 2025-01-24*
-*Last updated: 2026-01-25 after v2.0 milestone*
+*Last updated: 2026-01-26 after v2.1 milestone start*

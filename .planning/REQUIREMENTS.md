@@ -55,22 +55,22 @@ Deferred to future release.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUG-01 | TBD | Pending |
-| BUG-02 | TBD | Pending |
-| BUG-03 | TBD | Pending |
-| BUG-04 | TBD | Pending |
-| BUG-05 | TBD | Pending |
-| BUG-06 | TBD | Pending |
-| UI-01 | TBD | Pending |
-| UI-02 | TBD | Pending |
-| FEAT-01 | TBD | Pending |
-| FEAT-02 | TBD | Pending |
-| FEAT-03 | TBD | Pending |
+| BUG-01 | Phase 7 | Pending |
+| BUG-02 | Phase 7 | Pending |
+| BUG-03 | Phase 7 | Pending |
+| BUG-04 | Phase 8 | Pending |
+| BUG-05 | Phase 6 | Pending |
+| BUG-06 | Phase 6 | Pending |
+| UI-01 | Phase 8 | Pending |
+| UI-02 | Phase 6 | Pending |
+| FEAT-01 | Phase 8 | Pending |
+| FEAT-02 | Phase 8 | Pending |
+| FEAT-03 | Phase 7 | Pending |
 
 **Coverage:**
 - v2.1 requirements: 11 total
-- Mapped to phases: 0
-- Unmapped: 11 (roadmap pending)
+- Mapped to phases: 11
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-01-26*
