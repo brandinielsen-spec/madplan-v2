@@ -15,7 +15,7 @@ export function ShoppingItem({ item, onToggle }: ShoppingItemProps) {
   }
 
   const getSourceText = () => {
-    if (item.kilde === 'manuel') return 'Tilfojet manuelt'
+    if (item.kilde === 'manuel') return 'Tilføjet manuelt'
     // For items from recipes, show recipe name if available
     if (item.kildeNavn) return item.kildeNavn
     return 'Fra opskrift'  // Fallback if kildeNavn not provided
