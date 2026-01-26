@@ -101,7 +101,7 @@ export function DayCard({
     )
 
     return (
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[3/2] overflow-hidden">
         {imageContent}
         {/* Day badge overlay */}
         <Badge
@@ -113,8 +113,8 @@ export function DayCard({
         >
           {DAG_LABELS[dag]} {dato}
         </Badge>
-        {/* Action buttons overlay */}
-        <div className="absolute top-2 right-2 flex gap-1">
+        {/* Action buttons overlay - at bottom */}
+        <div className="absolute bottom-2 right-2 flex gap-1">
           {hasRet && onAddToShoppingList && (
             <Button
               variant="secondary"
@@ -187,7 +187,7 @@ export function DayCard({
         <CardContent className="p-3">
           {hasRet ? (
             <>
-              <h3 className="font-medium text-foreground truncate">
+              <h3 className="font-medium text-foreground line-clamp-2 leading-tight">
                 {entry?.ret}
               </h3>
               {entry?.note && (
