@@ -70,6 +70,8 @@ Progress: [█████████░] 90% v2.1 (Phase 6-7 complete, Phase 8
 | localStorage key "ugeplan-view" | 08-03 | Simple key for persisting view preference |
 | Grid as default view | 08-03 | Matches existing behavior, list is optional |
 | SWR global mutate for cross-week | 08-01 | Fetch target week's ugeplan ID, then invalidate cache after update |
+| Blur-to-save for notes | 08-02 | Save on blur/Enter without explicit button, built-in debounce |
+| Note fields as {Dag}_Note | 08-02 | Follows existing {Dag}OpskriftId pattern in Airtable |
 
 ## Previous Milestone
 
@@ -88,7 +90,7 @@ See: .planning/MILESTONES.md for full details
 ## Session Continuity
 
 **Last session:** 2026-01-26
-**Stopped at:** Completed 08-03 (List/Grid View Toggle)
+**Stopped at:** Completed 08-02 (Note Field on Meals)
 **Resume file:** None
 
 ## Context for Resume
@@ -104,4 +106,4 @@ Next step: Execute 08-04 - Multi-Week Meal Planning
 
 ---
 *State initialized: 2025-01-24*
-*Last updated: 2026-01-26 after 08-03 completion*
+*Last updated: 2026-01-26 after 08-02 completion*
