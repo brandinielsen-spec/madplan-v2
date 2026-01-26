@@ -149,9 +149,24 @@ export function useUgeplan(ejerId: string | null, aar: number, uge: number) {
       // Fetch the target week's ugeplan to get its ID
       const targetRes = await fetch(targetKey)
       if (!targetRes.ok) throw new Error('Failed to fetch target week')
-      const targetUgeplan: Ugeplan = await targetRes.json()
+      let targetUgeplan: Ugeplan = await targetRes.json()
 
-      if (!targetUgeplan?.id) throw new Error('No ugeplan for target week')
+      // If week doesn't exist, create it first
+      if (!targetUgeplan?.id) {
+        const createRes = await fetch('/api/madplan/uge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ejerId,
+            aar: targetWeek.aar,
+            uge: targetWeek.uge,
+          }),
+        })
+        if (!createRes.ok) throw new Error('Failed to create target week')
+        const createResult = await createRes.json()
+        // Use the newly created week's ID
+        targetUgeplan = { id: createResult.id } as Ugeplan
+      }
 
       // Make the update to the target week
       const updateRes = await fetch('/api/madplan/dag', {
