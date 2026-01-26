@@ -6,6 +6,21 @@ En moderne madplanlaegnings-app der goer det nemt at planlaegge ugens maltider, 
 
 **Current State:** v2.0 shipped with 69 TypeScript files, ~60k LOC. Full PWA with swipe gestures, smart import, and recipe organization.
 
+## Current Milestone: v2.1 Bug Fixes & Polish
+
+**Goal:** Fix incomplete v2.0 features (favoritter, tags, danske tegn) og tilføj små UX-forbedringer (noter, bundmenu, view toggle).
+
+**Target features:**
+- Fix favoritter persistence
+- Implementer tags fuldt ud (tilføj, rediger, filtrer)
+- Fix danske tegn (ø, æ, å) i UI
+- Fix tilføj til madplan for fremtidige uger
+- Fix indkøbsliste kilde-visning
+- Tilføj madplan-noter
+- Tilføj ingredienser til indkøbsliste med ét klik
+- Liste/grid view toggle på madplan
+- Ny bundmenu med 5 ikoner (Hjem først)
+
 ## Core Value
 
 **Ubesvaeret madplanlaegning med smarte opskrifter.** Brugeren skal kunne ga fra "jeg fandt en opskrift" til "den er i min ugeplan" med minimal friktion.
@@ -30,9 +45,9 @@ En moderne madplanlaegnings-app der goer det nemt at planlaegge ugens maltider, 
 - ✓ Gem opskriftsbillede hvis tilgaengeligt — v2.0
 
 **Organisering:**
-- ✓ Favorit-markering pa opskrifter — v2.0
-- ✓ Tags/kategorier pa opskrifter — v2.0
 - ✓ Soeg og filtrer opskrifter — v2.0
+- ⚠️ Favorit-markering pa opskrifter — v2.0 (UI virker, persistence mangler)
+- ⚠️ Tags/kategorier pa opskrifter — v2.0 (ikke implementeret)
 
 **n8n:**
 - ✓ Alle workflows tagget med version — v2.0
@@ -52,9 +67,20 @@ En moderne madplanlaegnings-app der goer det nemt at planlaegge ugens maltider, 
 
 ### Active
 
-<!-- v2.1 scope — next milestone -->
+<!-- v2.1 scope — Bug Fixes & Polish -->
 
-(No active requirements — start next milestone with /gsd:new-milestone)
+**Bug Fixes:**
+- [ ] Fix favoritter persistence (gem til Airtable)
+- [ ] Implementer tags (tilføj, rediger, filtrer)
+- [ ] Fix tilføj til madplan for fremtidige uger
+- [ ] Fix indkøbsliste kilde-visning (viser "TILFOEJET MANUELT" for alt)
+- [ ] Fix danske tegn i UI (ø, æ, å)
+
+**Nye Features:**
+- [ ] Madplan-noter (korte ord under opskrift på ugeplan)
+- [ ] Tilføj ingredienser til indkøbsliste med ét klik
+- [ ] Liste/grid view toggle på madplan
+- [ ] Ny bundmenu: Hjem → Ugeplan → Opskrifter → Tilføj → Indkøb
 
 ### Out of Scope
 
@@ -115,4 +141,4 @@ En moderne madplanlaegnings-app der goer det nemt at planlaegge ugens maltider, 
 - Service worker prefetch listener exists but not called (enhancement opportunity)
 
 ---
-*Last updated: 2026-01-25 after v2.0 milestone*
+*Last updated: 2026-01-26 after v2.1 milestone start*
