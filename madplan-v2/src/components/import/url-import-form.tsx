@@ -68,7 +68,7 @@ export function UrlImportForm({ onImportSuccess, onManualEntry }: UrlImportFormP
       if (error instanceof Error && error.name === 'AbortError') {
         setState({
           status: 'error',
-          message: 'Import tog for lang tid - proev igen',
+          message: 'Import tog for lang tid - prøv igen',
         })
       } else {
         setState({
@@ -105,7 +105,7 @@ export function UrlImportForm({ onImportSuccess, onManualEntry }: UrlImportFormP
         }}
         placeholder="https://eksempel.dk/opskrift..."
         disabled={isLoading}
-        aria-label="Indsaet opskrift URL"
+        aria-label="Indsæt opskrift URL"
         autoComplete="url"
         inputMode="url"
         className="py-3 text-base"
@@ -125,7 +125,7 @@ export function UrlImportForm({ onImportSuccess, onManualEntry }: UrlImportFormP
               onClick={handleRetry}
               className="flex-1"
             >
-              Proev igen
+              Prøv igen
             </Button>
             <Button
               type="button"
@@ -133,7 +133,7 @@ export function UrlImportForm({ onImportSuccess, onManualEntry }: UrlImportFormP
               onClick={onManualEntry}
               className="flex-1"
             >
-              Tilfoej manuelt
+              Tilføj manuelt
             </Button>
           </div>
         </>

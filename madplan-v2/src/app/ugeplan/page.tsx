@@ -89,7 +89,7 @@ export default function UgeplanPage() {
 
       // Show immediate loading feedback
       const toastId = toast.loading(
-        `Tilfojer ${recipe.ingredienser.length} ingredienser...`,
+        `Tilføjer ${recipe.ingredienser.length} ingredienser...`,
         { duration: Infinity }
       )
 
@@ -171,9 +171,9 @@ export default function UgeplanPage() {
     if (!selectedDag) return
     try {
       await updateDay(selectedDag, ret, opskriftId)
-      toast.success(`${ret} tilfojet`)
+      toast.success(`${ret} tilføjet`)
     } catch (error) {
-      toast.error('Kunne ikke tilfoeje ret')
+      toast.error('Kunne ikke tilføje ret')
     } finally {
       setSelectedDag(null)
     }
@@ -313,7 +313,7 @@ function WeekContent({
     return (
       <div className="text-center py-8 text-muted-foreground">
         <p>Kunne ikke hente ugeplan</p>
-        <p className="text-sm mt-1">Tjek din forbindelse og proev igen</p>
+        <p className="text-sm mt-1">Tjek din forbindelse og prøv igen</p>
       </div>
     )
   }

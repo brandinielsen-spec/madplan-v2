@@ -85,7 +85,7 @@ export default function OpskrifterPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Soeg i opskrifter..."
+            placeholder="Søg i opskrifter..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9 pr-9"
@@ -94,7 +94,7 @@ export default function OpskrifterPage() {
             <button
               onClick={() => setSearch('')}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              aria-label="Ryd soegning"
+              aria-label="Ryd søgning"
             >
               <X className="h-4 w-4" />
             </button>
@@ -144,7 +144,7 @@ export default function OpskrifterPage() {
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground">
             <p>Kunne ikke hente opskrifter</p>
-            <p className="text-sm mt-1">Tjek din forbindelse og proev igen</p>
+            <p className="text-sm mt-1">Tjek din forbindelse og prøv igen</p>
           </CardContent>
         </Card>
       ) : filteredOpskrifter.length === 0 ? (

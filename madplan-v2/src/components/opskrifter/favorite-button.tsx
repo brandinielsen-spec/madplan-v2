@@ -40,7 +40,7 @@ export function FavoriteButton({ isFavorite, onToggle, className, size = 'md' }:
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-400",
         className
       )}
-      aria-label={isFavorite ? "Fjern fra favoritter" : "Tilfoej til favoritter"}
+      aria-label={isFavorite ? "Fjern fra favoritter" : "Tilføj til favoritter"}
     >
       <Heart
         className={cn(

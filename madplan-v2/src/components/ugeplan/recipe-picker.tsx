@@ -55,14 +55,14 @@ export function RecipePicker({
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Vaelg ret</DrawerTitle>
+          <DrawerTitle>Vælg ret</DrawerTitle>
         </DrawerHeader>
 
         <div className="px-4 pb-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Soeg i opskrifter..."
+              placeholder="Søg i opskrifter..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9"
@@ -128,7 +128,7 @@ export function RecipePicker({
                   className="w-full"
                   onClick={() => handleSelect(search)}
                 >
-                  Tilfoej "{search}" som ret
+                  Tilføj "{search}" som ret
                 </Button>
               </DrawerClose>
             </div>

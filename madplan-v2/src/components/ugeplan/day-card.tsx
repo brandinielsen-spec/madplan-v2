@@ -14,8 +14,8 @@ const DAG_LABELS: Record<DagNavn, string> = {
   onsdag: 'Onsdag',
   torsdag: 'Torsdag',
   fredag: 'Fredag',
-  loerdag: 'Lordag',
-  soendag: 'Sondag',
+  loerdag: 'Lørdag',
+  soendag: 'Søndag',
 }
 
 interface DayCardProps {
@@ -139,7 +139,7 @@ export function DayCard({
                 size="icon"
                 onClick={onAddToShoppingList}
                 disabled={isMutating}
-                aria-label={`Tilfoej ingredienser fra ${entry.ret} til indkoebsliste`}
+                aria-label={`Tilføj ingredienser fra ${entry.ret} til indkøbsliste`}
                 className="h-8 w-8 text-muted-foreground hover:text-primary"
               >
                 <ShoppingCart className="h-4 w-4" />
@@ -164,7 +164,7 @@ export function DayCard({
               size="icon"
               onClick={onAdd}
               disabled={isMutating}
-              aria-label={`Tilfoej ret til ${DAG_LABELS[dag]}`}
+              aria-label={`Tilføj ret til ${DAG_LABELS[dag]}`}
               className="h-8 w-8"
             >
               <Plus className="h-4 w-4" />

@@ -47,13 +47,13 @@ export function TagInput({ existingTags, currentTags, onAddTag, className }: Tag
           className={cn("gap-1 text-muted-foreground", className)}
         >
           <Plus className="h-3 w-3" />
-          Tilfoej tag
+          Tilføj tag
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-64 p-0" align="start">
         <Command shouldFilter={false}>
           <CommandInput
-            placeholder="Soeg eller opret tag..."
+            placeholder="Søg eller opret tag..."
             value={inputValue}
             onValueChange={setInputValue}
           />

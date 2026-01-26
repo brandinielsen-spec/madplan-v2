@@ -20,7 +20,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Madplan",
-  description: "Planlaeg ugens maaltider",
+  description: "Planlæg ugens måltider",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

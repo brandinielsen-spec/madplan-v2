@@ -66,9 +66,9 @@ export default function IndkobPage() {
   const handleAddItem = async (name: string) => {
     try {
       await addItem(name)
-      toast.success(`${name} tilfojet`)
+      toast.success(`${name} tilføjet`)
     } catch {
-      toast.error('Kunne ikke tilfoeje vare')
+      toast.error('Kunne ikke tilføje vare')
       throw new Error('Add item failed') // Re-throw so AddItemInput knows it failed
     }
   }
@@ -77,7 +77,7 @@ export default function IndkobPage() {
     try {
       await clearAll()
       setDialogOpen(false)
-      toast.success('Indkobslisten er ryddet')
+      toast.success('Indkøbslisten er ryddet')
     } catch {
       toast.error('Kunne ikke rydde listen')
     }
@@ -86,7 +86,7 @@ export default function IndkobPage() {
   const isLoading = ejereLoading || itemsLoading
 
   return (
-    <AppShell title="Indkobsliste">
+    <AppShell title="Indkøbsliste">
       {/* Week indicator */}
       <div className="py-2 text-sm text-muted-foreground text-center">
         {formatWeekLabel(aar, uge)}
@@ -105,15 +105,15 @@ export default function IndkobPage() {
       ) : isError ? (
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground">
-            <p>Kunne ikke hente indkobsliste</p>
-            <p className="text-sm mt-1">Tjek din forbindelse og proev igen</p>
+            <p>Kunne ikke hente indkøbsliste</p>
+            <p className="text-sm mt-1">Tjek din forbindelse og prøv igen</p>
           </CardContent>
         </Card>
       ) : items.length === 0 ? (
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground">
-            <p>Ingen varer pa listen endnu</p>
-            <p className="text-sm mt-1">Tilfoej retter til ugeplanen eller tilfoej manuelt</p>
+            <p>Ingen varer på listen endnu</p>
+            <p className="text-sm mt-1">Tilføj retter til ugeplanen eller tilføj manuelt</p>
           </CardContent>
         </Card>
       ) : (
@@ -126,7 +126,7 @@ export default function IndkobPage() {
           />
 
           <CategoryGroup
-            title="Tilfojet manuelt"
+            title="Tilføjet manuelt"
             items={manual}
             onToggle={handleToggle}
           />
@@ -134,7 +134,7 @@ export default function IndkobPage() {
           {/* Checked items at bottom */}
           {checked.length > 0 && (
             <CategoryGroup
-              title="Kobt"
+              title="Købt"
               items={checked}
               onToggle={handleToggle}
             />
@@ -154,7 +154,7 @@ export default function IndkobPage() {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Ryd indkobslisten?</AlertDialogTitle>
+                <AlertDialogTitle>Ryd indkøbslisten?</AlertDialogTitle>
                 <AlertDialogDescription>
                   Dette sletter alle {items.length} varer fra listen. Handlingen kan ikke fortrydes.
                 </AlertDialogDescription>

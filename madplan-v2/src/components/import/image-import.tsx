@@ -40,7 +40,7 @@ export function ImageImport({ onImportSuccess, onManualEntry }: ImageImportProps
     if (state.status !== 'preview') return
 
     const base64 = state.base64
-    setState({ status: 'loading', message: 'Laeser billede...' })
+    setState({ status: 'loading', message: 'Læser billede...' })
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 30000)
@@ -60,7 +60,7 @@ export function ImageImport({ onImportSuccess, onManualEntry }: ImageImportProps
       if (!result.success || !result.data) {
         setState({
           status: 'error',
-          message: result.error || 'Kunne ikke laese billede',
+          message: result.error || 'Kunne ikke læse billede',
         })
         return
       }
@@ -82,12 +82,12 @@ export function ImageImport({ onImportSuccess, onManualEntry }: ImageImportProps
       if (error instanceof Error && error.name === 'AbortError') {
         setState({
           status: 'error',
-          message: 'Anmodningen tog for lang tid. Proev igen.',
+          message: 'Anmodningen tog for lang tid. Prøv igen.',
         })
       } else {
         setState({
           status: 'error',
-          message: 'Netvaerksfejl. Tjek din forbindelse.',
+          message: 'Netværksfejl. Tjek din forbindelse.',
         })
       }
     }
@@ -128,12 +128,12 @@ export function ImageImport({ onImportSuccess, onManualEntry }: ImageImportProps
       if (error instanceof Error && error.name === 'AbortError') {
         setState({
           status: 'error',
-          message: 'Anmodningen tog for lang tid. Proev igen.',
+          message: 'Anmodningen tog for lang tid. Prøv igen.',
         })
       } else {
         setState({
           status: 'error',
-          message: 'Netvaerksfejl. Tjek din forbindelse.',
+          message: 'Netværksfejl. Tjek din forbindelse.',
         })
       }
     }
@@ -168,7 +168,7 @@ export function ImageImport({ onImportSuccess, onManualEntry }: ImageImportProps
           accept="image/*"
           onChange={handleFileSelect}
           className="hidden"
-          aria-label="Vaelg billede fra galleri"
+          aria-label="Vælg billede fra galleri"
         />
 
         <div className="flex gap-3">
@@ -184,10 +184,10 @@ export function ImageImport({ onImportSuccess, onManualEntry }: ImageImportProps
             variant="outline"
             onClick={() => galleryRef.current?.click()}
             className="flex-1 py-3"
-            aria-label="Vaelg billede"
+            aria-label="Vælg billede"
           >
             <ImageIcon className="mr-2 h-5 w-5" />
-            Vaelg billede
+            Vælg billede
           </Button>
         </div>
       </div>
@@ -208,9 +208,9 @@ export function ImageImport({ onImportSuccess, onManualEntry }: ImageImportProps
             variant="outline"
             onClick={resetToIdle}
             className="py-3"
-            aria-label="Vaelg andet billede"
+            aria-label="Vælg andet billede"
           >
-            Vaelg andet
+            Vælg andet
           </Button>
           <Button
             onClick={handleSubmitImage}
@@ -280,17 +280,17 @@ export function ImageImport({ onImportSuccess, onManualEntry }: ImageImportProps
             variant="outline"
             onClick={resetToIdle}
             className="py-3"
-            aria-label="Proev igen"
+            aria-label="Prøv igen"
           >
-            Proev igen
+            Prøv igen
           </Button>
           <Button
             variant="secondary"
             onClick={onManualEntry}
             className="flex-1 py-3"
-            aria-label="Tilfoej manuelt"
+            aria-label="Tilføj manuelt"
           >
-            Tilfoej manuelt
+            Tilføj manuelt
           </Button>
         </div>
       </div>

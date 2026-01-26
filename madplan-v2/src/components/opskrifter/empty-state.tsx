@@ -38,7 +38,7 @@ export function EmptyState({
           <>
             <p className="text-muted-foreground">Ingen opskrifter endnu</p>
             <p className="text-sm text-muted-foreground mt-1">
-              Tilfoej opskrifter fra Tilfoej-fanen
+              Tilføj opskrifter fra Tilføj-fanen
             </p>
           </>
         )}

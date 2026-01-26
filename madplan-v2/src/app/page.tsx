@@ -52,7 +52,7 @@ export default function Home() {
             Velkommen til Madplan
           </h2>
           <p className="text-muted-foreground">
-            Planlaeg ugens maaltider nemt og hurtigt
+            Planlæg ugens måltider nemt og hurtigt
           </p>
         </div>
 
@@ -91,7 +91,7 @@ export default function Home() {
             )}
             {!isLoading && !todayRet && (
               <p className="text-sm text-muted-foreground mt-2 text-center">
-                Tryk for at tilfoeje en ret
+                Tryk for at tilføje en ret
               </p>
             )}
           </CardContent>
@@ -127,13 +127,13 @@ export default function Home() {
             <Card className="bg-card border-border hover:bg-sand-100 transition-colors cursor-pointer">
               <CardContent className="p-4 flex flex-col items-center gap-2">
                 <ShoppingCart className="size-8 text-accent" />
-                <span className="font-medium text-foreground">Indkob</span>
+                <span className="font-medium text-foreground">Indkøb</span>
                 <span className="text-xs text-muted-foreground">
                   {indkobLoading
                     ? "..."
                     : uncheckedItems.length === 0
                       ? "Listen er tom"
-                      : `${uncheckedItems.length} vare${uncheckedItems.length === 1 ? "" : "r"} paa listen`}
+                      : `${uncheckedItems.length} vare${uncheckedItems.length === 1 ? "" : "r"} på listen`}
                 </span>
               </CardContent>
             </Card>
@@ -145,7 +145,7 @@ export default function Home() {
                 <div className="size-8 rounded-full bg-primary flex items-center justify-center">
                   <span className="text-white text-xl font-bold">+</span>
                 </div>
-                <span className="font-medium text-foreground">Tilfoej</span>
+                <span className="font-medium text-foreground">Tilføj</span>
                 <span className="text-xs text-muted-foreground">
                   Ny opskrift
                 </span>

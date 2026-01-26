@@ -33,7 +33,7 @@ export function AddItemInput({ onAdd, isAdding = false }: AddItemInputProps) {
       <Input
         ref={inputRef}
         type="text"
-        placeholder="Tilfoej vare..."
+        placeholder="Tilføj vare..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={isAdding}
@@ -43,7 +43,7 @@ export function AddItemInput({ onAdd, isAdding = false }: AddItemInputProps) {
         type="submit"
         size="icon"
         disabled={!value.trim() || isAdding}
-        aria-label="Tilfoej vare"
+        aria-label="Tilføj vare"
       >
         {isAdding ? (
           <Loader2 className="h-4 w-4 animate-spin" />

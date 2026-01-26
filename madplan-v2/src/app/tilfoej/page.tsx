@@ -102,12 +102,12 @@ export default function TilfoejPage() {
 
   // Determine page title based on state
   const getPageTitle = () => {
-    if (state.mode === 'select') return 'Tilfoej opskrift'
+    if (state.mode === 'select') return 'Tilføj opskrift'
     if (state.mode === 'saving') return 'Gemmer...'
     if (state.mode === 'preview') {
       return state.source === 'manual' ? 'Ny opskrift' : 'Gennemse opskrift'
     }
-    return 'Tilfoej opskrift'
+    return 'Tilføj opskrift'
   }
 
   // Select mode: Show import options
@@ -125,7 +125,7 @@ export default function TilfoejPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Indsaet et link til en opskrift, saa importerer vi den automatisk
+                Indsæt et link til en opskrift, så importerer vi den automatisk
               </p>
               <UrlImportForm
                 onImportSuccess={(data) => handleImportSuccess(data, 'url')}
@@ -144,7 +144,7 @@ export default function TilfoejPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Tag et billede af en opskrift, og vi laeser indholdet
+                Tag et billede af en opskrift, og vi læser indholdet
               </p>
               <ImageImport
                 onImportSuccess={(data) => handleImportSuccess(data, 'image')}

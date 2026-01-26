@@ -11,11 +11,11 @@ import { cn } from '@/lib/utils'
 
 // Zod schema for validation
 const recipeSchema = z.object({
-  titel: z.string().min(1, 'Titel er paakraevet'),
+  titel: z.string().min(1, 'Titel er påkrævet'),
   portioner: z.number().min(1, 'Mindst 1 portion'),
   ingredienser: z
-    .array(z.object({ value: z.string().min(1, 'Ingrediens kan ikke vaere tom') }))
-    .min(1, 'Mindst en ingrediens er paakraevet'),
+    .array(z.object({ value: z.string().min(1, 'Ingrediens kan ikke være tom') }))
+    .min(1, 'Mindst en ingrediens er påkrævet'),
   fremgangsmaade: z.string().optional(),
   billedeUrl: z.string().optional(),
   kilde: z.string().optional(),
@@ -180,14 +180,14 @@ export function RecipeForm({
           className="mt-2"
         >
           <Plus className="h-4 w-4 mr-1" />
-          Tilfoej ingrediens
+          Tilføj ingrediens
         </Button>
       </div>
 
       {/* Fremgangsmaade */}
       <div>
         <label htmlFor="fremgangsmaade" className="text-sm font-medium">
-          Fremgangsmaade
+          Fremgangsmåde
         </label>
         <Textarea
           id="fremgangsmaade"
