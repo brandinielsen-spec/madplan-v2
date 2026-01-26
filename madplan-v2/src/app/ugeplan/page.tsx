@@ -333,7 +333,6 @@ function WeekContent({
   isLoading,
   isError,
   isMutating,
-  weekDates,
   todayWeek,
   todayYear,
   todayDayIndex,
@@ -341,6 +340,7 @@ function WeekContent({
   onAddMeal,
   onDeleteMeal,
   onAddToShoppingList,
+  onNoteChange,
 }: WeekContentProps) {
   // Only show data for the currently selected week
   // Other slides show skeleton or placeholder
@@ -419,6 +419,7 @@ function WeekContent({
         onAddToShoppingList: entry?.opskriftId
           ? () => onAddToShoppingList(entry.opskriftId)
           : undefined,
+        onNoteChange: (note: string) => onNoteChange(dag, note),
         isToday,
         isMutating,
         billedeUrl: recipe?.billedeUrl,
