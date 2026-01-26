@@ -93,42 +93,35 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
     if (!ejerId) throw new Error('No owner selected')
 
     setIsAddingMultiple(true)
-    let added = 0
-    let failed = 0
 
     try {
-      // Add items sequentially with small delay to ensure reliable processing
-      for (const navn of navne) {
-        try {
-          const res = await fetch('/api/madplan/indkob', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ejerId, aar, uge, navn, kildeNavn }),
-          })
-          if (res.ok) {
-            added++
-          } else {
-            const errorText = await res.text().catch(() => 'Unknown error')
-            console.error(`Failed to add item "${navn}": ${res.status} - ${errorText}`)
-            failed++
+      // Send all requests in parallel for better performance
+      const results = await Promise.all(
+        navne.map(async (navn) => {
+          try {
+            const res = await fetch('/api/madplan/indkob', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ejerId, aar, uge, navn, kildeNavn }),
+            })
+            return res.ok
+          } catch (error) {
+            console.error(`Error adding item "${navn}":`, error)
+            return false
           }
-        } catch (error) {
-          console.error(`Error adding item "${navn}":`, error)
-          failed++
-        }
-        // Small delay between requests to ensure reliable processing
-        if (navne.indexOf(navn) < navne.length - 1) {
-          await new Promise((resolve) => setTimeout(resolve, 50))
-        }
-      }
+        })
+      )
+
+      const added = results.filter(Boolean).length
+      const failed = results.filter((r) => !r).length
 
       // Revalidate after all items added
       await mutate()
+
+      return { added, failed }
     } finally {
       setIsAddingMultiple(false)
     }
-
-    return { added, failed }
   }
 
   return {
