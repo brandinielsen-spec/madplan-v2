@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Drawer,
   DrawerClose,
@@ -13,12 +13,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Search } from 'lucide-react'
+import { WeekPicker } from './week-picker'
+import { getCurrentWeek } from '@/lib/week-utils'
 import type { Opskrift } from '@/lib/types'
 
 interface RecipePickerProps {
   opskrifter: Opskrift[]
   recentRetter: string[]        // Recently used meal names
-  onSelect: (ret: string, opskriftId?: string) => void
+  onSelect: (ret: string, opskriftId: string | undefined, selectedWeek: { aar: number; uge: number }) => void
   trigger: React.ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
@@ -33,6 +35,14 @@ export function RecipePicker({
   onOpenChange,
 }: RecipePickerProps) {
   const [search, setSearch] = useState('')
+  const [selectedWeek, setSelectedWeek] = useState(getCurrentWeek)
+
+  // Reset selected week to current week when drawer opens
+  useEffect(() => {
+    if (open) {
+      setSelectedWeek(getCurrentWeek())
+    }
+  }, [open])
 
   const filteredOpskrifter = opskrifter.filter((o) =>
     o.titel.toLowerCase().includes(search.toLowerCase())
@@ -44,7 +54,7 @@ export function RecipePicker({
   )
 
   const handleSelect = (ret: string, opskriftId?: string) => {
-    onSelect(ret, opskriftId)
+    onSelect(ret, opskriftId, selectedWeek)
     setSearch('')  // Reset search on select
   }
 
@@ -57,6 +67,13 @@ export function RecipePicker({
         <DrawerHeader>
           <DrawerTitle>Vælg ret</DrawerTitle>
         </DrawerHeader>
+
+        <div className="px-4 pb-4">
+          <WeekPicker
+            selectedWeek={selectedWeek}
+            onWeekChange={setSelectedWeek}
+          />
+        </div>
 
         <div className="px-4 pb-2">
           <div className="relative">

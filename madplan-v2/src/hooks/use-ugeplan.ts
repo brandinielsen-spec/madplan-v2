@@ -1,4 +1,4 @@
-import useSWR from 'swr'
+import useSWR, { mutate as globalMutate } from 'swr'
 import useSWRMutation from 'swr/mutation'
 import type { Ugeplan, DagNavn } from '@/lib/types'
 
@@ -96,6 +96,9 @@ export function useUgeplan(ejerId: string | null, aar: number, uge: number) {
   // Helper to capitalize day name for Airtable field
   const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
+  // Current hook's week reference for comparison
+  const currentHookWeek = { aar, uge }
+
   return {
     ugeplan: data,
     isLoading,
@@ -130,6 +133,54 @@ export function useUgeplan(ejerId: string | null, aar: number, uge: number) {
         note,
       })
     },
+
+    // Add meal to a specific week (may differ from current hook's week)
+    addDayToWeek: async (
+      targetWeek: { aar: number; uge: number },
+      dag: DagNavn,
+      ret: string,
+      opskriftId?: string
+    ) => {
+      if (!ejerId) throw new Error('No ejerId')
+
+      // Build the target week's API key
+      const targetKey = `/api/madplan/uge?ejerId=${ejerId}&aar=${targetWeek.aar}&uge=${targetWeek.uge}`
+
+      // Fetch the target week's ugeplan to get its ID
+      const targetRes = await fetch(targetKey)
+      if (!targetRes.ok) throw new Error('Failed to fetch target week')
+      const targetUgeplan: Ugeplan = await targetRes.json()
+
+      if (!targetUgeplan?.id) throw new Error('No ugeplan for target week')
+
+      // Make the update to the target week
+      const updateRes = await fetch('/api/madplan/dag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'opdater',
+          id: targetUgeplan.id,
+          feltNavn: capitalize(dag),
+          ret,
+          opskriftId,
+        }),
+      })
+
+      if (!updateRes.ok) throw new Error('Failed to update day in target week')
+
+      // If target week differs from current hook's week, invalidate target week's cache
+      if (targetWeek.aar !== currentHookWeek.aar || targetWeek.uge !== currentHookWeek.uge) {
+        await globalMutate(targetKey)
+      }
+
+      // Also refresh current week data
+      await mutate()
+
+      return updateRes.json()
+    },
+
+    // Exposed for page-level comparison
+    hookWeek: currentHookWeek,
 
     isMutating: isUpdating || isDeleting || isUpdatingNote,
   }
