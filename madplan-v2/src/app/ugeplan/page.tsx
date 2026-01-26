@@ -5,14 +5,19 @@ import { toast } from 'sonner'
 import { AppShell } from '@/components/layout/app-shell'
 import { WeekNav } from '@/components/ugeplan/week-nav'
 import { DayCard } from '@/components/ugeplan/day-card'
+import { DayCardList } from '@/components/ugeplan/day-card-list'
 import { RecipePicker } from '@/components/ugeplan/recipe-picker'
 import { WeekSwiper } from '@/components/ugeplan/week-swiper'
 import { WeekSlide } from '@/components/ugeplan/week-slide'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Card } from '@/components/ui/card'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { LayoutGrid, List } from 'lucide-react'
 import { useUgeplan } from '@/hooks/use-ugeplan'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
 import { useEjere } from '@/hooks/use-ejere'
 import { useIndkobsliste } from '@/hooks/use-indkobsliste'
+import { useViewPreference } from '@/hooks/use-view-preference'
 import type { Opskrift } from '@/lib/types'
 import {
   getCurrentWeek,
@@ -26,6 +31,8 @@ import { getISOWeek, getISOWeekYear } from 'date-fns'
 // Week range: current week +/- 4 = 9 weeks total
 const WEEK_RANGE = 4
 
+type ViewMode = 'grid' | 'list'
+
 export default function UgeplanPage() {
   // Initial week (center of carousel)
   const initialWeek = useMemo(() => getCurrentWeek(), [])
@@ -38,6 +45,9 @@ export default function UgeplanPage() {
 
   // Current selected week (updated by carousel or arrow navigation)
   const [week, setWeek] = useState(initialWeek)
+
+  // View mode preference (persisted to localStorage)
+  const [viewMode, setViewMode] = useViewPreference('ugeplan-view', 'grid')
 
   // Carousel navigation controls (set by WeekSwiper via onNavigationReady)
   const [navControls, setNavControls] = useState<{
@@ -62,6 +72,8 @@ export default function UgeplanPage() {
     isError: ugeplanError,
     updateDay,
     deleteDay,
+    updateNote,
+    addDayToWeek,
     isMutating,
   } = useUgeplan(ejerId, week.aar, week.uge)
 
@@ -167,13 +179,26 @@ export default function UgeplanPage() {
     setSelectedDag(dag)
   }
 
-  const handleSelectMeal = async (ret: string, opskriftId?: string) => {
+  const handleSelectMeal = async (
+    ret: string,
+    opskriftId: string | undefined,
+    selectedWeek: { aar: number; uge: number }
+  ) => {
     if (!selectedDag) return
     try {
-      await updateDay(selectedDag, ret, opskriftId)
-      toast.success(`${ret} tilføjet`)
+      // Check if adding to current displayed week or a different week
+      const isSameWeek =
+        selectedWeek.aar === week.aar && selectedWeek.uge === week.uge
+
+      if (isSameWeek) {
+        await updateDay(selectedDag, ret, opskriftId)
+        toast.success(`${ret} tilfojet`)
+      } else {
+        await addDayToWeek(selectedWeek, selectedDag, ret, opskriftId)
+        toast.success(`${ret} tilfojet til uge ${selectedWeek.uge}`)
+      }
     } catch (error) {
-      toast.error('Kunne ikke tilføje ret')
+      toast.error('Kunne ikke tilfoeje ret')
     } finally {
       setSelectedDag(null)
     }
@@ -188,19 +213,54 @@ export default function UgeplanPage() {
     }
   }
 
+  // Handle note change - called from DayCard when user edits note
+  const handleNoteChange = useCallback(
+    async (dag: DagNavn, note: string) => {
+      try {
+        await updateNote(dag, note)
+        toast.success('Note gemt', { duration: 1500 })
+      } catch (error) {
+        toast.error('Kunne ikke gemme note')
+      }
+    },
+    [updateNote]
+  )
+
   const isLoading = ejereLoading || ugeplanLoading
+
+  // Handle view mode change
+  const handleViewModeChange = useCallback((value: string) => {
+    if (value === 'grid' || value === 'list') {
+      setViewMode(value)
+    }
+  }, [setViewMode])
 
   return (
     <AppShell title="Ugeplan">
-      <WeekNav
-        aar={week.aar}
-        uge={week.uge}
-        onPrev={handlePrevWeek}
-        onNext={handleNextWeek}
-        canPrev={navControls?.canPrev ?? true}
-        canNext={navControls?.canNext ?? true}
-        isLoading={isLoading}
-      />
+      <div className="flex items-center justify-between mb-3">
+        <WeekNav
+          aar={week.aar}
+          uge={week.uge}
+          onPrev={handlePrevWeek}
+          onNext={handleNextWeek}
+          canPrev={navControls?.canPrev ?? true}
+          canNext={navControls?.canNext ?? true}
+          isLoading={isLoading}
+        />
+        <ToggleGroup
+          type="single"
+          value={viewMode}
+          onValueChange={handleViewModeChange}
+          className="border rounded-md"
+        >
+          <ToggleGroupItem value="grid" aria-label="Vis som kort">
+            <LayoutGrid className="h-4 w-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="list" aria-label="Vis som liste">
+            <List className="h-4 w-4" />
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </div>
 
       <WeekSwiper
         onSlideChange={handleSlideChange}
@@ -221,9 +281,11 @@ export default function UgeplanPage() {
               todayWeek={todayWeek}
               todayYear={todayYear}
               todayDayIndex={todayDayIndex}
+              viewMode={viewMode}
               onAddMeal={handleAddMeal}
               onDeleteMeal={handleDeleteMeal}
               onAddToShoppingList={handleAddToShoppingList}
+              onNoteChange={handleNoteChange}
             />
           </WeekSlide>
         ))}
@@ -256,9 +318,11 @@ interface WeekContentProps {
   todayWeek: number
   todayYear: number
   todayDayIndex: number
+  viewMode: ViewMode
   onAddMeal: (dag: DagNavn) => void
   onDeleteMeal: (dag: DagNavn) => void
   onAddToShoppingList: (opskriftId: string | undefined) => void
+  onNoteChange: (dag: DagNavn, note: string) => void
 }
 
 function WeekContent({
@@ -273,6 +337,7 @@ function WeekContent({
   todayWeek,
   todayYear,
   todayDayIndex,
+  viewMode,
   onAddMeal,
   onDeleteMeal,
   onAddToShoppingList,
@@ -290,22 +355,34 @@ function WeekContent({
 
   if (!isActiveWeek) {
     // Placeholder for non-active slides - show skeleton structure
-    return (
+    return viewMode === 'grid' ? (
       <div className="space-y-3 pb-4">
         {Array.from({ length: 7 }).map((_, i) => (
           <Skeleton key={i} className="h-20 w-full" />
         ))}
       </div>
+    ) : (
+      <Card className="divide-y divide-sand-200">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <Skeleton key={i} className="h-12 w-full" />
+        ))}
+      </Card>
     )
   }
 
   if (isLoading) {
-    return (
+    return viewMode === 'grid' ? (
       <div className="space-y-3">
         {Array.from({ length: 7 }).map((_, i) => (
           <Skeleton key={i} className="h-20 w-full" />
         ))}
       </div>
+    ) : (
+      <Card className="divide-y divide-sand-200">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <Skeleton key={i} className="h-12 w-full" />
+        ))}
+      </Card>
     )
   }
 
@@ -318,39 +395,45 @@ function WeekContent({
     )
   }
 
-  return (
-    <div className="space-y-3 pb-4">
-      {DAGE.map((dag, index) => {
-        const isToday =
-          week.aar === todayYear &&
-          week.uge === todayWeek &&
-          index === todayDayIndex
+  // Render day items
+  const renderDayItems = () =>
+    DAGE.map((dag, index) => {
+      const isToday =
+        week.aar === todayYear &&
+        week.uge === todayWeek &&
+        index === todayDayIndex
 
-        const entry = ugeplan?.dage?.[dag] ?? null
-        const recipe = entry?.opskriftId
-          ? opskrifter.find((o) => o.id === entry.opskriftId)
-          : undefined
+      const entry = ugeplan?.dage?.[dag] ?? null
+      const recipe = entry?.opskriftId
+        ? opskrifter.find((o) => o.id === entry.opskriftId)
+        : undefined
 
-        return (
-          <DayCard
-            key={dag}
-            dag={dag}
-            dato={formatDayDate(slideWeekDates[index])}
-            entry={entry}
-            opskriftId={entry?.opskriftId}
-            onAdd={() => onAddMeal(dag)}
-            onDelete={() => onDeleteMeal(dag)}
-            onAddToShoppingList={
-              entry?.opskriftId
-                ? () => onAddToShoppingList(entry.opskriftId)
-                : undefined
-            }
-            isToday={isToday}
-            isMutating={isMutating}
-            billedeUrl={recipe?.billedeUrl}
-          />
-        )
-      })}
-    </div>
+      const commonProps = {
+        key: dag,
+        dag,
+        dato: formatDayDate(slideWeekDates[index]),
+        entry,
+        opskriftId: entry?.opskriftId,
+        onAdd: () => onAddMeal(dag),
+        onDelete: () => onDeleteMeal(dag),
+        onAddToShoppingList: entry?.opskriftId
+          ? () => onAddToShoppingList(entry.opskriftId)
+          : undefined,
+        isToday,
+        isMutating,
+        billedeUrl: recipe?.billedeUrl,
+      }
+
+      return viewMode === 'grid' ? (
+        <DayCard {...commonProps} />
+      ) : (
+        <DayCardList {...commonProps} />
+      )
+    })
+
+  return viewMode === 'grid' ? (
+    <div className="space-y-3 pb-4">{renderDayItems()}</div>
+  ) : (
+    <Card className="mb-4">{renderDayItems()}</Card>
   )
 }
