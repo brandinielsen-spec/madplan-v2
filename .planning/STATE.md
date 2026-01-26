@@ -69,6 +69,7 @@ Progress: [█████████░] 90% v2.1 (Phase 6-7 complete, Phase 8
 | Parallel API calls for batch add | 07-03 | Sequential with 50ms delay was too slow for user acceptance |
 | localStorage key "ugeplan-view" | 08-03 | Simple key for persisting view preference |
 | Grid as default view | 08-03 | Matches existing behavior, list is optional |
+| SWR global mutate for cross-week | 08-01 | Fetch target week's ugeplan ID, then invalidate cache after update |
 
 ## Previous Milestone
 
