@@ -73,7 +73,6 @@ export default function UgeplanPage() {
   // Handle adding ingredients from a recipe to shopping list
   const handleAddToShoppingList = useCallback(
     async (opskriftId: string | undefined) => {
-      console.log('handleAddToShoppingList called with:', opskriftId)
       if (!opskriftId) {
         toast.error('Ingen opskrift tilknyttet denne ret')
         return
@@ -89,7 +88,6 @@ export default function UgeplanPage() {
       }
 
       // Show immediate loading feedback
-      console.log('Adding ingredients:', recipe.ingredienser.length)
       const toastId = toast.loading(
         `Tilføjer ${recipe.ingredienser.length} ingredienser...`,
         { duration: Infinity }
