@@ -9,7 +9,7 @@
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
 | 6 | Foundation & Polish | 3 | ✓ Complete |
-| 7 | Opskrifter Enhancement | 4 | Pending |
+| 7 | Opskrifter Enhancement | 4 | Planned |
 | 8 | Madplan Enhancement | 4 | Pending |
 
 **Total:** 11 requirements across 3 phases
@@ -60,6 +60,13 @@ Plans:
 
 **Dependencies:** Phase 6 (danske tegn affects labels)
 
+**Plans:** 3 plans
+
+Plans:
+- [ ] 07-01-PLAN.md - N8N backend for favorites/tags persistence (BUG-01, BUG-02)
+- [ ] 07-02-PLAN.md - Tag filter verification (BUG-03)
+- [ ] 07-03-PLAN.md - Add to shopping list button (FEAT-03)
+
 ---
 
 ## Phase 8: Madplan Enhancement
@@ -102,3 +109,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-01-26*
+*Phase 7 planned: 2026-01-26*
