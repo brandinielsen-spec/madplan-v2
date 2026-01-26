@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEjere } from "@/hooks/use-ejere";
 import { useUgeplan } from "@/hooks/use-ugeplan";
 import { useIndkobsliste } from "@/hooks/use-indkobsliste";
+import { useOpskrifter } from "@/hooks/use-opskrifter";
 import { getCurrentWeek } from "@/lib/week-utils";
 import { DAGE, type DagNavn } from "@/lib/types";
 
@@ -34,11 +35,14 @@ export default function Home() {
 
   const { ugeplan, isLoading: ugeplanLoading } = useUgeplan(ejerId, aar, uge);
   const { items, isLoading: indkobLoading } = useIndkobsliste(ejerId, aar, uge);
+  const { opskrifter } = useOpskrifter(ejerId);
 
   const todayDag = getTodayDagNavn();
   const todayEntry = ugeplan?.dage[todayDag];
   const todayRet = todayEntry?.ret;
   const todayOpskriftId = todayEntry?.opskriftId;
+  const todayRecipe = todayOpskriftId ? opskrifter.find(o => o.id === todayOpskriftId) : undefined;
+  const todayBilledeUrl = todayRecipe?.billedeUrl;
 
   const uncheckedItems = items.filter((item) => !item.afkrydset);
   const isLoading = ejereLoading || ugeplanLoading;
@@ -66,7 +70,7 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <div className="flex items-center justify-center h-24 bg-muted rounded-lg">
+              <div className="flex items-center justify-center h-32 bg-muted rounded-lg">
                 <Loader2 className="size-6 text-muted-foreground animate-spin" />
               </div>
             ) : todayRet ? (
@@ -74,10 +78,27 @@ export default function Home() {
                 href={todayOpskriftId ? `/opskrifter/${todayOpskriftId}` : "/ugeplan"}
                 className="block"
               >
-                <div className="flex items-center justify-center h-24 bg-olive-50 rounded-lg hover:bg-olive-100 transition-colors">
-                  <p className="font-medium text-foreground text-lg">
-                    {todayRet}
-                  </p>
+                <div className="relative rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+                  {todayBilledeUrl ? (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={todayBilledeUrl}
+                        alt={todayRet}
+                        className="w-full h-32 object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <p className="absolute bottom-3 left-3 right-3 font-medium text-white text-lg">
+                        {todayRet}
+                      </p>
+                    </>
+                  ) : (
+                    <div className="flex items-center justify-center h-32 bg-olive-50">
+                      <p className="font-medium text-foreground text-lg">
+                        {todayRet}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </Link>
             ) : (
