@@ -101,7 +101,7 @@ export function DayCard({
     )
 
     return (
-      <div className="relative aspect-[3/2] overflow-hidden">
+      <div className="relative aspect-[16/9] overflow-hidden">
         {imageContent}
         {/* Day badge overlay */}
         <Badge
