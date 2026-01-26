@@ -16,10 +16,13 @@ import { useEjere } from '@/hooks/use-ejere'
 
 type ViewMode = 'cards' | 'list'
 
+// Tag filter state: 'include' = show only with tag, 'exclude' = hide with tag
+type TagState = 'include' | 'exclude'
+
 export default function OpskrifterPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('cards')
   const [search, setSearch] = useState('')
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [tagStates, setTagStates] = useState<Record<string, TagState>>({})
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
 
   // TODO: ejerId from user context - for now use first ejer
@@ -46,10 +49,25 @@ export default function OpskrifterPage() {
       )
     }
 
-    // Tag filter (AND logic - must have ALL selected tags)
-    if (selectedTags.length > 0) {
+    // Tag filter with include/exclude logic
+    const includeTags = Object.entries(tagStates)
+      .filter(([, state]) => state === 'include')
+      .map(([tag]) => tag)
+    const excludeTags = Object.entries(tagStates)
+      .filter(([, state]) => state === 'exclude')
+      .map(([tag]) => tag)
+
+    // Must have ALL included tags (AND logic)
+    if (includeTags.length > 0) {
       result = result.filter((o) =>
-        selectedTags.every((tag) => (o.tags ?? []).includes(tag))
+        includeTags.every((tag) => (o.tags ?? []).includes(tag))
+      )
+    }
+
+    // Must NOT have ANY excluded tags
+    if (excludeTags.length > 0) {
+      result = result.filter((o) =>
+        !excludeTags.some((tag) => (o.tags ?? []).includes(tag))
       )
     }
 
@@ -59,19 +77,29 @@ export default function OpskrifterPage() {
     }
 
     return result
-  }, [opskrifter, search, selectedTags, showFavoritesOnly])
+  }, [opskrifter, search, tagStates, showFavoritesOnly])
 
+  // Cycle: none → include → exclude → none
   const handleTagToggle = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag)
-        ? prev.filter((t) => t !== tag)
-        : [...prev, tag]
-    )
+    setTagStates((prev) => {
+      const current = prev[tag]
+      if (!current) {
+        // none → include
+        return { ...prev, [tag]: 'include' }
+      } else if (current === 'include') {
+        // include → exclude
+        return { ...prev, [tag]: 'exclude' }
+      } else {
+        // exclude → none (remove from state)
+        const { [tag]: _, ...rest } = prev
+        return rest
+      }
+    })
   }
 
   const handleClearFilters = () => {
     setSearch('')
-    setSelectedTags([])
+    setTagStates({})
     setShowFavoritesOnly(false)
   }
 
@@ -119,7 +147,7 @@ export default function OpskrifterPage() {
       <div className="mb-4">
         <FilterBar
           allTags={allTags}
-          selectedTags={selectedTags}
+          tagStates={tagStates}
           onTagToggle={handleTagToggle}
           showFavoritesOnly={showFavoritesOnly}
           onFavoritesToggle={() => setShowFavoritesOnly((prev) => !prev)}
@@ -150,7 +178,7 @@ export default function OpskrifterPage() {
       ) : filteredOpskrifter.length === 0 ? (
         <EmptyState
           search={search}
-          hasTagFilters={selectedTags.length > 0}
+          hasTagFilters={Object.keys(tagStates).length > 0}
           hasFavoriteFilter={showFavoritesOnly}
           onClearFilters={handleClearFilters}
         />

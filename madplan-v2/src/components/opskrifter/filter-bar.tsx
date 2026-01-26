@@ -4,9 +4,11 @@ import { Heart } from 'lucide-react'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 
+type TagState = 'include' | 'exclude'
+
 interface FilterBarProps {
   allTags: string[]
-  selectedTags: string[]
+  tagStates: Record<string, TagState>
   onTagToggle: (tag: string) => void
   showFavoritesOnly: boolean
   onFavoritesToggle: () => void
@@ -14,7 +16,7 @@ interface FilterBarProps {
 
 export function FilterBar({
   allTags,
-  selectedTags,
+  tagStates,
   onTagToggle,
   showFavoritesOnly,
   onFavoritesToggle,
@@ -47,9 +49,9 @@ export function FilterBar({
           Favoritter
         </button>
 
-        {/* Tag filter chips */}
+        {/* Tag filter chips - 3 states: none, include (green), exclude (red) */}
         {allTags.map((tag) => {
-          const isSelected = selectedTags.includes(tag)
+          const state = tagStates[tag]
           return (
             <button
               key={tag}
@@ -57,12 +59,14 @@ export function FilterBar({
               className={cn(
                 "px-3 py-1 rounded-full text-sm font-medium transition-colors",
                 "border focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-400",
-                isSelected
+                state === 'include'
                   ? "bg-olive-100 text-olive-700 border-olive-300"
-                  : "bg-background text-muted-foreground border-input hover:bg-sand-100"
+                  : state === 'exclude'
+                    ? "bg-red-100 text-red-700 border-red-300 line-through"
+                    : "bg-background text-muted-foreground border-input hover:bg-sand-100"
               )}
             >
-              {tag}
+              {state === 'exclude' && '−'}{tag}
             </button>
           )
         })}
