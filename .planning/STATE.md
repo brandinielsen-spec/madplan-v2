@@ -1,7 +1,7 @@
 # Project State: Madplan v2
 
 **Current Milestone:** v2.1 Bug Fixes & Polish
-**Status:** Phase 7 In Progress
+**Status:** Phase 7 Complete
 **Last Updated:** 2026-01-26
 
 ## Project Reference
@@ -9,23 +9,23 @@
 See: .planning/PROJECT.md (updated 2026-01-26)
 
 **Core value:** Ubesvaeret madplanlaegning med smarte opskrifter
-**Current focus:** Phase 7 - Opskrifter Enhancement (In Progress)
+**Current focus:** Phase 8 - Madplan Enhancement (Next)
 
 ## Current Position
 
 Phase: 7 of 8 (v2.1 phases 6-8)
-Plan: 2 of 3 complete in Phase 7
-Status: Phase 7 in progress (07-01 and 07-02 complete, 07-03 pending)
-Last activity: 2026-01-26 - Completed 07-01 (N8N Workflow Verification)
+Plan: 3 of 3 complete in Phase 7
+Status: Phase 7 complete - ready for Phase 8
+Last activity: 2026-01-26 - Completed 07-03 (Add to Shopping List Button)
 
-Progress: [█████░░░░░] 55% v2.1 (Phase 6 complete, Phase 7: 2/3 plans)
+Progress: [███████░░░] 70% v2.1 (Phase 6-7 complete, Phase 8 pending)
 
 ## v2.1 Overview
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
 | 6 | Foundation & Polish | 3 | Complete |
-| 7 | Opskrifter Enhancement | 4 | In Progress (2/3 plans) |
+| 7 | Opskrifter Enhancement | 4 | Complete |
 | 8 | Madplan Enhancement | 4 | Pending |
 
 **Total:** 11 requirements across 3 phases
@@ -43,7 +43,7 @@ Progress: [█████░░░░░] 55% v2.1 (Phase 6 complete, Phase 7: 
 |------|------|--------|
 | 07-01 | N8N Workflow Verification | Complete (BUG-01, BUG-02 fixed) |
 | 07-02 | Tag Filter Verification | Complete (BUG-03 verified) |
-| 07-03 | Add to Shopping List Button | Pending |
+| 07-03 | Add to Shopping List Button | Complete (FEAT-03) |
 
 ## Decisions (v2.1)
 
@@ -56,6 +56,7 @@ Progress: [█████░░░░░] 55% v2.1 (Phase 6 complete, Phase 7: 
 | BUG-03 already implemented | 07-02 | Tag filtering verified working - no code changes needed |
 | HTTP Request node for Airtable | 07-01 | Airtable node autoMapInputData includes all fields, HTTP Request gives control |
 | POST with opskriftId for updates | 07-01 | Changed from PUT with body.id to match frontend expectations |
+| Button between ingredients and instructions | 07-03 | Natural flow for user to add ingredients after viewing them |
 
 ## Previous Milestone
 
@@ -74,7 +75,7 @@ See: .planning/MILESTONES.md for full details
 ## Session Continuity
 
 **Last session:** 2026-01-26
-**Stopped at:** Completed 07-01 (N8N Workflow Verification)
+**Stopped at:** Completed 07-03 (Add to Shopping List Button)
 **Resume file:** None
 
 ## Context for Resume
@@ -82,12 +83,11 @@ See: .planning/MILESTONES.md for full details
 Hvis du vender tilbage til dette projekt:
 1. Laes PROJECT.md for overblik
 2. Laes ROADMAP.md for fase-struktur
-3. Phase 6 er komplet (Foundation & Polish)
-4. Phase 7: 07-01 (backend persistence) og 07-02 (tag filtering) komplet
-5. Naeste: 07-03 (Add to Shopping List Button)
+3. Phase 6 og 7 er komplet
+4. Naeste: Phase 8 (Madplan Enhancement)
 
-Next step: Execute 07-03 - `/gsd:execute-phase 7`
+Next step: Execute Phase 8 - `/gsd:execute-phase 8`
 
 ---
 *State initialized: 2025-01-24*
-*Last updated: 2026-01-26 after 07-01 completion*
+*Last updated: 2026-01-26 after 07-03 completion*
