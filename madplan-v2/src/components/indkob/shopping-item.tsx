@@ -24,7 +24,7 @@ export function ShoppingItem({ item, onToggle }: ShoppingItemProps) {
   return (
     <div
       className={cn(
-        'flex items-center gap-3 py-3 px-1 cursor-pointer rounded-md',
+        'flex items-center gap-3 py-2 px-1 cursor-pointer rounded-md',
         'hover:bg-sand-100 active:bg-sand-200 transition-colors',
         item.afkrydset && 'opacity-60'
       )}
@@ -45,11 +45,11 @@ export function ShoppingItem({ item, onToggle }: ShoppingItemProps) {
         className="pointer-events-auto"
       />
 
-      <div className="flex-1 min-w-0">
-        <span className={cn('text-base block', item.afkrydset && 'line-through text-muted-foreground')}>
+      <div className="flex-1 min-w-0 flex items-baseline gap-2">
+        <span className={cn('text-base', item.afkrydset && 'line-through text-muted-foreground')}>
           {item.navn}
         </span>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-xs text-muted-foreground truncate">
           {getSourceText()}
         </span>
       </div>

@@ -15,12 +15,12 @@ export function CategoryGroup({ title, items, onToggle }: CategoryGroupProps) {
 
   return (
     <Card>
-      <CardHeader className="py-3 px-4">
-        <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+      <CardHeader className="py-2 px-4">
+        <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="px-3 pb-3 pt-0">
+      <CardContent className="px-3 pb-2 pt-0">
         <div className="divide-y divide-sand-200">
           {items.map((item) => (
             <ShoppingItem
