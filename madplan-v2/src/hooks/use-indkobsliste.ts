@@ -25,6 +25,7 @@ async function addItem(
 
 export function useIndkobsliste(ejerId: string | null, aar: number, uge: number) {
   const [isClearing, setIsClearing] = useState(false)
+  const [isAddingMultiple, setIsAddingMultiple] = useState(false)
 
   const key = ejerId
     ? `/api/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`
@@ -84,18 +85,47 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
   }
 
   // Add multiple items at once (for recipe ingredients)
-  const addItems = async (navne: string[]) => {
+  // Returns { added: number, failed: number } for accurate feedback
+  const addItems = async (navne: string[]): Promise<{ added: number; failed: number }> => {
     if (!ejerId) throw new Error('No owner selected')
-    // Add items sequentially to avoid race conditions
-    for (const navn of navne) {
-      await fetch('/api/madplan/indkob', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ejerId, aar, uge, navn }),
-      })
+
+    setIsAddingMultiple(true)
+    let added = 0
+    let failed = 0
+
+    try {
+      // Add items sequentially with small delay to ensure reliable processing
+      for (const navn of navne) {
+        try {
+          const res = await fetch('/api/madplan/indkob', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ejerId, aar, uge, navn }),
+          })
+          if (res.ok) {
+            added++
+          } else {
+            const errorText = await res.text().catch(() => 'Unknown error')
+            console.error(`Failed to add item "${navn}": ${res.status} - ${errorText}`)
+            failed++
+          }
+        } catch (error) {
+          console.error(`Error adding item "${navn}":`, error)
+          failed++
+        }
+        // Small delay between requests to ensure reliable processing
+        if (navne.indexOf(navn) < navne.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 50))
+        }
+      }
+
+      // Revalidate after all items added
+      await mutate()
+    } finally {
+      setIsAddingMultiple(false)
     }
-    // Revalidate after all items added
-    await mutate()
+
+    return { added, failed }
   }
 
   return {
@@ -141,6 +171,7 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
     },
 
     isAdding,
+    isAddingMultiple,
     isClearing,
   }
 }

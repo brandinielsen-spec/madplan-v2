@@ -73,6 +73,7 @@ export default function UgeplanPage() {
   // Handle adding ingredients from a recipe to shopping list
   const handleAddToShoppingList = useCallback(
     async (opskriftId: string | undefined) => {
+      console.log('handleAddToShoppingList called with:', opskriftId)
       if (!opskriftId) {
         toast.error('Ingen opskrift tilknyttet denne ret')
         return
@@ -86,11 +87,25 @@ export default function UgeplanPage() {
         toast.error('Opskriften har ingen ingredienser')
         return
       }
+
+      // Show immediate loading feedback
+      console.log('Adding ingredients:', recipe.ingredienser.length)
+      const toastId = toast.loading(
+        `Tilføjer ${recipe.ingredienser.length} ingredienser...`,
+        { duration: Infinity }
+      )
+
       try {
-        await addItems(recipe.ingredienser)
-        toast.success(`${recipe.ingredienser.length} ingredienser tilføjet til indkøb`)
+        const { added, failed } = await addItems(recipe.ingredienser)
+        if (failed === 0) {
+          toast.success(`${added} ingredienser tilføjet til indkøb`, { id: toastId })
+        } else if (added > 0) {
+          toast.warning(`${added} af ${added + failed} ingredienser tilføjet (${failed} fejlede)`, { id: toastId })
+        } else {
+          toast.error('Kunne ikke tilføje ingredienser', { id: toastId })
+        }
       } catch (error) {
-        toast.error('Kunne ikke tilføje ingredienser')
+        toast.error('Kunne ikke tilføje ingredienser', { id: toastId })
       }
     },
     [opskrifter, addItems]
