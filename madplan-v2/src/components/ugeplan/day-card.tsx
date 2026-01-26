@@ -206,7 +206,7 @@ export function DayCard({
             onChange={(e) => setNoteValue(e.target.value)}
             onBlur={handleNoteBlur}
             onKeyDown={handleNoteKeyDown}
-            placeholder="Tilfoej note..."
+            placeholder="Tilføj note..."
             maxLength={50}
             disabled={isMutating}
             className="h-7 text-sm"
