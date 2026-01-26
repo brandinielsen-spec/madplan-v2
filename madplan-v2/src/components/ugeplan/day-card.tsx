@@ -184,18 +184,11 @@ export function DayCard({
     )}>
       <CardWrapper>
         <ImageSection />
-        <CardContent className="p-3">
+        <CardContent className="p-2">
           {hasRet ? (
-            <>
-              <h3 className="font-medium text-foreground line-clamp-2 leading-tight">
-                {entry?.ret}
-              </h3>
-              {entry?.note && (
-                <p className="text-sm text-muted-foreground truncate mt-0.5">
-                  {entry.note}
-                </p>
-              )}
-            </>
+            <h3 className="font-medium text-foreground line-clamp-2 leading-tight text-sm">
+              {entry?.ret}
+            </h3>
           ) : (
             <p className="text-sm text-muted-foreground italic">
               Tilføj ret
@@ -206,7 +199,7 @@ export function DayCard({
 
       {/* Note input - only shown when there's a meal */}
       {hasRet && onNoteChange && (
-        <div className="px-3 pb-3">
+        <div className="px-2 pb-2">
           <Input
             type="text"
             value={noteValue}
