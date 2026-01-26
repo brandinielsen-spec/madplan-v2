@@ -190,15 +190,17 @@ export default function UgeplanPage() {
       const isSameWeek =
         selectedWeek.aar === week.aar && selectedWeek.uge === week.uge
 
-      if (isSameWeek) {
+      // Use updateDay only if same week AND ugeplan exists
+      // Otherwise use addDayToWeek which will create the week if needed
+      if (isSameWeek && ugeplan?.id) {
         await updateDay(selectedDag, ret, opskriftId)
-        toast.success(`${ret} tilfojet`)
+        toast.success(`${ret} tilføjet`)
       } else {
         await addDayToWeek(selectedWeek, selectedDag, ret, opskriftId)
-        toast.success(`${ret} tilfojet til uge ${selectedWeek.uge}`)
+        toast.success(`${ret} tilføjet til uge ${selectedWeek.uge}`)
       }
     } catch (error) {
-      toast.error('Kunne ikke tilfoeje ret')
+      toast.error('Kunne ikke tilføje ret')
     } finally {
       setSelectedDag(null)
     }
