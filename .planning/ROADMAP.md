@@ -8,7 +8,7 @@
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
-| 6 | Foundation & Polish | 3 | Pending |
+| 6 | Foundation & Polish | 3 | Planned |
 | 7 | Opskrifter Enhancement | 4 | Pending |
 | 8 | Madplan Enhancement | 4 | Pending |
 
@@ -21,16 +21,22 @@
 **Goal:** Fix base-level issues that affect the entire app
 
 **Requirements:**
-- BUG-06: Danske tegn vises korrekt i UI (oe → ø, ae → æ, aa → å)
+- BUG-06: Danske tegn vises korrekt i UI (oe -> oe, ae -> ae, aa -> aa)
 - UI-02: Bundmenu viser 5 ikoner: Hjem, Ugeplan, Opskrifter, Tilfoej, Indkoeb
 - BUG-05: Indkobsliste viser korrekt kilde (opskrift-navn eller "Tilfojet manuelt")
 
 **Success Criteria:**
 1. Alle UI-tekster bruger korrekte danske tegn
-2. Bundmenu har 5 ikoner med Hjem forst
+2. Bundmenu har 5 ikoner med Hjem foerst
 3. Indkobsliste-items fra madplan viser opskrift-navn som kilde
 
 **Dependencies:** None (foundation work)
+
+**Plans:** 2 plans
+
+Plans:
+- [ ] 06-01-PLAN.md - Danish characters + Home navigation icon
+- [ ] 06-02-PLAN.md - Shopping list source display
 
 ---
 
@@ -40,15 +46,15 @@
 
 **Requirements:**
 - BUG-01: Favoritter gemmes til Airtable naar bruger toggler
-- BUG-02: Tags kan tilfojes, redigeres og vises pa opskrifter
+- BUG-02: Tags kan tilfojes, redigeres og vises paa opskrifter
 - BUG-03: Bruger kan filtrere opskrifter efter tags
 - FEAT-03: Bruger kan tilfoeje opskrifts ingredienser til indkobsliste med et klik
 
 **Success Criteria:**
 1. Favorit-toggle persists efter page refresh
-2. Bruger kan tilfoeje og se tags pa opskrifter
+2. Bruger kan tilfoeje og se tags paa opskrifter
 3. Opskrift-filter inkluderer tag-filter
-4. "Tilfoej til indkobsliste" knap pa opskrift tilfojer alle ingredienser
+4. "Tilfoej til indkobsliste" knap paa opskrift tilfojer alle ingredienser
 
 **Dependencies:** Phase 6 (danske tegn affects labels)
 
@@ -60,13 +66,13 @@
 
 **Requirements:**
 - BUG-04: Bruger kan tilfoeje ret til madplan for alle uger (ikke kun aktuel)
-- FEAT-01: Bruger kan tilfoeje kort note til ret pa madplan
-- FEAT-02: Note vises under opskrift-titel pa ugeplan
+- FEAT-01: Bruger kan tilfoeje kort note til ret paa madplan
+- FEAT-02: Note vises under opskrift-titel paa ugeplan
 - UI-01: Madplan har liste/grid view toggle
 
 **Success Criteria:**
 1. "Tilfoej til madplan" dialog tillader valg af fremtidige uger
-2. Ret-kort pa ugeplan har note-felt
+2. Ret-kort paa ugeplan har note-felt
 3. Noter (fx "Rest", "Fra frost") vises under opskrift-titel
 4. View toggle skifter mellem liste og grid layout
 
@@ -87,7 +93,7 @@
 | UI-01 | 8 | Liste/grid toggle |
 | UI-02 | 6 | Ny bundmenu |
 | FEAT-01 | 8 | Madplan-noter |
-| FEAT-02 | 8 | Note vises pa ugeplan |
+| FEAT-02 | 8 | Note vises paa ugeplan |
 | FEAT-03 | 7 | Ingredienser til indkobsliste |
 
 **Coverage:** 11/11 requirements mapped (100%)
