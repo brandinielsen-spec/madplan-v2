@@ -1,0 +1,121 @@
+{
+  "name": "Madplan - Opdater Dag",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "madplan/dag/opdater",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "name": "Webhook",
+      "webhookId": "madplan-dag-opdater-mkk3vdn3",
+      "id": "d656d1f4-3223-4c56-bfb6-35ff6673e037"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Output format for Airtable API\nconst body = $input.first().json.body;\n\nconst feltNavn = body.feltNavn;\nconst ret = body.ret;\nconst opskriftId = body.opskriftId || '';\nconst note = body.note;\nconst recordId = body.id;\n\nif (!recordId) throw new Error('Mangler id');\nif (!feltNavn) throw new Error('Mangler feltNavn');\n\n// Build fields object with only provided values\nconst fields = {};\n\nif (ret !== undefined) {\n  fields[feltNavn] = ret || '';\n  fields[feltNavn + 'OpskriftId'] = opskriftId;\n}\n\nif (note !== undefined) {\n  fields[feltNavn + '_Note'] = note;\n}\n\nreturn [{ json: { recordId, fields } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "name": "Prepare",
+      "id": "ccbe5cc2-598e-449c-bccd-13d6c63eaba0"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://api.airtable.com/v0/appufrDN3IA6Jhli9/tblDLvyhNSt6MrJ5Q/{{ $json.recordId }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: $json.fields }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "name": "HTTP Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "V0XbkfzDRzkiO5WJ",
+          "name": "Airtable Personal Access Token account"
+        }
+      },
+      "id": "http-airtable-node"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, updatedId: $json.id } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        0
+      ],
+      "name": "Respond",
+      "id": "3254c769-a280-42a1-a121-9e0058de85cf"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare": {
+      "main": [
+        [
+          {
+            "node": "HTTP Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Airtable": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "pinData": null,
+  "active": true
+}

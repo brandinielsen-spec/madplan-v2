@@ -1,0 +1,132 @@
+{
+  "name": "Madplan - Import Opskrift URL v13",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "madplan/opskrift/import-url",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "name": "Webhook",
+      "webhookId": "madplan-opskrift-import-url",
+      "id": "d7502e1d-c175-4c43-a674-f5686ceefea5"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.body.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "Accept",
+              "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "da,en;q=0.9"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "name": "Fetch",
+      "id": "6b5a6881-76b8-471e-a7e3-0c8a052a2740"
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = String($input.first().json.data || $input.first().json);\nconst sourceUrl = $('Webhook').item.json.body.url || '';\n\nfunction stripHtml(s) {\n  return s.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&#[0-9]+;/g, '').replace(/\\s+/g, ' ').trim();\n}\n\nfunction htmlToText(s) {\n  if (!s) return '';\n  return s\n    .replace(/<(h[1-6]|strong|b)[^>]*>/gi, '\\n\\n')\n    .replace(/<\\/(h[1-6]|strong|b)>/gi, '\\n')\n    .replace(/<\\/?p[^>]*>/gi, '\\n\\n')\n    .replace(/<br\\s*\\/?>/gi, '\\n')\n    .replace(/<\\/div>/gi, '\\n')\n    .replace(/<\\/li>/gi, '\\n')\n    .replace(/<[^>]*>/g, '')\n    .replace(/&nbsp;/g, ' ')\n    .replace(/&amp;/g, '&')\n    .replace(/&lt;/g, '<')\n    .replace(/&gt;/g, '>')\n    .replace(/&#39;/g, \"'\")\n    .replace(/&quot;/g, '\"')\n    .replace(/&#[0-9]+;/g, '')\n    .replace(/\\n{3,}/g, '\\n\\n')\n    .replace(/^\\s+|\\s+$/g, '')\n    .trim();\n}\n\nfunction extractImageUrl(img, graph) {\n  if (!img) return null;\n  if (typeof img === 'string') {\n    if (img.startsWith('http')) return img;\n    return null;\n  }\n  if (Array.isArray(img)) return extractImageUrl(img[0], graph);\n  if (img.url) return img.url;\n  if (img.contentUrl) return img.contentUrl;\n  if (img['@id'] && graph) {\n    const imageObj = graph.find(item =>\n      item['@id'] === img['@id'] &&\n      (item['@type'] === 'ImageObject' || item.contentUrl || item.url)\n    );\n    if (imageObj) return imageObj.contentUrl || imageObj.url || null;\n  }\n  return null;\n}\n\nfunction normalizeIngredients(ingredients) {\n  if (!ingredients) return [];\n  if (Array.isArray(ingredients)) {\n    const result = [];\n    for (const item of ingredients) {\n      const cleaned = typeof item === 'string' ? stripHtml(item) : String(item);\n      if (cleaned.includes('\\n')) {\n        result.push(...cleaned.split('\\n').map(s => s.trim()).filter(s => s.length > 1));\n      } else if ((cleaned.match(/,/g) || []).length > 3) {\n        result.push(...cleaned.split(',').map(s => s.trim()).filter(s => s.length > 1));\n      } else {\n        result.push(cleaned);\n      }\n    }\n    return result.filter(s => s.length > 1);\n  }\n  const str = stripHtml(String(ingredients));\n  if (str.includes('\\n')) {\n    return str.split('\\n').map(s => s.trim()).filter(s => s.length > 1);\n  }\n  return str.split(',').map(s => s.trim()).filter(s => s.length > 1);\n}\n\nfunction extractFromSpaDataPage(html) {\n  const dataPageMatch = html.match(/data-page=\"([^\"]+)\"/);\n  if (!dataPageMatch) return null;\n  try {\n    const jsonStr = dataPageMatch[1]\n      .replace(/&quot;/g, '\"')\n      .replace(/&amp;/g, '&')\n      .replace(/&lt;/g, '<')\n      .replace(/&gt;/g, '>')\n      .replace(/&#039;/g, \"'\");\n    const pageData = JSON.parse(jsonStr);\n    const recipe = pageData.props?.recipe ||\n                   pageData.props?.data?.recipe ||\n                   pageData.props?.pageProps?.recipe ||\n                   pageData.recipe;\n    if (recipe) {\n      let ingredientsList = recipe.ingredients || recipe.ingredienser || [];\n      const servingSize = parseInt(recipe.serving_size) || 4;\n      if ((!ingredientsList || ingredientsList.length === 0) && recipe.grouped_ingredients) {\n        ingredientsList = recipe.grouped_ingredients.flatMap(group =>\n          (group.ingredients || []).map(i => {\n            const amount = (i.amount || 0) * servingSize;\n            const unit = i.unit?.abbreviation || i.unit?.name_singular || '';\n            const prefix = i.prefix ? i.prefix + ' ' : '';\n            const name = i.ingredient?.name_singular || i.ingredient?.name_plural || i.name || '';\n            const suffix = i.suffix ? ' ' + i.suffix : '';\n            return (amount + ' ' + unit + ' ' + prefix + name + suffix).trim();\n          })\n        );\n      }\n      let instructions = recipe.instructions || recipe.steps || recipe.fremgangsmaade || [];\n      if ((!instructions || instructions.length === 0) && recipe.grouped_instructions) {\n        instructions = recipe.grouped_instructions.flatMap(group =>\n          (group.instructions || []).map(i => i.instruction || i.text || i)\n        );\n      }\n      return {\n        titel: recipe.title || recipe.name || recipe.titel || '',\n        portioner: parseInt(recipe.serving_size || recipe.servings || recipe.portions || recipe.portioner || 4),\n        ingredienser: normalizeIngredients(ingredientsList),\n        fremgangsmaade: htmlToText(\n          Array.isArray(instructions)\n            ? instructions.map(s => typeof s === 'string' ? s : (s.text || s.description || '')).join('\\n\\n')\n            : String(instructions || '')\n        ) || htmlToText(recipe.description || ''),\n        billedeUrl: recipe.media?.url || recipe.image?.url || recipe.image || recipe.photo || recipe.billedeUrl || null,\n        kilde: sourceUrl\n      };\n    }\n  } catch (e) {}\n  return null;\n}\n\nfunction extractFromJsonLd(html) {\n  const ldMatches = html.match(/<script[^>]*type=\"application\\/ld\\+json\"[^>]*>([\\s\\S]*?)<\\/script>/gi) || [];\n  for (const match of ldMatches) {\n    const jsonMatch = match.match(/>([\\s\\S]*?)<\\/script>/i);\n    if (!jsonMatch) continue;\n    try {\n      let data = JSON.parse(jsonMatch[1].trim());\n      let graph = null;\n      if (Array.isArray(data)) {\n        const recipeItem = data.find(d => d['@type'] === 'Recipe');\n        if (recipeItem) data = recipeItem;\n        else data = data[0];\n      }\n      if (data['@graph']) {\n        graph = data['@graph'];\n        const recipeItem = graph.find(d => d['@type'] === 'Recipe');\n        if (recipeItem) data = recipeItem;\n        else continue;\n      }\n      if (data['@type'] === 'Recipe' || data.recipeIngredient) {\n        return {\n          titel: data.name || data.headline || '',\n          portioner: parseInt(data.recipeYield) || 4,\n          ingredienser: normalizeIngredients(data.recipeIngredient),\n          fremgangsmaade: htmlToText(\n            Array.isArray(data.recipeInstructions)\n              ? data.recipeInstructions.map(i => typeof i === 'string' ? i : (i.text || '')).join('\\n\\n')\n              : String(data.recipeInstructions || '')\n          ),\n          billedeUrl: extractImageUrl(data.image, graph),\n          kilde: sourceUrl\n        };\n      }\n    } catch (e) {}\n  }\n  return null;\n}\n\nfunction extractFromMicrodata(html) {\n  if (!html.includes('itemtype=\"http://schema.org/Recipe\"') && !html.includes(\"itemtype='http://schema.org/Recipe'\")) {\n    return null;\n  }\n  // FIXED: prioritize headline first (used by valdemarsro.dk)\n  // The first itemprop=\"name\" is often the publisher name, not recipe name\n  const titleMatch = html.match(/itemprop=\"headline\"[^>]*>([^<]+)</i) ||\n                     html.match(/<h1[^>]*itemprop=\"name\"[^>]*>([^<]+)</i) ||\n                     html.match(/<h1[^>]*class=\"[^\"]*title[^\"]*\"[^>]*>([^<]+)</i) ||\n                     html.match(/<h1[^>]*>([^<]+)</i) ||\n                     html.match(/<title>([^<|]+)/i);\n  const titel = titleMatch ? stripHtml(titleMatch[1]) : '';\n  const yieldMatch = html.match(/itemprop=\"recipeYield\"[^>]*>([^<]+)</i) ||\n                     html.match(/itemprop=\"recipeYield\"[^>]*content=\"([^\"]+)\"/i);\n  const portioner = yieldMatch ? parseInt(yieldMatch[1]) || 4 : 4;\n  const ingredientMatches = html.match(/itemprop=\"recipeIngredient\"[^>]*>([^<]+)</gi) || [];\n  const ingredienser = ingredientMatches.map(match => {\n    const content = match.match(/>([^<]+)</);\n    return content ? stripHtml(content[1]) : '';\n  }).filter(s => s.length > 1);\n  let fremgangsmaade = '';\n  const instructionContainerMatch = html.match(/itemprop=\"recipeInstructions\"[^>]*>([\\s\\S]*?)<\\/(?:div|section|ol|ul)>/i);\n  if (instructionContainerMatch) {\n    fremgangsmaade = htmlToText(instructionContainerMatch[1]);\n  }\n  if (!fremgangsmaade) {\n    const instructionMatches = html.match(/itemprop=\"recipeInstructions\"[^>]*>([\\s\\S]*?)<\\/[^>]+>/gi) || [];\n    fremgangsmaade = instructionMatches.map(match => {\n      const content = match.match(/>([\\s\\S]*?)</);\n      return content ? htmlToText(content[1]) : '';\n    }).filter(s => s.length > 1).join('\\n\\n');\n  }\n  if (!fremgangsmaade) {\n    const classInstructionMatch = html.match(/class=\"[^\"]*instructions[^\"]*\"[^>]*>([\\s\\S]*?)<\\/(?:div|section)>/i);\n    if (classInstructionMatch) {\n      fremgangsmaade = htmlToText(classInstructionMatch[1]);\n    }\n  }\n  const imageMatch = html.match(/itemprop=\"image\"[^>]*content=\"([^\"]+)\"/i) ||\n                     html.match(/itemprop=\"image\"[^>]*src=\"([^\"]+)\"/i) ||\n                     html.match(/property=\"og:image\"[^>]*content=\"([^\"]+)\"/i);\n  const billedeUrl = imageMatch ? imageMatch[1] : null;\n  if (!titel || ingredienser.length === 0) return null;\n  return { titel, portioner, ingredienser, fremgangsmaade, billedeUrl, kilde: sourceUrl };\n}\n\nlet result = extractFromSpaDataPage(html);\nif (result && result.titel && result.ingredienser.length > 0) {\n  return [{ json: { success: true, data: result } }];\n}\nresult = extractFromJsonLd(html);\nif (result && result.titel && result.ingredienser.length > 0) {\n  return [{ json: { success: true, data: result } }];\n}\nresult = extractFromMicrodata(html);\nif (result && result.titel && result.ingredienser.length > 0) {\n  return [{ json: { success: true, data: result } }];\n}\nreturn [{ json: { success: false, error: 'Kunne ikke finde opskrift på siden. Prøv at kopiere indholdet manuelt.' } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "name": "Parse",
+      "id": "d316b589-b3e8-4f8d-9eb7-20d970f59655"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        0
+      ],
+      "name": "Respond",
+      "id": "a25fc7e5-ea8a-4ee1-afbb-c5a667ec2bc3"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Fetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch": {
+      "main": [
+        [
+          {
+            "node": "Parse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "pinData": null,
+  "active": true
+}
