@@ -17,6 +17,7 @@ import { toast } from 'sonner'
 import { useEjere } from '@/hooks/use-ejere'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
 import { useIndkobsliste } from '@/hooks/use-indkobsliste'
+import { useSwipeBack } from '@/hooks/use-swipe-back'
 import { getCurrentWeek } from '@/lib/week-utils'
 
 export default function OpskriftDetailPage() {
@@ -28,6 +29,9 @@ export default function OpskriftDetailPage() {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [editedTitle, setEditedTitle] = useState('')
   const titleInputRef = useRef<HTMLInputElement>(null)
+
+  // Swipe-back navigation
+  const { containerRef, handleBack } = useSwipeBack()
 
   // TODO: ejerId from user context
   const { ejere, isLoading: ejereLoading } = useEjere()
@@ -145,16 +149,15 @@ export default function OpskriftDetailPage() {
   }
 
   return (
-    <AppShell
-      title=""
-      headerLeft={
-        <Link href="/opskrifter">
-          <Button variant="ghost" size="icon">
+    <div ref={containerRef} className="min-h-full">
+      <AppShell
+        title=""
+        headerLeft={
+          <Button variant="ghost" size="icon" onClick={handleBack}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
-        </Link>
-      }
-    >
+        }
+      >
       {isLoading ? (
         <div className="space-y-4">
           <Skeleton className="h-8 w-3/4" />
@@ -350,6 +353,7 @@ export default function OpskriftDetailPage() {
           </div>
         </div>
       )}
-    </AppShell>
+      </AppShell>
+    </div>
   )
 }
