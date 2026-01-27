@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent } from '@/components/ui/card'
 import { Search, LayoutGrid, List, X } from 'lucide-react'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
-import { useEjere } from '@/hooks/use-ejere'
+import { useSelectedEjer } from '@/contexts/ejer-context'
 import { useTagFilterPreference } from '@/hooks/use-tag-filter-preference'
 
 type ViewMode = 'cards' | 'list'
@@ -23,9 +23,7 @@ export default function OpskrifterPage() {
   const [tagStates, handleTagToggle, clearTagStates] = useTagFilterPreference()
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
 
-  // TODO: ejerId from user context - for now use first ejer
-  const { ejere, isLoading: ejereLoading } = useEjere()
-  const ejerId = ejere[0]?.id ?? null
+  const { selectedEjerId: ejerId, isHydrated } = useSelectedEjer()
 
   const {
     opskrifter,
@@ -83,7 +81,7 @@ export default function OpskrifterPage() {
     setShowFavoritesOnly(false)
   }
 
-  const isLoading = ejereLoading || opskrifterLoading
+  const isLoading = !isHydrated || opskrifterLoading
 
   return (
     <AppShell title="Opskrifter">

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Nunito, Poppins } from "next/font/google";
 import "./globals.css";
 import { SWRProvider } from "@/providers/swr-provider";
+import { EjerProviderWrapper } from "@/providers/ejer-provider";
 import { ServiceWorkerRegistration } from "@/components/service-worker-registration";
 import { OfflineBanner } from "@/components/layout/offline-banner";
 
@@ -49,7 +50,9 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <ServiceWorkerRegistration />
         <OfflineBanner />
-        <SWRProvider>{children}</SWRProvider>
+        <SWRProvider>
+          <EjerProviderWrapper>{children}</EjerProviderWrapper>
+        </SWRProvider>
       </body>
     </html>
   );

@@ -24,6 +24,8 @@ export interface Opskrift {
   kilde?: string // Source URL where recipe was imported from
   favorit?: boolean // Checkbox in Airtable (undefined when unchecked)
   tags?: string[] // Multi-select in Airtable (undefined when empty)
+  tilberedningstid?: number // Active prep time in minutes
+  kogetid?: number // Passive cook time in minutes
 }
 
 // Input for creating a new recipe
@@ -37,6 +39,8 @@ export interface OpskriftInput {
   kilde?: string
   favorit?: boolean
   tags?: string[]
+  tilberedningstid?: number
+  kogetid?: number
 }
 
 // Import response from n8n workflow

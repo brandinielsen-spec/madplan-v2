@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Home } from 'lucide-react'
+import { EjerSelector } from './ejer-selector'
 
 interface HeaderProps {
   title: string;
@@ -21,6 +22,7 @@ export function Header({ title, actions, headerLeft }: HeaderProps) {
           >
             <Home className="w-4 h-4 text-primary" />
           </Link>
+          <EjerSelector />
           {headerLeft}
           <h1 className="font-heading text-xl font-semibold text-foreground">
             {title}

@@ -10,11 +10,11 @@ import { Input } from '@/components/ui/input'
 import { FavoriteButton } from '@/components/opskrifter/favorite-button'
 import { TagChip } from '@/components/opskrifter/tag-chip'
 import { TagInput } from '@/components/opskrifter/tag-input'
-import { ArrowLeft, ShoppingCart, Trash2, Pencil, Check, X } from 'lucide-react'
+import { ArrowLeft, ShoppingCart, Trash2, Pencil, Check, X, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
-import { useEjere } from '@/hooks/use-ejere'
+import { useSelectedEjer } from '@/contexts/ejer-context'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
 import { useIndkobsliste } from '@/hooks/use-indkobsliste'
 import { useSwipeBack } from '@/hooks/use-swipe-back'
@@ -33,9 +33,7 @@ export default function OpskriftDetailPage() {
   // Swipe-back navigation
   const { containerRef, handleBack } = useSwipeBack()
 
-  // TODO: ejerId from user context
-  const { ejere, isLoading: ejereLoading } = useEjere()
-  const ejerId = ejere[0]?.id ?? null
+  const { selectedEjerId: ejerId, isHydrated } = useSelectedEjer()
 
   // Get current week for shopping list
   const { aar, uge } = getCurrentWeek()
@@ -45,7 +43,7 @@ export default function OpskriftDetailPage() {
   const { opskrifter, isLoading: opskrifterLoading, toggleFavorite, allTags, updateTags, updateTitle } = useOpskrifter(ejerId)
 
   const opskrift = opskrifter.find((o) => o.id === opskriftId)
-  const isLoading = ejereLoading || opskrifterLoading
+  const isLoading = !isHydrated || opskrifterLoading
 
   const handleAddTag = (tag: string) => {
     if (!opskrift) return
@@ -221,7 +219,17 @@ export default function OpskriftDetailPage() {
                   </Button>
                 </div>
               )}
-              <p className="text-muted-foreground">{opskrift.portioner} portioner</p>
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <span>{opskrift.portioner} portioner</span>
+                {(opskrift.tilberedningstid || opskrift.kogetid) && (
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-4 w-4" />
+                    {opskrift.tilberedningstid && opskrift.kogetid
+                      ? `${opskrift.tilberedningstid} + ${opskrift.kogetid} min`
+                      : `${opskrift.tilberedningstid || opskrift.kogetid} min`}
+                  </span>
+                )}
+              </div>
             </div>
             <FavoriteButton
               isFavorite={opskrift.favorit ?? false}

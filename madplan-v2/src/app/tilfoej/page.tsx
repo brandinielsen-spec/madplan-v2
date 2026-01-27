@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { UrlImportForm } from '@/components/import/url-import-form'
 import { ImageImport } from '@/components/import/image-import'
 import { RecipeForm, type RecipeFormData } from '@/components/import/recipe-form'
-import { useEjere } from '@/hooks/use-ejere'
+import { useSelectedEjer } from '@/contexts/ejer-context'
 import { Link as LinkIcon, Camera, FileText, ArrowLeft, Search, ExternalLink } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
@@ -23,8 +23,7 @@ export default function TilfoejPage() {
   const [state, setState] = useState<PageState>({ mode: 'select' })
   const [recipeSearch, setRecipeSearch] = useState('')
   const router = useRouter()
-  const { ejere } = useEjere()
-  const ejerId = ejere?.[0]?.id
+  const { selectedEjerId: ejerId } = useSelectedEjer()
 
   const handleGoogleSearch = () => {
     if (!recipeSearch.trim()) return
@@ -74,6 +73,8 @@ export default function TilfoejPage() {
         billedeUrl: formData.billedeUrl,
         kilde: formData.kilde,
         tags: ['Hverdag'],
+        tilberedningstid: formData.tilberedningstid,
+        kogetid: formData.kogetid,
       }
 
       const response = await fetch('/api/madplan/opskrift', {

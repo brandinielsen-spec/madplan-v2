@@ -15,7 +15,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { LayoutGrid, List } from 'lucide-react'
 import { useUgeplan } from '@/hooks/use-ugeplan'
 import { useOpskrifter } from '@/hooks/use-opskrifter'
-import { useEjere } from '@/hooks/use-ejere'
+import { useSelectedEjer } from '@/contexts/ejer-context'
 import { useIndkobsliste } from '@/hooks/use-indkobsliste'
 import { useViewPreference } from '@/hooks/use-view-preference'
 import type { Opskrift } from '@/lib/types'
@@ -60,10 +60,7 @@ export default function UgeplanPage() {
   // Selected day for recipe picker
   const [selectedDag, setSelectedDag] = useState<DagNavn | null>(null)
 
-  // TODO: In a real app, ejerId would come from user selection/context
-  // For now, use first ejer or null
-  const { ejere, isLoading: ejereLoading } = useEjere()
-  const ejerId = ejere[0]?.id ?? null
+  const { selectedEjerId: ejerId, isHydrated } = useSelectedEjer()
 
   // Data hooks - loads data for currently visible week
   const {
@@ -221,7 +218,7 @@ export default function UgeplanPage() {
     [updateNote]
   )
 
-  const isLoading = ejereLoading || ugeplanLoading
+  const isLoading = !isHydrated || ugeplanLoading
 
   // Handle view mode change
   const handleViewModeChange = useCallback((value: string) => {

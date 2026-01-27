@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Trash2, Tags, FolderTree } from 'lucide-react'
 import { useIndkobsliste } from '@/hooks/use-indkobsliste'
-import { useEjere } from '@/hooks/use-ejere'
+import { useSelectedEjer } from '@/contexts/ejer-context'
 import { getCurrentWeek, formatWeekLabel } from '@/lib/week-utils'
 import { KATEGORI_LABELS, type IndkoebKategori } from '@/lib/types'
 import { inferKategori } from '@/lib/kategori-utils'
@@ -33,9 +33,7 @@ export default function IndkobPage() {
   // Use current week for shopping list
   const { aar, uge } = getCurrentWeek()
 
-  // TODO: ejerId from user context - for now use first ejer
-  const { ejere, isLoading: ejereLoading } = useEjere()
-  const ejerId = ejere[0]?.id ?? null
+  const { selectedEjerId: ejerId, isHydrated } = useSelectedEjer()
 
   const {
     items,
@@ -146,7 +144,7 @@ export default function IndkobPage() {
     }
   }
 
-  const isLoading = ejereLoading || itemsLoading
+  const isLoading = !isHydrated || itemsLoading
 
   return (
     <AppShell title="Indkøbsliste">

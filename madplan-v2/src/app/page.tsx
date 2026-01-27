@@ -4,7 +4,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Book, ShoppingCart, ChefHat, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useEjere } from "@/hooks/use-ejere";
+import { useSelectedEjer } from "@/contexts/ejer-context";
 import { useUgeplan } from "@/hooks/use-ugeplan";
 import { useIndkobsliste } from "@/hooks/use-indkobsliste";
 import { useOpskrifter } from "@/hooks/use-opskrifter";
@@ -29,8 +29,7 @@ const DAG_DISPLAY: Record<DagNavn, string> = {
 };
 
 export default function Home() {
-  const { ejere, isLoading: ejereLoading } = useEjere();
-  const ejerId = ejere[0]?.id ?? null;
+  const { selectedEjerId: ejerId, isHydrated } = useSelectedEjer();
   const { aar, uge } = getCurrentWeek();
 
   const { ugeplan, isLoading: ugeplanLoading } = useUgeplan(ejerId, aar, uge);
@@ -45,7 +44,7 @@ export default function Home() {
   const todayBilledeUrl = todayRecipe?.billedeUrl;
 
   const uncheckedItems = items.filter((item) => !item.afkrydset);
-  const isLoading = ejereLoading || ugeplanLoading;
+  const isLoading = !isHydrated || ugeplanLoading;
 
   return (
     <AppShell title="Madplan">

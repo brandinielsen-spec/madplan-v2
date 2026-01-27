@@ -19,6 +19,8 @@ const recipeSchema = z.object({
   fremgangsmaade: z.string().optional(),
   billedeUrl: z.string().optional(),
   kilde: z.string().optional(),
+  tilberedningstid: z.number().min(1).optional().or(z.literal('')),
+  kogetid: z.number().min(1).optional().or(z.literal('')),
 })
 
 type RecipeFormValues = z.infer<typeof recipeSchema>
@@ -31,6 +33,8 @@ export interface RecipeFormData {
   fremgangsmaade?: string
   billedeUrl?: string
   kilde?: string
+  tilberedningstid?: number
+  kogetid?: number
 }
 
 interface RecipeFormProps {
@@ -41,6 +45,8 @@ interface RecipeFormProps {
     fremgangsmaade?: string
     billedeUrl?: string
     kilde?: string
+    tilberedningstid?: number
+    kogetid?: number
   }
   onSubmit: (data: RecipeFormData) => void | Promise<void>
   isSubmitting?: boolean
@@ -74,6 +80,8 @@ export function RecipeForm({
       fremgangsmaade: defaultValues?.fremgangsmaade ?? '',
       billedeUrl: defaultValues?.billedeUrl ?? '',
       kilde: defaultValues?.kilde ?? '',
+      tilberedningstid: defaultValues?.tilberedningstid ?? '',
+      kogetid: defaultValues?.kogetid ?? '',
     },
   })
 
@@ -91,6 +99,8 @@ export function RecipeForm({
       fremgangsmaade: data.fremgangsmaade || undefined,
       billedeUrl: data.billedeUrl || undefined,
       kilde: data.kilde || undefined,
+      tilberedningstid: typeof data.tilberedningstid === 'number' ? data.tilberedningstid : undefined,
+      kogetid: typeof data.kogetid === 'number' ? data.kogetid : undefined,
     }
     return onSubmit(output)
   }
@@ -135,6 +145,36 @@ export function RecipeForm({
         {errors.portioner && (
           <p className="text-sm text-destructive mt-1">{errors.portioner.message}</p>
         )}
+      </div>
+
+      {/* Tid (tilberedning + kogetid) */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="tilberedningstid" className="text-sm font-medium">
+            Tilberedning (min)
+          </label>
+          <Input
+            id="tilberedningstid"
+            type="number"
+            min={1}
+            placeholder="fx 15"
+            {...register('tilberedningstid', { valueAsNumber: true })}
+            className={cn(hasImportedValue('tilberedningstid') && 'bg-amber-50')}
+          />
+        </div>
+        <div>
+          <label htmlFor="kogetid" className="text-sm font-medium">
+            Kogetid (min)
+          </label>
+          <Input
+            id="kogetid"
+            type="number"
+            min={1}
+            placeholder="fx 30"
+            {...register('kogetid', { valueAsNumber: true })}
+            className={cn(hasImportedValue('kogetid') && 'bg-amber-50')}
+          />
+        </div>
       </div>
 
       {/* Ingredienser */}
