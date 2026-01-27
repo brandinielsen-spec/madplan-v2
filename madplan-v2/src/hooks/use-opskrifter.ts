@@ -78,6 +78,34 @@ export function useOpskrifter(ejerId: string | null) {
     }
   }
 
+  const updateTitle = async (opskriftId: string, newTitle: string) => {
+    if (!cacheKey || !data) return
+
+    // Optimistic update
+    mutate(
+      data.map((o) =>
+        o.id === opskriftId ? { ...o, titel: newTitle } : o
+      ),
+      {
+        revalidate: false,
+        rollbackOnError: true,
+      }
+    )
+
+    // Server sync
+    try {
+      const response = await fetch('/api/madplan/opskrift/titel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ opskriftId, titel: newTitle }),
+      })
+      if (!response.ok) throw new Error('Failed to update title')
+    } catch (error) {
+      console.error('Update title error:', error)
+      throw error
+    }
+  }
+
   return {
     opskrifter: data ?? [],
     isLoading,
@@ -87,5 +115,6 @@ export function useOpskrifter(ejerId: string | null) {
     toggleFavorite,
     allTags,
     updateTags,
+    updateTitle,
   }
 }
