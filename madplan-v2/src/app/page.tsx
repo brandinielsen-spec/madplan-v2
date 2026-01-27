@@ -37,7 +37,7 @@ export default function Home() {
   const { opskrifter } = useOpskrifter(ejerId);
 
   const todayDag = getTodayDagNavn();
-  const todayEntry = ugeplan?.dage[todayDag];
+  const todayEntry = ugeplan?.dage?.[todayDag];
   const todayRet = todayEntry?.ret;
   const todayOpskriftId = todayEntry?.opskriftId;
   const todayRecipe = todayOpskriftId ? opskrifter.find(o => o.id === todayOpskriftId) : undefined;
