@@ -19,8 +19,8 @@ const recipeSchema = z.object({
   fremgangsmaade: z.string().optional(),
   billedeUrl: z.string().optional(),
   kilde: z.string().optional(),
-  tilberedningstid: z.number().min(1).optional().or(z.literal('')),
-  kogetid: z.number().min(1).optional().or(z.literal('')),
+  tilberedningstid: z.union([z.number().min(1), z.nan(), z.literal('')]).optional(),
+  kogetid: z.union([z.number().min(1), z.nan(), z.literal('')]).optional(),
 })
 
 type RecipeFormValues = z.infer<typeof recipeSchema>
@@ -92,6 +92,12 @@ export function RecipeForm({
 
   // Transform form data back to output format
   const handleFormSubmit = (data: RecipeFormValues) => {
+    // Helper to convert NaN/empty to undefined
+    const toOptionalNumber = (val: number | '' | undefined): number | undefined => {
+      if (val === '' || val === undefined || Number.isNaN(val)) return undefined
+      return val
+    }
+
     const output: RecipeFormData = {
       titel: data.titel,
       portioner: data.portioner,
@@ -99,8 +105,8 @@ export function RecipeForm({
       fremgangsmaade: data.fremgangsmaade || undefined,
       billedeUrl: data.billedeUrl || undefined,
       kilde: data.kilde || undefined,
-      tilberedningstid: typeof data.tilberedningstid === 'number' ? data.tilberedningstid : undefined,
-      kogetid: typeof data.kogetid === 'number' ? data.kogetid : undefined,
+      tilberedningstid: toOptionalNumber(data.tilberedningstid),
+      kogetid: toOptionalNumber(data.kogetid),
     }
     return onSubmit(output)
   }
