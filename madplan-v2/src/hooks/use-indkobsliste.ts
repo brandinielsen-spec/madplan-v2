@@ -2,6 +2,7 @@ import { useState } from 'react'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
 import type { Indkoebspost } from '@/lib/types'
+import { getCurrentWeek } from '@/lib/week-utils'
 
 interface AddItemArgs {
   ejerId: string
@@ -23,12 +24,15 @@ async function addItem(
   return res.json()
 }
 
-export function useIndkobsliste(ejerId: string | null, aar: number, uge: number) {
+export function useIndkobsliste(ejerId: string | null, aar?: number, uge?: number) {
   const [isClearing, setIsClearing] = useState(false)
   const [isAddingMultiple, setIsAddingMultiple] = useState(false)
 
+  // Build SWR key - if no aar/uge, fetch all items for ejerId
   const key = ejerId
-    ? `/api/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`
+    ? aar && uge
+      ? `/api/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`
+      : `/api/madplan/indkob?ejerId=${ejerId}`
     : null
 
   const { data, error, isLoading, mutate } = useSWR<Indkoebspost[]>(key)
@@ -92,6 +96,9 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
   ): Promise<{ added: number; failed: number }> => {
     if (!ejerId) throw new Error('No owner selected')
 
+    // Use provided aar/uge or fall back to current week
+    const week = aar && uge ? { aar, uge } : getCurrentWeek()
+
     setIsAddingMultiple(true)
 
     try {
@@ -102,7 +109,7 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
             const res = await fetch('/api/madplan/indkob', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ejerId, aar, uge, navn, kildeNavn }),
+              body: JSON.stringify({ ejerId, aar: week.aar, uge: week.uge, navn, kildeNavn }),
             })
             return res.ok
           } catch (error) {
@@ -136,7 +143,9 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
 
     addItem: async (navn: string) => {
       if (!ejerId) throw new Error('No owner selected')
-      return triggerAdd({ ejerId, aar, uge, navn })
+      // Use provided aar/uge or fall back to current week
+      const week = aar && uge ? { aar, uge } : getCurrentWeek()
+      return triggerAdd({ ejerId, aar: week.aar, uge: week.uge, navn })
     },
 
     addItems,
@@ -145,13 +154,15 @@ export function useIndkobsliste(ejerId: string | null, aar: number, uge: number)
       if (!ejerId) throw new Error('No owner selected')
       setIsClearing(true)
       try {
+        // Build delete URL - if no aar/uge, delete all for ejerId
+        const deleteUrl = aar && uge
+          ? `/api/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`
+          : `/api/madplan/indkob?ejerId=${ejerId}`
+
         // Optimistic update - clear the list immediately
         await mutate(
           async () => {
-            const res = await fetch(
-              `/api/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`,
-              { method: 'DELETE' }
-            )
+            const res = await fetch(deleteUrl, { method: 'DELETE' })
             if (!res.ok) throw new Error('Failed to clear list')
             return []
           },

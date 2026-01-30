@@ -23,18 +23,15 @@ import {
 import { Trash2, Tags, FolderTree } from 'lucide-react'
 import { useIndkobsliste } from '@/hooks/use-indkobsliste'
 import { useSelectedEjer } from '@/contexts/ejer-context'
-import { getCurrentWeek, formatWeekLabel } from '@/lib/week-utils'
 import { KATEGORI_LABELS, type IndkoebKategori } from '@/lib/types'
 import { inferKategori } from '@/lib/kategori-utils'
 
 type GroupBy = 'source' | 'category'
 
 export default function IndkobPage() {
-  // Use current week for shopping list
-  const { aar, uge } = getCurrentWeek()
-
   const { selectedEjerId: ejerId, isHydrated } = useSelectedEjer()
 
+  // Fetch ALL items for ejerId (no week filter)
   const {
     items,
     isLoading: itemsLoading,
@@ -44,7 +41,7 @@ export default function IndkobPage() {
     clearAll,
     isAdding,
     isClearing,
-  } = useIndkobsliste(ejerId, aar, uge)
+  } = useIndkobsliste(ejerId)
 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [groupBy, setGroupBy] = useState<GroupBy>('source')
@@ -148,11 +145,8 @@ export default function IndkobPage() {
 
   return (
     <AppShell title="Indkøbsliste">
-      {/* Week indicator and group toggle */}
-      <div className="flex items-center justify-between py-2 mb-2">
-        <span className="text-sm text-muted-foreground">
-          {formatWeekLabel(aar, uge)}
-        </span>
+      {/* Group toggle */}
+      <div className="flex items-center justify-end py-2 mb-2">
         <ToggleGroup
           type="single"
           value={groupBy}

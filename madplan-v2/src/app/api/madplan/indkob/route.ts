@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const N8N_BASE = process.env.N8N_WEBHOOK_URL
 
-// GET /api/madplan/indkob?ejerId=X&aar=Y&uge=Z
+// GET /api/madplan/indkob?ejerId=X[&aar=Y&uge=Z]
+// If aar/uge omitted, returns ALL items for ejerId
 export async function GET(request: NextRequest) {
   if (!N8N_BASE) {
     return NextResponse.json(
@@ -16,18 +17,20 @@ export async function GET(request: NextRequest) {
   const aar = searchParams.get('aar')
   const uge = searchParams.get('uge')
 
-  if (!ejerId || !aar || !uge) {
+  if (!ejerId) {
     return NextResponse.json(
-      { error: 'Missing required parameters: ejerId, aar, uge' },
+      { error: 'Missing required parameter: ejerId' },
       { status: 400 }
     )
   }
 
+  // Build URL - if aar/uge provided, filter by week; otherwise get all
+  const url = aar && uge
+    ? `${N8N_BASE}/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`
+    : `${N8N_BASE}/madplan/indkob?ejerId=${ejerId}`
+
   try {
-    const response = await fetch(
-      `${N8N_BASE}/madplan/indkob?ejerId=${ejerId}&aar=${aar}&uge=${uge}`,
-      { cache: 'no-store' }
-    )
+    const response = await fetch(url, { cache: 'no-store' })
 
     if (!response.ok) {
       return NextResponse.json(
@@ -119,7 +122,8 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE /api/madplan/indkob - Clear all items for a week
+// DELETE /api/madplan/indkob - Clear items (all or for specific week)
+// If aar/uge omitted, clears ALL items for ejerId
 export async function DELETE(request: NextRequest) {
   if (!N8N_BASE) {
     return NextResponse.json(
@@ -133,18 +137,23 @@ export async function DELETE(request: NextRequest) {
   const aar = searchParams.get('aar')
   const uge = searchParams.get('uge')
 
-  if (!ejerId || !aar || !uge) {
+  if (!ejerId) {
     return NextResponse.json(
-      { error: 'Missing required parameters: ejerId, aar, uge' },
+      { error: 'Missing required parameter: ejerId' },
       { status: 400 }
     )
   }
+
+  // Build body - include aar/uge only if both provided
+  const body = aar && uge
+    ? { ejerId, aar: Number(aar), uge: Number(uge) }
+    : { ejerId }
 
   try {
     const response = await fetch(`${N8N_BASE}/madplan/indkob/slet-alle`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ejerId, aar: Number(aar), uge: Number(uge) }),
+      body: JSON.stringify(body),
     })
 
     if (!response.ok) {
