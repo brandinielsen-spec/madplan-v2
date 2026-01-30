@@ -1,0 +1,10 @@
+{
+  "name": "madplan-monorepo",
+  "private": true,
+  "workspaces": ["madplan-v2"],
+  "scripts": {
+    "build": "npm run build --workspace=madplan-v2",
+    "dev": "npm run dev --workspace=madplan-v2",
+    "start": "npm run start --workspace=madplan-v2"
+  }
+}
