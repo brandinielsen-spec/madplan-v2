@@ -11,19 +11,15 @@ const BASIC_PANTRY_ITEMS = [
   // Oils & fats
   'olivenolie',
   'olie',
-  'smør',
-  'rapsolie',
 
   // Flour & starch
   'hvedemel',
   'mel',
-  'maizena',
-
+  
   // Sugar
   'sukker',
 
   // Vinegar
-  'eddike',
 
   // Basic spices
   'paprika',
@@ -31,20 +27,13 @@ const BASIC_PANTRY_ITEMS = [
   'karry',
   'oregano',
   'timian',
-  'basilikum',
-  'persille',
+
 
   // Stock/bouillon
-  'bouillon',
-  'hønsebouillon',
-  'oksebouillon',
-  'grøntsagsbouillon',
+
 
   // Condiments
-  'sennep',
   'ketchup',
-  'soja',
-  'sojasovs',
 
   // Water
   'vand',
