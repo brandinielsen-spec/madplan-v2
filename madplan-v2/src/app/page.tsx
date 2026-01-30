@@ -61,13 +61,13 @@ export default function Home() {
 
         {/* Today's meal card */}
         <Card className="bg-card border-border">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-0">
             <CardTitle className="font-heading text-lg flex items-center gap-2">
               <ChefHat className="size-5 text-primary" />
               Dagens ret — {DAG_DISPLAY[todayDag]}
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-2">
             {isLoading ? (
               <div className="flex items-center justify-center h-32 bg-muted rounded-lg">
                 <Loader2 className="size-6 text-muted-foreground animate-spin" />
