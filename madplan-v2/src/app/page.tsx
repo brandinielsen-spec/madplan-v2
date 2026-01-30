@@ -48,9 +48,9 @@ export default function Home() {
 
   return (
     <AppShell title="Madplan">
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* Welcome section */}
-        <div className="text-center py-4">
+        <div className="text-center py-2">
           <h2 className="font-heading text-2xl font-bold text-foreground mb-2">
             Velkommen til Madplan
           </h2>
