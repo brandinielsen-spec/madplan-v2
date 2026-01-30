@@ -70,16 +70,19 @@ export function EjerSelector() {
           <Button
             variant="ghost"
             size="sm"
-            className="h-8 gap-1 px-2 text-muted-foreground"
+            className="h-8 gap-2 px-2 text-muted-foreground max-w-[140px]"
           >
-            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-medium">
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-medium shrink-0">
               {selectedEjer ? (
                 getInitials(selectedEjer.navn)
               ) : (
                 <User className="w-3 h-3" />
               )}
             </div>
-            <ChevronDown className="w-3 h-3" />
+            {selectedEjer && (
+              <span className="truncate text-sm">{selectedEjer.navn}</span>
+            )}
+            <ChevronDown className="w-3 h-3 shrink-0" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-48 p-1" align="start">
