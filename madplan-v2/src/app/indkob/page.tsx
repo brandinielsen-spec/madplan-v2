@@ -25,6 +25,7 @@ import { useIndkobsliste } from '@/hooks/use-indkobsliste'
 import { useSelectedEjer } from '@/contexts/ejer-context'
 import { KATEGORI_LABELS, type IndkoebKategori } from '@/lib/types'
 import { inferKategori } from '@/lib/kategori-utils'
+import { filterPantryItems } from '@/lib/pantry-filter'
 
 type GroupBy = 'source' | 'category'
 
@@ -53,7 +54,8 @@ export default function IndkobPage() {
 
     if (groupBy === 'source') {
       // Group by source: recipes vs manual
-      const fromRecipes = unchecked.filter((i) => i.kilde === 'ret')
+      // Filter out basic pantry items (salt, pepper, oil, etc.) from recipe items only
+      const fromRecipes = filterPantryItems(unchecked.filter((i) => i.kilde === 'ret'))
       const manual = unchecked.filter((i) => i.kilde === 'manuel')
       return {
         mode: 'source' as const,
@@ -65,6 +67,11 @@ export default function IndkobPage() {
       }
     } else {
       // Group by category
+      // Filter out basic pantry items from recipe items only, keep manual items
+      const recipeItems = filterPantryItems(unchecked.filter((i) => i.kilde === 'ret'))
+      const manualItems = unchecked.filter((i) => i.kilde === 'manuel')
+      const filteredUnchecked = [...recipeItems, ...manualItems]
+
       const byCategory: Record<IndkoebKategori, typeof unchecked> = {
         'frugt-og-groent': [],
         'mejeri': [],
@@ -75,7 +82,7 @@ export default function IndkobPage() {
         'andet': [],
       }
 
-      for (const item of unchecked) {
+      for (const item of filteredUnchecked) {
         const kategori = inferKategori(item.navn)
         byCategory[kategori].push(item)
       }
