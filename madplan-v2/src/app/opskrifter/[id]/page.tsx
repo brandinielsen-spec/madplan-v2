@@ -108,14 +108,14 @@ export default function OpskriftDetailPage() {
     try {
       const { added, failed } = await addItems(opskrift.ingredienser, opskrift.titel)
       if (failed === 0) {
-        toast.success(`${added} ingredienser tilfojet til indkob`, { id: toastId })
+        toast.success(`${added} ingredienser tilføjet til indkøb`, { id: toastId, duration: 3000 })
       } else if (added > 0) {
-        toast.warning(`${added} af ${added + failed} tilfojet`, { id: toastId })
+        toast.warning(`${added} af ${added + failed} tilføjet`, { id: toastId, duration: 4000 })
       } else {
-        toast.error('Kunne ikke tilfoeje ingredienser', { id: toastId })
+        toast.error('Kunne ikke tilføje ingredienser', { id: toastId, duration: 4000 })
       }
     } catch {
-      toast.error('Kunne ikke tilfoeje ingredienser', { id: toastId })
+      toast.error('Kunne ikke tilføje ingredienser', { id: toastId, duration: 4000 })
     }
   }
 

@@ -105,14 +105,14 @@ export default function UgeplanPage() {
       try {
         const { added, failed } = await addItems(recipe.ingredienser, recipe.titel)
         if (failed === 0) {
-          toast.success(`${added} ingredienser tilføjet til indkøb`, { id: toastId })
+          toast.success(`${added} ingredienser tilføjet til indkøb`, { id: toastId, duration: 3000 })
         } else if (added > 0) {
-          toast.warning(`${added} af ${added + failed} ingredienser tilføjet (${failed} fejlede)`, { id: toastId })
+          toast.warning(`${added} af ${added + failed} ingredienser tilføjet (${failed} fejlede)`, { id: toastId, duration: 4000 })
         } else {
-          toast.error('Kunne ikke tilføje ingredienser', { id: toastId })
+          toast.error('Kunne ikke tilføje ingredienser', { id: toastId, duration: 4000 })
         }
       } catch (error) {
-        toast.error('Kunne ikke tilføje ingredienser', { id: toastId })
+        toast.error('Kunne ikke tilføje ingredienser', { id: toastId, duration: 4000 })
       }
     },
     [opskrifter, addItems]
