@@ -60,14 +60,14 @@ export default function Home() {
         </div>
 
         {/* Today's meal card */}
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-0">
+        <Card className="bg-card border-border gap-2">
+          <CardHeader>
             <CardTitle className="font-heading text-lg flex items-center gap-2">
               <ChefHat className="size-5 text-primary" />
               Dagens ret — {DAG_DISPLAY[todayDag]}
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-2">
+          <CardContent>
             {isLoading ? (
               <div className="flex items-center justify-center h-32 bg-muted rounded-lg">
                 <Loader2 className="size-6 text-muted-foreground animate-spin" />
